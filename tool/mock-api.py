@@ -1,5 +1,6 @@
 import flask
 import json
+import time
 
 
 app = flask.Flask(__name__)
@@ -59,7 +60,7 @@ def article(slug):
     # )
 
 
-@app.route('/post/<path:slug>/comment')
+@app.route('/post/<path:slug>/comment', methods=('GET',))
 def comment_list(slug):
     args = flask.request.args
     offset = int(args.get('offset', 0))
@@ -70,10 +71,14 @@ def comment_list(slug):
         'comments': [
             {
                 'id': offset + 1,
+                'nickname': 'testnickname',
+                'email': 'test_email@test.com',
                 'content': 'test comment content %s' % (offset + 1),
             },
             {
                 'id': offset + 2,
+                'nickname': 'testnickname',
+                'email': 'test_email@test.com',
                 'content': 'test comment content %s' % (offset + 2),
             },
         ]
@@ -83,5 +88,21 @@ def comment_list(slug):
         json.dumps(result),
         mimetype='application/json'
     )
+
+
+@app.route('/post/<path:slug>/comment', methods=('POST',))
+def comment_add(slug):
+    req_body = flask.request.get_data()
+    req = json.loads(req_body.decode('utf-8'))
+
+    result = dict(req)
+
+    result['id'] = int(str(time.time()).replace('.', ''))
+
+    return flask.Response(
+        json.dumps(result),
+        mimetype='application/json'
+    )
+
 
 app.run(port=8082, debug=True)

@@ -8,6 +8,7 @@ import axios from 'axios';
 import Header from '../../Header'
 import Pagination from '../../Pagination'
 import CommentList from '../../CommentList'
+import CommentAdd from '../../CommentAdd'
 import Article from './Article'
 
 
@@ -109,6 +110,14 @@ class ArticleWithComment extends Component {
     this.fetchCommentList(num);
   }
 
+  commentAdd(data) {
+    console.log('article with comment received comment', data);
+    let comment_list = this.state.comments;
+    comment_list.push(data);
+    // console.log(comment_list);
+    this.setState({comments: comment_list});
+  }
+
   render() {
 
     const slug = this.slug;
@@ -117,21 +126,27 @@ class ArticleWithComment extends Component {
     return (
       <div>
         <Header></Header>
+
         <Article
           slug={ slug }>
         </Article>
+
         <CommentList
           error={ comment_error }
           loaded={ comment_loaded }
           comment_list={ comments }>
         </CommentList>
-
+        <CommentAdd
+          api={ `/post/${this.slug}/comment` }
+          commentAdd={ this.commentAdd.bind(this) }>
+        </CommentAdd>
         <Pagination
             total={ this.state.comment_total_page }
             current={ this.state.comment_current_page }
             pageUrl={ undefined }
             goToPage={ (num) => this.goToCommentPage(num) }>
         </Pagination>
+
       </div>
     );
 

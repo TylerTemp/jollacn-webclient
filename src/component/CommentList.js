@@ -34,9 +34,9 @@ class CommentList extends Component {
           <div>
             <ol>
               {
-                this.props.comment_list.map((item, index) => (
-                  <li key={ index }>
-                    { item.content }
+                this.props.comment_list.map((item, _index) => (
+                  <li key={ item.id }>
+                    { item.id } | { item.content }
                   </li>
                 ))
               }
