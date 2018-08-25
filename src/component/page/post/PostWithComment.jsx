@@ -9,10 +9,10 @@ import Header from '../../Header'
 import Pagination from '../../Pagination'
 import CommentList from '../../CommentList'
 import CommentAdd from '../../CommentAdd'
-import Article from './Article'
+import Post from './Post'
 
 
-class ArticleWithComment extends Component {
+class PostWithComment extends Component {
 
   constructor(props) {
     super(props);
@@ -43,7 +43,7 @@ class ArticleWithComment extends Component {
     let offset = (page - 1) * limit;
 
     axios.get(
-        `/post/${this.slug}/comment?offset=${offset}&limit=${limit}`,
+        `/api/post/${this.slug}/comment?offset=${offset}&limit=${limit}`,
         {
           headers: {'Accpected': 'application/json'},
           transformResponse: undefined
@@ -107,12 +107,12 @@ class ArticleWithComment extends Component {
   }
 
   goToCommentPage(num) {
-    console.log('articlet with comment goes to page', num);
+    console.log('post with comment goes to page', num);
     this.fetchCommentList(num);
   }
 
   commentAdd(data) {
-    console.log('article with comment received comment', data);
+    console.log('post with comment received comment', data);
     let comment_list = this.state.comments;
     comment_list.push(data);
     // console.log(comment_list);
@@ -128,9 +128,9 @@ class ArticleWithComment extends Component {
       <div>
         <Header></Header>
 
-        <Article
+        <Post
           slug={ slug }>
-        </Article>
+        </Post>
 
         <CommentList
           error={ comment_error }
@@ -138,7 +138,7 @@ class ArticleWithComment extends Component {
           comment_list={ comments }>
         </CommentList>
         <CommentAdd
-          api={ `/post/${this.slug}/comment` }
+          api={ `/api/post/${this.slug}/comment` }
           commentAdd={ this.commentAdd.bind(this) }>
         </CommentAdd>
         <Pagination
@@ -155,4 +155,4 @@ class ArticleWithComment extends Component {
 }
 
 
-export default ArticleWithComment;
+export default PostWithComment;

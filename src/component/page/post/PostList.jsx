@@ -8,10 +8,10 @@ import {
 import axios from 'axios';
 
 import Header from '../../Header'
-import { default as PostArticle } from './Article'
+import Post from './Post'
 
 
-class List extends Component {
+class PostList extends Component {
 
     constructor(props) {
       super(props);
@@ -40,7 +40,7 @@ class List extends Component {
           <div>
             <ol>
               {
-                this.props.article_infos.map((item, index) => (
+                this.props.post_infos.map((item, index) => (
                   <li key={ item.slug }>
                     <Link to={`/post/${ item.slug }`}>
                       { item.title }
@@ -56,4 +56,4 @@ class List extends Component {
 }
 
 
-export default List;
+export default PostList;

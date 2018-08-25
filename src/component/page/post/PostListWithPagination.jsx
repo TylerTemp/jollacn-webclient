@@ -7,10 +7,10 @@ import React, { Component } from 'react'
 import axios from 'axios';
 
 import Pagination from '../../Pagination'
-import {default as PostList} from './List'
+import PostList from './PostList'
 
 
-class ArticleListWithPagination extends Component {
+class PostListWithPagination extends Component {
 
   constructor(props) {
     super(props);
@@ -19,23 +19,23 @@ class ArticleListWithPagination extends Component {
     // this.limit = 10;
     this.state = {
       limit: 10,
-      article_infos_loaded: false,
+      post_infos_loaded: false,
       page_loaded: false,
       error: null,
       current_page: page,
       total_page: 0,
-      article_infos: []
+      post_infos: []
     }
   }
 
   componentDidMount() {
     let page = this.state.current_page;
-    console.log('article list with pagination, did mount to page', page)
-    this.fetchArticle(page);
+    console.log('post list with pagination, did mount to page', page)
+    this.fetchPost(page);
   }
 
-  fetchArticle(page = 1) {
-    this.setState({error: null, article_infos_loaded: false, current_page: page});
+  fetchPost(page = 1) {
+    this.setState({error: null, post_infos_loaded: false, current_page: page});
     // let page = this.state.current_page;
     console.log('fetching page list from page', page);
     let limit = this.state.limit;
@@ -50,9 +50,9 @@ class ArticleListWithPagination extends Component {
       .then(res => {
         var data = res.data;
         var result = JSON.parse(data);
-        console.log('fetched article list result', result);
+        console.log('fetched post list result', result);
         var total_count = result.total;
-        var article_infos = result.article_infos;
+        var post_infos = result.post_infos;
         var page_mod = total_count % result.limit;
         var page_div = Math.trunc(total_count / result.limit);
         var total_page = page_div;
@@ -63,12 +63,12 @@ class ArticleListWithPagination extends Component {
         };
         this.setState({
           limit: result.limit,
-          article_infos_loaded: true,
+          post_infos_loaded: true,
           page_loaded: true,
           error: null,
           current_page: page,
           total_page: total_page,
-          article_infos: article_infos
+          post_infos: post_infos
         });
       })
       .catch(res => {
@@ -95,62 +95,35 @@ class ArticleListWithPagination extends Component {
         };
         console.log('set error to', error);
         this.setState({
-          article_infos_loaded: true,
+          post_infos_loaded: true,
           error: error,
         });
       })
       .then(() => {
         // console.log('always');
-        this.setState({article_infos_loaded: true});
+        this.setState({post_infos_loaded: true});
       });
   }
 
   goToPage(num) {
-    console.log('article list with pagination goes to page', num);
-    this.fetchArticle(num);
+    console.log('post list with pagination goes to page', num);
+    this.fetchPost(num);
     // this.setState({current_page: num});
   }
 
-  // getArticleInfos() {
-  //   return {
-  //     error: this.state.error,
-  //     loaded: this.state.article_infos_loaded,
-  //     article_infos: this.state.article_infos
-  //   }
-  // }
-
   render() {
-    const { error, article_infos_loaded, article_infos } = this.state;
-    // const total = 50;
-    // const current = 17;
-    // return <div>
-    //
-    //   <PostList
-    //     article_infos={ article_infos }
-    //     loaded={ article_infos_loaded }
-    //     error={ error }>
-    //   </PostList>
-    //
-    //   <Pagination
-    //     total={ this.state.total_page }
-    //     current={ this.state.current_page }
-    //     pageUrl={ (num) => `/post/_page/${num}` }
-    //     goToPage={ (num) => this.goToPage(num) }>
-    //   </Pagination>
-    //
-    // </div>
+    const { error, post_infos_loaded, post_infos } = this.state;
 
-    // console.log('rendering article infos in article with pagination', article_infos)
-    console.log('article with pagination rendering', article_infos,
-      ' is loaded: ', article_infos_loaded, ' error: ', error,
+    console.log('post with pagination rendering', post_infos,
+      ' is loaded: ', post_infos_loaded, ' error: ', error,
       'total_page:', this.state.total_page,
       'current_page:', this.state.current_page
     );
     return (
       <div>
       <PostList
-          article_infos={ article_infos }
-          loaded={ article_infos_loaded }
+          post_infos={ post_infos }
+          loaded={ post_infos_loaded }
           error={ error }>
       </PostList>
 
@@ -166,4 +139,4 @@ class ArticleListWithPagination extends Component {
 }
 
 
-export default ArticleListWithPagination;
+export default PostListWithPagination;

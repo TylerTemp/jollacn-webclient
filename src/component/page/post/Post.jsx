@@ -8,7 +8,7 @@ import axios from 'axios';
 import Header from '../../Header'
 
 
-class Article extends Component {
+class Post extends Component {
 
   constructor(props) {
     super(props);
@@ -16,7 +16,7 @@ class Article extends Component {
       slug: this.props.slug,
       loaded: false,
       error: null,
-      article: {
+      post: {
         'title': null,
         'content': null,
         'author': null
@@ -25,10 +25,10 @@ class Article extends Component {
   }
 
   componentDidMount() {
-    this.fetchArticle(this.state.slug);
+    this.fetchPost(this.state.slug);
   }
 
-  fetchArticle(slug) {
+  fetchPost(slug) {
     this.setState({
       loaded: false,
       error: null,
@@ -37,8 +37,8 @@ class Article extends Component {
     axios.get(`/api/post/${slug}`, {transformResponse: undefined})
       .then(res => {
         var data = res.data;
-        var article = JSON.parse(data);
-        this.setState({error: null, article: article});
+        var post = JSON.parse(data);
+        this.setState({error: null, post: post});
       })
       .catch(res => {
         var error = 'unknown server error';
@@ -73,11 +73,11 @@ class Article extends Component {
   render() {
     const { slug } = this.state;
     if(this.props.slug != slug) {
-      console.log(`article change slug from ${slug} to ${this.props.slug} when trying to render`)
-      fetchArticle(this.props.slug);
+      console.log(`post change slug from ${slug} to ${this.props.slug} when trying to render`)
+      fetchPost(this.props.slug);
     };
 
-    const { error, loaded, article } = this.state;
+    const { error, loaded, post } = this.state;
     if (error) {
       return (
         <div>
@@ -96,8 +96,8 @@ class Article extends Component {
 
     return (
       <article>
-        <h1>{ article.title }</h1>
-        { article.content }
+        <h1>{ post.title }</h1>
+        { post.content }
       </article>
     );
 
@@ -105,4 +105,4 @@ class Article extends Component {
 }
 
 
-export default Article;
+export default Post;

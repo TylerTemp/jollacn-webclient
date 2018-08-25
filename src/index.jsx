@@ -11,43 +11,31 @@ import Home from './component/page/Home'
 import Header from './component/Header'
 // import Layout from './component/Layout'
 // import {default as PostList} from './component/page/post/List'
-import {default as PostArticleListWithPagination} from './component/page/post/ArticleListWithPagination'
-import {default as PostArticleWithComment} from './component/page/post/ArticleWithComment'
-import {default as TieWithComment} from './component/page/tie/TieWithComment'
+import PostListWithPagination from './component/page/post/PostListWithPagination'
+import PostWithComment from './component/page/post/PostWithComment'
+import TieWithComment from './component/page/tie/TieWithComment'
 
 import './css/index.css'
 
 
 class App extends Component {
-    render() {
-      return (
-        <div>
-          <Router>
-            <Switch>
-              <Route exact path="/" component={Home}/>
+  render() {
+    return (
+      <div>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Home}/>
 
-              <Route exact path="/post" component={PostArticleListWithPagination}/>
-              <Route exact path="/post/page/:page" component={PostArticleListWithPagination}/>
-              <Route exact path="/post/:slug" component={PostArticleWithComment}/>
+            <Route exact path="/post" component={PostListWithPagination}/>
+            <Route exact path="/post/page/:page" component={PostListWithPagination}/>
+            <Route exact path="/post/:slug" component={PostWithComment}/>
 
-              <Route exact path="/tie/:slug" component={TieWithComment}/>
-            </Switch>
-          </Router>
-        </div>
-      );
-    }
-    // render() {
-    //     return <Layout>
-    //       <Router>
-    //             <Switch>
-    //               <Route exact path="/" component={Home}/>
-    //               <Route path="/post" component={PostList}/>
-    //               <Route path="/post/_page/:page" component={PostList}/>
-    //               <Route path="/post/:slug" component={PostArticle}/>
-    //             </Switch>
-    //       </Router>
-    //     </Layout>
-    // }
+            <Route exact path="/tie/:slug" component={TieWithComment}/>
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
 }
 
 ReactDom.render(

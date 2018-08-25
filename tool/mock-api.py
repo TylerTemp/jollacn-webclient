@@ -7,14 +7,14 @@ app = flask.Flask(__name__)
 
 
 @app.route('/api/post')
-def article_list():
+def post_list():
     args = flask.request.args
     offset = int(args.get('offset', 0))
     limit = min((50, int(args.get('limit', 50))))
     result = {
         'total': 100,
         'limit': limit,
-        'article_infos': [
+        'post_infos': [
             {
                 'slug': 'test %s' % (offset + 1),
                 'title': 'test title %s' % (offset + 1),
@@ -37,7 +37,7 @@ def article_list():
 
 
 @app.route('/api/post/<path:slug>')
-def article(slug):
+def post(slug):
     result = {
         'title': 'test title {}'.format(slug),
         'content': 'test post content',
