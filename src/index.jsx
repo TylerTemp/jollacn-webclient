@@ -13,6 +13,7 @@ import Header from './component/Header'
 // import {default as PostList} from './component/page/post/List'
 import PostListWithPagination from './component/page/post/PostListWithPagination'
 import PostWithComment from './component/page/post/PostWithComment'
+import TieListWithPagination from './component/page/tie/TieListWithPagination'
 import TieWithComment from './component/page/tie/TieWithComment'
 
 import './css/index.css'
@@ -29,6 +30,9 @@ class App extends Component {
             <Route exact path="/post" component={PostListWithPagination}/>
             <Route exact path="/post/page/:page" component={PostListWithPagination}/>
             <Route exact path="/post/:slug" component={PostWithComment}/>
+
+            <Route exact path="/tie" component={TieListWithPagination}/>
+            <Route exact path="/tie/page/:page" component={TieListWithPagination}/>
 
             <Route exact path="/tie/:slug" component={TieWithComment}/>
           </Switch>

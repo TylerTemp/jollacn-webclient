@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import {
-    // Route,
-    // NavLink,
     Link
 } from 'react-router-dom'
 
 import axios from 'axios';
 
 import Header from '../../Header'
-import { default as PostArticle } from './Tie'
+import Tie from './Tie'
 
 
 class TieList extends Component {
@@ -37,23 +35,26 @@ class TieList extends Component {
       };
       return (
         <div>
-          <div>
-            <ol>
-              {
-                this.props.tie_list.map((item, index) => (
-                  <li key={ item.slug }>
-                    <Link to={`/tie/${ item.slug }`}>
-                      { item.content }
-                    </Link>
-                  </li>
-                ))
-              }
-            </ol>
-          </div>
+          <ol>
+            {
+              this.props.ties.map((item, index) => (
+                <li key={ item.slug }>
+                  <Tie
+                      slug={ item.slug }
+                      loaded={ true }
+                      error={ null }
+                      tie={ item }>
+                  </Tie>
+                  <Link to={ `/tie/${ item.slug }` }>...
+                  </Link>
+                </li>
+              ))
+            }
+          </ol>
         </div>
       );
     }
 }
 
 
-export default List;
+export default TieList;

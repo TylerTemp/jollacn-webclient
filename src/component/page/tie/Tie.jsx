@@ -9,11 +9,11 @@ class Tie extends Component {
     super(props);
     this.state = {
       slug: this.props.slug || this.props.match.params.slug,
-      loaded: false,
-      error: null,
-      tie: {
-        'content': null
-      }
+      loaded: this.props.loaded === undefined? false: this.props.loaded,
+      error: this.props.error === undefined? null: this.props.error,
+      tie: this.props.tie === undefined? {
+          'content': null
+        }: this.props.tie
     };
   }
 
@@ -65,9 +65,11 @@ class Tie extends Component {
   }
 
   render() {
-    const { slug, error, tie } = this.state;
+    const { slug, error } = this.state;
+    const tie = this.props.tie || this.state.tie;
     let loaded = this.state.loaded;
     const check_slug = this.props.slug || this.props.match.params.slug;
+
     if(check_slug != slug) {
       console.log(`tie change slug from ${slug} to ${this.props.slug} when trying to render`)
       loaded = false;

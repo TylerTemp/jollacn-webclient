@@ -6,7 +6,7 @@ import time
 app = flask.Flask(__name__)
 
 
-@app.route('/api/post')
+@app.route('/post')
 def post_list():
     args = flask.request.args
     offset = int(args.get('offset', 0))
@@ -36,7 +36,7 @@ def post_list():
     )
 
 
-@app.route('/api/post/<path:slug>')
+@app.route('/post/<path:slug>')
 def post(slug):
     result = {
         'title': 'test title {}'.format(slug),
@@ -60,7 +60,7 @@ def post(slug):
     # )
 
 
-@app.route('/api/post/<path:slug>/comment', methods=('GET',))
+@app.route('/post/<path:slug>/comment', methods=('GET',))
 def comment_list(slug):
     args = flask.request.args
     offset = int(args.get('offset', 0))
@@ -90,7 +90,7 @@ def comment_list(slug):
     )
 
 
-@app.route('/api/post/<path:slug>/comment', methods=('POST',))
+@app.route('/post/<path:slug>/comment', methods=('POST',))
 def comment_add(slug):
     req_body = flask.request.get_data()
     req = json.loads(req_body.decode('utf-8'))
@@ -105,7 +105,33 @@ def comment_add(slug):
     )
 
 
-@app.route('/api/tie/<path:slug>')
+@app.route('/tie')
+def tie_list():
+    args = flask.request.args
+    offset = int(args.get('offset', 0))
+    limit = min((50, int(args.get('limit', 50))))
+    result = {
+        'total': 100,
+        'limit': limit,
+        'ties': [
+            {
+                'slug': 'test tie %s' % (offset + 1),
+                'content': 'tie content {}'.format(offset + 1),
+            },
+            {
+                'slug': 'test tie %s' % (offset + 2),
+                'content': 'tie content {}'.format(offset + 2),
+            },
+        ]
+    }
+
+    return flask.Response(
+        json.dumps(result),
+        mimetype='application/json'
+    )
+
+
+@app.route('/tie/<path:slug>')
 def tie(slug):
     result = {
         'content': 'test tie content {}'.format(slug)
@@ -117,7 +143,7 @@ def tie(slug):
     )
 
 
-@app.route('/api/tie/<path:slug>/comment')
+@app.route('/tie/<path:slug>/comment')
 def tie_comment(slug):
 
     args = flask.request.args
@@ -148,7 +174,7 @@ def tie_comment(slug):
     )
 
 
-@app.route('/api/tie/<path:slug>/comment', methods=('POST',))
+@app.route('/tie/<path:slug>/comment', methods=('POST',))
 def tie_comment_add(slug):
     req_body = flask.request.get_data()
     req = json.loads(req_body.decode('utf-8'))

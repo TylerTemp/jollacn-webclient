@@ -7,10 +7,10 @@ import React, { Component } from 'react'
 import axios from 'axios';
 
 import Pagination from '../../Pagination'
-import PostList from './PostList'
+import TieList from './TieList'
 
 
-class PostListWithPagination extends Component {
+class TieListWithPagination extends Component {
 
   constructor(props) {
     super(props);
@@ -18,30 +18,29 @@ class PostListWithPagination extends Component {
     let page = page_str? parseInt(page_str): 1;
     // this.limit = 10;
     this.state = {
-      limit: 10,
-      post_infos_loaded: false,
+      limit: 50,
+      ties_loaded: false,
       page_loaded: false,
       error: null,
       current_page: page,
       total_page: 0,
-      post_infos: []
+      ties: []
     }
   }
 
   componentDidMount() {
     let page = this.state.current_page;
-    console.log('post list with pagination, did mount to page', page)
-    this.fetchPostList(page);
+    console.log('tie list with pagination, did mount to page', page)
+    this.fetchTies(page);
   }
 
-  fetchPostList(page = 1) {
-    this.setState({error: null, post_infos_loaded: false, current_page: page});
-    // let page = this.state.current_page;
-    console.log('fetching page list from page', page);
+  fetchTies(page = 1) {
+    this.setState({error: null, ties_loaded: false, current_page: page});
+    console.log('fetching ties from page', page);
     let limit = this.state.limit;
     let offset = (page - 1) * limit;
     axios.get(
-        `/api/post?offset=${offset}&limit=${limit}`,
+        `/api/tie?offset=${offset}&limit=${limit}`,
         {
           headers: {'Accpected': 'application/json'},
           transformResponse: undefined
@@ -50,9 +49,9 @@ class PostListWithPagination extends Component {
       .then(res => {
         var data = res.data;
         var result = JSON.parse(data);
-        console.log('fetched post list result', result);
+        console.log('fetched ties result', result);
         var total_count = result.total;
-        var post_infos = result.post_infos;
+        var ties = result.ties;
         var page_mod = total_count % result.limit;
         var page_div = Math.trunc(total_count / result.limit);
         var total_page = page_div;
@@ -63,12 +62,12 @@ class PostListWithPagination extends Component {
         };
         this.setState({
           limit: result.limit,
-          post_infos_loaded: true,
+          ties_loaded: true,
           page_loaded: true,
           error: null,
           current_page: page,
           total_page: total_page,
-          post_infos: post_infos
+          ties: ties
         });
       })
       .catch(res => {
@@ -107,36 +106,37 @@ class PostListWithPagination extends Component {
 
   goToPage(num) {
     console.log('post list with pagination goes to page', num);
-    this.fetchPostList(num);
+    this.fetchTies(num);
     // this.setState({current_page: num});
   }
 
   render() {
-    const { error, post_infos_loaded, post_infos } = this.state;
+    const { error, ties_loaded, ties } = this.state;
 
-    console.log('post with pagination rendering', post_infos,
-      ' is loaded: ', post_infos_loaded, ' error: ', error,
+    console.log('post with pagination rendering', ties,
+      ' is loaded: ', ties_loaded, ' error: ', error,
       'total_page:', this.state.total_page,
       'current_page:', this.state.current_page
     );
+
     return (
       <div>
-      <PostList
-          post_infos={ post_infos }
-          loaded={ post_infos_loaded }
-          error={ error }>
-      </PostList>
+        <TieList
+            ties={ ties }
+            loaded={ ties_loaded }
+            error={ error }>
+        </TieList>
 
-      <Pagination
-          total={ this.state.total_page }
-          current={ this.state.current_page }
-          pageUrl={ (num) => `/post/page/${num}` }
-          goToPage={ (num) => this.goToPage(num) }>
-      </Pagination>
+        <Pagination
+            total={ this.state.total_page }
+            current={ this.state.current_page }
+            pageUrl={ (num) => `/tie/page/${num}` }
+            goToPage={ (num) => this.goToPage(num) }>
+        </Pagination>
       </div>
     );
   }
 }
 
 
-export default PostListWithPagination;
+export default TieListWithPagination;
