@@ -21,10 +21,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = {
-    entry: './src/index.js', //相对路径
+    entry: './src/index.jsx', //相对路径
     mode: 'development',
     output: {
         path: path.resolve(__dirname, 'build'), //打包文件的输出路径
+        // publicPath: 'build',
         filename: 'bundle.js' //打包文件名
     },
     plugins: [
@@ -35,6 +36,8 @@ module.exports = {
     ],
     devServer: {
         contentBase: path.resolve(__dirname, 'build'),
+        historyApiFallback: true,
+        // historyApiFallback: {index: "build/index.html"},
     },
     module: {
         rules: [ //配置加载器
@@ -44,12 +47,20 @@ module.exports = {
             //     loader: 'eslint-loader',
             // },
             {
-                test: /\.js$/, //配置要处理的文件格式，一般使用正则表达式匹配
-                loader: 'babel-loader', //使用的加载器名称
-                query: { //babel的配置参数，可以写在.babelrc文件里也可以写在这里
-                    presets: ['env', 'react']
-                }
+              test: /\.jsx$/,
+              exclude: /node_modules/,
+              loader: 'babel-loader',
+              query: {
+                  presets: ['env', 'react']
+              }
             },
+            // {
+            //     test: /\.js?$/, //配置要处理的文件格式，一般使用正则表达式匹配
+            //     loader: 'babel-loader', //使用的加载器名称
+            //     query: { //babel的配置参数，可以写在.babelrc文件里也可以写在这里
+            //         presets: ['env', 'react']
+            //     }
+            // },
             // {
             //     test: /\.js|jsx$/, //配置要处理的文件格式，一般使用正则表达式匹配
             //     loader: 'babel-loader', //使用的加载器名称
@@ -69,5 +80,9 @@ module.exports = {
                 },
             }
         ]
+    },
+
+    resolve: {
+      extensions: ['.js', '.jsx']
     }
 }

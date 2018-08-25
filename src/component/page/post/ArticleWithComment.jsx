@@ -83,10 +83,11 @@ class ArticleWithComment extends Component {
             try {
               json_resp = JSON.parse(data);
             } catch (e) {
-              error = 'server error and unable to parse error response';
+              // console.log(res.response);
+              error = `${res.response.status} ${res.response.statusText}`;
             };
             if(json_resp) {
-              error = json_resp.message || 'unknown server error';
+              error = json_resp.message || error;
             };
         } else {
             // Something happened in setting up the request that triggered an Error

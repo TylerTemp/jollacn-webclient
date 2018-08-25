@@ -41,7 +41,7 @@ class ArticleListWithPagination extends Component {
     let limit = this.state.limit;
     let offset = (page - 1) * limit;
     axios.get(
-        `/post?offset=${offset}&limit=${limit}`,
+        `/api/post?offset=${offset}&limit=${limit}`,
         {
           headers: {'Accpected': 'application/json'},
           transformResponse: undefined
@@ -82,10 +82,11 @@ class ArticleListWithPagination extends Component {
             try {
               json_resp = JSON.parse(data);
             } catch (e) {
-              error = 'server error and unable to parse error response';
+              // console.log(res.response);
+              error = `${res.response.status} ${res.response.statusText}`;
             };
             if(json_resp) {
-              error = json_resp.message || 'unknown server error';
+              error = json_resp.message || error;
             };
         } else {
             // Something happened in setting up the request that triggered an Error

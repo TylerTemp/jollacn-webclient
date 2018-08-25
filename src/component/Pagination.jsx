@@ -52,7 +52,7 @@ class Pagination extends Component {
           };
           return (
             <div key={ page_number }>
-              <a href="#{ page_number }" onClick={ (() => this.goToPage(page_number)).bind(this) }>
+              <a href={ `#${ page_number }` } onClick={ (() => this.goToPage(page_number)).bind(this) }>
                 { page_number }
               </a>
             </div>

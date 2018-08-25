@@ -34,7 +34,7 @@ class Article extends Component {
       error: null,
       slug: slug,
     })
-    axios.get(`/post/${slug}`, {transformResponse: undefined})
+    axios.get(`/api/post/${slug}`, {transformResponse: undefined})
       .then(res => {
         var data = res.data;
         var article = JSON.parse(data);

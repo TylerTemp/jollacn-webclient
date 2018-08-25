@@ -14,7 +14,9 @@ class Header extends Component {
                         <li><NavLink exact to="/">首页</NavLink></li>
                         <li><NavLink to="/post">文章</NavLink></li>
                         <li><NavLink to="/tie">简讯</NavLink></li>
-                        <li><NavLink to="/about">关于</NavLink></li>
+
+                        <li><NavLink to="/tie/some-slug">测试：一条简讯</NavLink></li>
+
                     </ul>
                 </nav>
             </header>
