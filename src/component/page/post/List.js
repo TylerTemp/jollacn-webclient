@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
-    Route,
-    NavLink,
+    // Route,
+    // NavLink,
     Link
 } from 'react-router-dom'
 

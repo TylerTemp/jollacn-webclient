@@ -19,16 +19,18 @@ import './css/index.css'
 
 class App extends Component {
     render() {
-        return <div>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route exact path="/post" component={PostArticleListWithPagination}/>
-            <Route exact path="/post/_page/:page" component={PostArticleListWithPagination}/>
-            <Route exact path="/post/:slug" component={PostArticleWithComment}/>
-          </Switch>
-        </Router>
+      return (
+        <div>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Home}/>
+              <Route exact path="/post" component={PostArticleListWithPagination}/>
+              <Route exact path="/post/page/:page" component={PostArticleListWithPagination}/>
+              <Route exact path="/post/:slug" component={PostArticleWithComment}/>
+            </Switch>
+          </Router>
         </div>
+      );
     }
     // render() {
     //     return <Layout>
