@@ -15,7 +15,7 @@ class PostListWithPagination extends Component {
   constructor(props) {
     super(props);
     let page_str = this.props.match.params.page;
-    let page = page_str? ParseInt(page_str): 1;
+    let page = page_str? parseInt(page_str): 1;
     // this.limit = 10;
     this.state = {
       limit: 10,
@@ -130,7 +130,7 @@ class PostListWithPagination extends Component {
       <Pagination
           total={ this.state.total_page }
           current={ this.state.current_page }
-          pageUrl={ (num) => `/post/_page/${num}` }
+          pageUrl={ (num) => `/post/page/${num}` }
           goToPage={ (num) => this.goToPage(num) }>
       </Pagination>
       </div>
