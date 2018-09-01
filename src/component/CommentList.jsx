@@ -34,22 +34,22 @@ class CommentList extends Component {
       return (
         <div>
           <div>
-            <ul class="am-comments-list">
+            <ul className="am-comments-list">
               {
                 this.props.comment_list.map((item, _index) => (
-                  <li class="am-comment" key={ item.id }>
+                  <li className="am-comment" key={ item.id }>
 
-                    <img src={ item.avatar } alt="" class="am-comment-avatar" width="48" height="48"/>
+                    <img src={ item.avatar } alt="" className="am-comment-avatar" width="48" height="48"/>
 
-                    <div class="am-comment-main">
+                    <div className="am-comment-main">
 
-                      <header class="am-comment-hd">
-                        <div class="am-comment-meta">
+                      <header className="am-comment-hd">
+                        <div className="am-comment-meta">
                           评论于 <time>{ item.inserted_at}</time>
                         </div>
                       </header>
 
-                      <div class="am-comment-bd">
+                      <div className="am-comment-bd">
                         { item.content }
                       </div>
                     </div>

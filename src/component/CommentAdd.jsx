@@ -176,7 +176,7 @@ class CommentAdd extends Component {
                       <AccountCircleOutlinedIcon />
                     </InputAdornment>
                   }
-                  type="text" name="nickname" value={ comment.nickname } onChange={ this.onChange.bind(this) } placeholder="* 怎么称呼您呐_(:з」∠)_" required="required"
+                  type="text" name="nickname" value={ comment.nickname } onChange={ this.onChange.bind(this) } placeholder="* 怎么称呼您呐_(:з」∠)_" required={ true }
                 />
               </FormControl>
             </Grid>
@@ -213,7 +213,7 @@ class CommentAdd extends Component {
                   value={ comment.content }
                   onChange={ this.onChange.bind(this) }
                   placeholder="* 来都来了不说说都不好意思直接走..."
-                  required="required"
+                  required={ true }
                 />
               </FormControl>
             </Grid>
@@ -227,7 +227,7 @@ class CommentAdd extends Component {
 
           <Grid container spacing={24}>
             <Grid item sm={12} style={
-                {'text-align': 'right'}
+                {'textAlign': 'right'}
               }>
               <Button type="submit" variant="contained" color="primary">我要讲话了</Button>
             </Grid>

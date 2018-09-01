@@ -40,6 +40,9 @@ const styles = (theme) => ({
     paddingBottom: theme.spacing.unit * 2,
     paddingLeft: theme.spacing.unit * 3,
     paddingRight: theme.spacing.unit * 3,
+  },
+  textRight: {
+    'text-align': 'right',
   }
 });
 
@@ -184,12 +187,16 @@ class PostWithComment extends Component {
                 loaded={ comment_loaded }
                 comment_list={ comments }>
               </CommentList>
-              <Pagination
-                  total={ this.state.comment_total_page }
-                  current={ this.state.comment_current_page }
-                  pageUrl={ undefined }
-                  goToPage={ (num) => this.goToCommentPage(num) }>
-              </Pagination>
+              <div className={ classes.textRight }>
+                <Pagination
+                    total={ this.state.comment_total_page }
+                    current={ this.state.comment_current_page }
+                    pageUrl={ undefined }
+                    auto_left={ true }
+                    goToPage={ (num) => this.goToCommentPage(num) }
+                >
+                </Pagination>
+              </div>
           </Paper>
 
         </div>
