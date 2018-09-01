@@ -4,11 +4,21 @@ import {
     Link
 } from 'react-router-dom';
 
+import { withStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
+
+
+const styles = theme => ({
+  disabledText: {
+    color: grey[400],
+  },
+});
+
 
 
 class Pagination extends Component {
@@ -33,7 +43,8 @@ class Pagination extends Component {
 
   renderPageNumber(page_number, current, page_display, this_disabled) {
     if(page_number == '...') {
-      return '...';
+      const { classes } = this.props;
+      return <span className={ classes.disabledText }>...</span>;
     };
     if(this.props.pageUrl) {
       return (
@@ -124,4 +135,5 @@ class Pagination extends Component {
 }
 
 
-export default Pagination
+// export default Pagination;
+export default withStyles(styles)(Pagination);

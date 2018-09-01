@@ -33,13 +33,14 @@ const styles = theme => ({
     'width': '100%',
   },
   formBorder: {
-    'box-shadow': 'inset 0 0 10px #a3a0a0db',
-    'border': 'none',
-    'padding-top': '24px',
+    // 'box-shadow': 'inset 0 0 10px #a3a0a0db',
+    // 'border': 'none',
+    'border': '1px solid #dddbdb',
+    // 'padding-top': '24px',
   },
   formLegend: {
-    'padding-top': '38px',
-  }
+    // 'padding-top': '38px',
+  },
 });
 
 
@@ -182,7 +183,7 @@ class CommentAdd extends Component {
             </Grid>
             <Grid item sm={12} md={6}>
               <FormControl className={ classes.formControlFullWidth }>
-                <InputLabel htmlFor="comment-email">邮箱</InputLabel>
+                <InputLabel htmlFor="comment-email">邮箱(可选)</InputLabel>
                 <Input
                   id="comment-email"
                   startAdornment={

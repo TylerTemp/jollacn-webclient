@@ -36,7 +36,7 @@ const styles = (theme) => ({
   },
 
   commentPaper: {
-    paddingTop: theme.spacing.unit * 0,
+    paddingTop: theme.spacing.unit * 5,
     paddingBottom: theme.spacing.unit * 2,
     paddingLeft: theme.spacing.unit * 3,
     paddingRight: theme.spacing.unit * 3,
