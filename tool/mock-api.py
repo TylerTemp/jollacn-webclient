@@ -1,6 +1,10 @@
 import flask
 import json
 import time
+import os
+
+
+this_root = os.path.dirname(__file__)
 
 
 app = flask.Flask(__name__)
@@ -18,12 +22,14 @@ def post_list():
             {
                 'slug': 'test %s' % (offset + 1),
                 'title': 'test title %s' % (offset + 1),
+                'cover': 'https://dn-jolla.qbox.me/sailfish-os-2.2.0-update/cover.jpg',
                 'description': 'description',
                 'author': 'test_author',
             },
             {
                 'slug': 'test %s' % (offset + 2),
                 'title': 'test title %s' % (offset + 2),
+                'cover': 'https://dn-jolla.qbox.me/gemini/cover.jpg',
                 'description': 'description2',
                 'author': 'test_author',
             },
@@ -38,11 +44,14 @@ def post_list():
 
 @app.route('/post/<path:slug>')
 def post(slug):
-    result = {
-        'title': 'test title {}'.format(slug),
-        'content': 'test post content',
-        'author': 'test author',
-    }
+    with open(os.path.join(this_root, 'post_content.html'), 'r', encoding='utf-8') as f:
+        result = {
+            'title': 'Sailfish系统2.2.0 Mouhijoki已向提早更新用户放送',
+            'headerimg': 'https://dn-jolla.qbox.me/sailfish-os-2.2.0-update/banner.jpg',
+            'description': '<p>Xperia X支持指纹、修正拍照，安卓支持性能提升，添加Emoji支持</p>',
+            'content': f.read(),
+            'author': 'test author',
+        }
 
     return flask.Response(
         json.dumps(result),

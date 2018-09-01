@@ -1,11 +1,55 @@
-import React, { Component } from 'react'
-// import {
-//     Route,
-// } from 'react-router-dom'
+import React, { Component } from 'react';
+
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+// import CardActionArea from '@material-ui/core/CardActionArea';
+// import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+// import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import axios from 'axios';
 
-import Header from '../../Header'
+
+const styles = {
+  card: {
+    'width': '100%',
+  },
+  postBox: {
+    'max-width': '900px',
+    'margin-left': 'auto',
+    'margin-right': 'auto',
+    'padding': '50px 10px 30px 10px',
+    'font-size': '1.3rem',
+    'font-weight': '300',
+  },
+  postTitle: {
+    'font-size': '2.8rem',
+    'line-height': '1.15',
+    'font-weight': '400',
+    'padding-bottom': '30px',
+  },
+  postMetaBodyDivider: {
+    'border-color': '#eee',
+    'height': 0,
+    'border-top': '1px solid #eee',
+  },
+  postDescription: {
+    'color': '#666',
+    // 'font-size': '1.4rem',
+    // 'line-height': '1',
+    'border': '1px solid #dedede',
+    'border-radius': '2px',
+    'background': '#f9f9f9',
+    'padding': '0 10px 0 10px',
+  },
+  // media: {
+  //   // ⚠️ object-fit is not supported by IE11.
+  //   objectFit: 'cover',
+  // },
+};
 
 
 class Post extends Component {
@@ -72,12 +116,17 @@ class Post extends Component {
 
   render() {
     const { slug } = this.state;
+    const { error, post } = this.state;
+    let loaded = this.state.loaded;
+
     if(this.props.slug != slug) {
       console.log(`post change slug from ${slug} to ${this.props.slug} when trying to render`)
+      loaded = false;
       fetchPost(this.props.slug);
     };
 
-    const { error, loaded, post } = this.state;
+    const { classes } = this.props;
+
     if (error) {
       return (
         <div>
@@ -95,9 +144,30 @@ class Post extends Component {
     };
 
     return (
-      <article>
-        <h1>{ post.title }</h1>
-        { post.content }
+      <article className="post">
+        <Card className={classes.card}>
+          <CardMedia
+            component="img"
+            className={classes.media}
+            image={post.headerimg}
+            title={post.title}
+          />
+          <CardContent>
+            <div className={classes.postBox}>
+              <Typography gutterBottom variant="title" component="h1" align="center" className={classes.postTitle}>
+                {post.title}
+              </Typography>
+              <hr className={classes.postMetaBodyDivider} />
+              {
+                post.description && (
+                  <div className={classes.postDescription} dangerouslySetInnerHTML={{__html: post.description}}></div>
+                )
+              }
+              <div dangerouslySetInnerHTML={{__html: post.content}}>
+            </div>
+            </div>
+          </CardContent>
+        </Card>
       </article>
     );
 
@@ -105,4 +175,5 @@ class Post extends Component {
 }
 
 
-export default Post;
+// export default Post;
+export default withStyles(styles)(Post);

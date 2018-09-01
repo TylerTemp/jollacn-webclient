@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-// import {
-//     Route,
-// } from 'react-router-dom'
+import React, { Component } from 'react';
+
+import { withStyles } from '@material-ui/core/styles';
 
 import axios from 'axios';
 
@@ -10,6 +9,23 @@ import Pagination from '../../Pagination'
 import CommentList from '../../CommentList'
 import CommentAdd from '../../CommentAdd'
 import Post from './Post'
+
+
+const styles = (theme) => ({
+  pageWidthLimit: {
+    width: 'auto',
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+      width: 1100,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  headerContentSpace: {
+    'height': '20px',
+  }
+});
 
 
 class PostWithComment extends Component {
@@ -124,30 +140,37 @@ class PostWithComment extends Component {
     const slug = this.slug;
     const { comment_loaded, comment_error, comments } = this.state
 
+    const { classes } = this.props;
+
     return (
       <div>
-        <Header></Header>
+        <Header at="post"></Header>
 
-        <Post
-          slug={ slug }>
-        </Post>
+        <div className={classes.headerContentSpace}></div>
 
-        <CommentList
-          error={ comment_error }
-          loaded={ comment_loaded }
-          comment_list={ comments }>
-        </CommentList>
-        <CommentAdd
-          api={ `/api/post/${this.slug}/comment` }
-          commentAdd={ this.commentAdd.bind(this) }>
-        </CommentAdd>
-        <Pagination
-            total={ this.state.comment_total_page }
-            current={ this.state.comment_current_page }
-            pageUrl={ undefined }
-            goToPage={ (num) => this.goToCommentPage(num) }>
-        </Pagination>
+        <div className={classes.pageWidthLimit}>
 
+          <Post
+            slug={ slug }>
+          </Post>
+
+          <CommentList
+            error={ comment_error }
+            loaded={ comment_loaded }
+            comment_list={ comments }>
+          </CommentList>
+          <CommentAdd
+            api={ `/api/post/${this.slug}/comment` }
+            commentAdd={ this.commentAdd.bind(this) }>
+          </CommentAdd>
+          <Pagination
+              total={ this.state.comment_total_page }
+              current={ this.state.comment_current_page }
+              pageUrl={ undefined }
+              goToPage={ (num) => this.goToCommentPage(num) }>
+          </Pagination>
+
+        </div>
       </div>
     );
 
@@ -155,4 +178,5 @@ class PostWithComment extends Component {
 }
 
 
-export default PostWithComment;
+// export default PostWithComment;
+export default withStyles(styles)(PostWithComment);
