@@ -81,14 +81,16 @@ def comment_list(slug):
             {
                 'id': offset + 1,
                 'nickname': 'testnickname',
-                'email': 'test_email@test.com',
+                # 'email': 'test_email@test.com',
                 'content': 'test comment content %s' % (offset + 1),
+                'inserted_at': '2018-08-08',
             },
             {
                 'id': offset + 2,
                 'nickname': 'testnickname',
-                'email': 'test_email@test.com',
+                # 'email': 'test_email@test.com',
                 'content': 'test comment content %s' % (offset + 2),
+                'inserted_at': '2018-08-08',
             },
         ]
     }

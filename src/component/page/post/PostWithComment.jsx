@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 
 import axios from 'axios';
 
@@ -24,6 +26,20 @@ const styles = (theme) => ({
   },
   headerContentSpace: {
     'height': '20px',
+  },
+  postCommentDevider: {
+    'border-color': '#eee',
+    'height': 0,
+    'border-top': '1px solid #eee',
+    'margin-top': '15px',
+    'margin-bottom': '15px',
+  },
+
+  commentPaper: {
+    paddingTop: theme.spacing.unit * 0,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit * 3,
   }
 });
 
@@ -130,7 +146,7 @@ class PostWithComment extends Component {
   commentAdd(data) {
     console.log('post with comment received comment', data);
     let comment_list = this.state.comments;
-    comment_list.push(data);
+    comment_list.unshift(data);
     // console.log(comment_list);
     this.setState({comments: comment_list});
   }
@@ -150,25 +166,31 @@ class PostWithComment extends Component {
 
         <div className={classes.pageWidthLimit}>
 
-          <Post
-            slug={ slug }>
-          </Post>
+          <Paper>
+            <Post
+              slug={ slug }>
+            </Post>
+          </Paper>
 
-          <CommentList
-            error={ comment_error }
-            loaded={ comment_loaded }
-            comment_list={ comments }>
-          </CommentList>
-          <CommentAdd
-            api={ `/api/post/${this.slug}/comment` }
-            commentAdd={ this.commentAdd.bind(this) }>
-          </CommentAdd>
-          <Pagination
-              total={ this.state.comment_total_page }
-              current={ this.state.comment_current_page }
-              pageUrl={ undefined }
-              goToPage={ (num) => this.goToCommentPage(num) }>
-          </Pagination>
+          <Divider className={ classes.postCommentDevider }/>
+
+          <Paper className={ classes.commentPaper} >
+              <CommentAdd
+                api={ `/api/post/${this.slug}/comment` }
+                commentAdd={ this.commentAdd.bind(this) }>
+              </CommentAdd>
+              <CommentList
+                error={ comment_error }
+                loaded={ comment_loaded }
+                comment_list={ comments }>
+              </CommentList>
+              <Pagination
+                  total={ this.state.comment_total_page }
+                  current={ this.state.comment_current_page }
+                  pageUrl={ undefined }
+                  goToPage={ (num) => this.goToCommentPage(num) }>
+              </Pagination>
+          </Paper>
 
         </div>
       </div>

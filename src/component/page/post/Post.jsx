@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import axios from 'axios';
 
 
 const styles = {
-  paper: {
-    'width': '100%',
-  },
+  // paper: {
+  //   'width': '100%',
+  // },
   postBox: {
     'max-width': '900px',
     'margin-left': 'auto',
@@ -142,26 +142,24 @@ class Post extends Component {
     };
 
     return (
-      <Paper className={classes.paper}>
-        <article className="post">
-          <div>
-            <img src={post.headerimg} className={classes.postHeaderImg}/>
+      <article className="post">
+        <div>
+          <img src={post.headerimg} className={classes.postHeaderImg}/>
+        </div>
+        <div className={classes.postBox}>
+          <Typography gutterBottom variant="title" component="h1" align="center" className={classes.postTitle}>
+            {post.title}
+          </Typography>
+          <hr className={classes.postMetaBodyDivider} />
+          {
+            post.description && (
+              <div className={classes.postDescription} dangerouslySetInnerHTML={{__html: post.description}}></div>
+            )
+          }
+          <div dangerouslySetInnerHTML={{__html: post.content}}>
           </div>
-          <div className={classes.postBox}>
-            <Typography gutterBottom variant="title" component="h1" align="center" className={classes.postTitle}>
-              {post.title}
-            </Typography>
-            <hr className={classes.postMetaBodyDivider} />
-            {
-              post.description && (
-                <div className={classes.postDescription} dangerouslySetInnerHTML={{__html: post.description}}></div>
-              )
-            }
-            <div dangerouslySetInnerHTML={{__html: post.content}}>
-            </div>
-          </div>
-        </article>
-      </Paper>
+        </div>
+      </article>
     );
 
   }
