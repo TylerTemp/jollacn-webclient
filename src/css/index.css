@@ -1,5 +1,9 @@
-.container {
-    text-align: center;
-    margin-top: 40px;
-    /* background: url('../images/logo.png') no-repeat center / contain; */
+.nav-link {
+  text-decoration: none;
+  color: white;
+}
+
+.nav-icon {
+  position: relative;
+  top: 4px;
 }

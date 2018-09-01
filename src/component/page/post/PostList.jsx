@@ -7,7 +7,6 @@ import {
 
 import axios from 'axios';
 
-import Header from '../../Header'
 import Post from './Post'
 
 

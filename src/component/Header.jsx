@@ -4,25 +4,96 @@ import {
     NavLink
 } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import HomeIcon from '@material-ui/icons/Home';
+import BallotIcon from '@material-ui/icons/Ballot';
+import StyleIcon from '@material-ui/icons/Style';
+
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  widthLimit: {
+    width: 'auto',
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+      width: 1100,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+});
+
 
 class Header extends Component {
-    render() {
-        return (
-            <header>
-                <nav>
-                    <ul>
-                        <li><NavLink exact to="/">首页</NavLink></li>
-                        <li><NavLink to="/post">文章</NavLink></li>
-                        <li><NavLink to="/tie">简讯</NavLink></li>
 
-                        <li><NavLink to="/tie/some-slug">测试：一条简讯</NavLink></li>
+  render() {
+    const { classes } = this.props;
+    let at_tab = this.props.at;
+    let at_tab_index = {
+      "home": 0,
+      "post": 1,
+      "tie": 2,
+    }[at_tab];
 
-                    </ul>
-                </nav>
-            </header>
-        )
-    }
+    if(at_tab_index == undefined) {
+      at_tab_index = 0;
+    };
+
+    return (
+      <div className={classes.root}>
+        <Grid container className="navContainer" >
+        <AppBar position="static">
+          <div className={ classes.widthLimit }>
+            <Toolbar className="navToolbar">
+              <Tabs value={ at_tab_index }>
+                <NavLink exact to="/" className="nav-link">
+                  <Tab label={
+                      <Typography variant="title" color="inherit">
+                        <HomeIcon className={classes.icon, "nav-icon"} />
+                        首页
+                      </Typography>
+                    } value={ "home" }>
+                  </Tab>
+                </NavLink>
+                <NavLink exact to="/post" className="nav-link">
+                  <Tab label={
+                      <Typography variant="title" color="inherit">
+                        <BallotIcon className={classes.icon, "nav-icon"} />
+                        文章
+                      </Typography>
+                    } value={ "post" }>
+                  </Tab>
+                </NavLink>
+                <NavLink exact to="/tie" className="nav-link">
+                  <Tab label={
+                      <Typography variant="title" color="inherit">
+                        <StyleIcon className={classes.icon, "nav-icon"} />
+                        快讯
+                      </Typography>
+                    } value={ "tie" }>
+                  </Tab>
+                </NavLink>
+              </Tabs>
+            </Toolbar>
+          </div>
+        </AppBar>
+        </Grid>
+      </div>
+
+    )
+  }
 }
 
 
-export default Header
+// export default Header
+export default withStyles(styles)(Header);

@@ -14,11 +14,14 @@ class PostListWithPagination extends Component {
 
   constructor(props) {
     super(props);
-    let page_str = this.props.match.params.page;
+    let props_match = this.props.match || {};
+    let match_params = props_match.params || {};
+
+    let page_str = match_params.page;
     let page = page_str? parseInt(page_str): 1;
     // this.limit = 10;
     this.state = {
-      limit: 10,
+      limit: (this.props.limit == undefined? 10: this.props.limit),
       post_infos_loaded: false,
       page_loaded: false,
       error: null,

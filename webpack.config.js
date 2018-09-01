@@ -55,22 +55,22 @@ module.exports = {
               }
             },
             // {
-            //     test: /\.js?$/, //配置要处理的文件格式，一般使用正则表达式匹配
-            //     loader: 'babel-loader', //使用的加载器名称
-            //     query: { //babel的配置参数，可以写在.babelrc文件里也可以写在这里
-            //         presets: ['env', 'react']
-            //     }
-            // },
-            // {
-            //     test: /\.js|jsx$/, //配置要处理的文件格式，一般使用正则表达式匹配
-            //     loader: 'babel-loader', //使用的加载器名称
-            //     query: { //babel的配置参数，可以写在.babelrc文件里也可以写在这里
-            //         presets: ['env', 'react']
-            //     }
+            //   test: /\.js$/, //配置要处理的文件格式，一般使用正则表达式匹配
+            //   loader: 'babel-loader', //使用的加载器名称
+            //   include: [
+            //       path.resolve(__dirname, "node_modules/amazeui-react")
+            //   ],
+            //   query: { //babel的配置参数，可以写在.babelrc文件里也可以写在这里
+            //       presets: ['es2015','react','stage-0']
+            //   },
             // },
             {
                 test: /\.css/,
                 loader: 'style-loader!css-loader'
+            },
+            {
+              test: /\.(woff|woff2|eot|ttf|otf)$/,
+              loader: "file-loader"
             },
             {
                 test: [/\.gif$/, /\.jpe?g$/, /\.png$/],

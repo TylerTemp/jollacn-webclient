@@ -7,11 +7,15 @@ import {
     Switch
 } from 'react-router-dom';
 
+import 'typeface-roboto';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 import Home from './component/page/Home'
 import Header from './component/Header'
 // import Layout from './component/Layout'
 // import {default as PostList} from './component/page/post/List'
 import PostListWithPagination from './component/page/post/PostListWithPagination'
+import PostListWithHeaderPagination from './component/page/post/PostListWithHeaderPagination'
 import PostWithComment from './component/page/post/PostWithComment'
 import TieListWithPagination from './component/page/tie/TieListWithPagination'
 import TieWithComment from './component/page/tie/TieWithComment'
@@ -23,12 +27,13 @@ class App extends Component {
   render() {
     return (
       <div>
+        <CssBaseline></CssBaseline>
         <Router>
           <Switch>
             <Route exact path="/" component={Home}/>
 
-            <Route exact path="/post" component={PostListWithPagination}/>
-            <Route exact path="/post/page/:page" component={PostListWithPagination}/>
+            <Route exact path="/post" component={PostListWithHeaderPagination}/>
+            <Route exact path="/post/page/:page" component={PostListWithHeaderPagination}/>
             <Route exact path="/post/:slug" component={PostWithComment}/>
 
             <Route exact path="/tie" component={TieListWithPagination}/>
