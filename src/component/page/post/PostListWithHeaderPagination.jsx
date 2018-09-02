@@ -11,7 +11,7 @@ import PostListWithPagination from './PostListWithPagination';
 
 
 const styles = (theme) => ({
-  headerPostlistDevider: {
+  headerPostlistDivider: {
     // 'border-color': '#eee',
     'height': 0,
     'border': 'none',
@@ -42,7 +42,7 @@ class PostListWithHeaderPagination extends Component {
       <React.Fragment>
         <Header at="post"></Header>
 
-        <Divider className={classes.headerPostlistDevider}/>
+        <Divider className={classes.headerPostlistDivider}/>
 
         <div className={classes.pageWidthLimit}>
           <PostListWithPagination></PostListWithPagination>

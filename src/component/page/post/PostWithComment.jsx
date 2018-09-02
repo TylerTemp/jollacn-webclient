@@ -27,10 +27,11 @@ const styles = (theme) => ({
   headerContentSpace: {
     'height': '20px',
   },
-  postCommentDevider: {
-    'border-color': '#eee',
+  postCommentDivider: {
+    // 'border-color': '#eee',
+    'border': 'none',
     'height': 0,
-    'border-top': '1px solid #eee',
+    // 'border-top': '1px solid #eee',
     'margin-top': '15px',
     'margin-bottom': '15px',
   },
@@ -175,7 +176,7 @@ class PostWithComment extends Component {
             </Post>
           </Paper>
 
-          <Divider className={ classes.postCommentDevider }/>
+          <Divider className={ classes.postCommentDivider }/>
 
           <Paper className={ classes.commentPaper} >
               <CommentAdd
@@ -198,6 +199,8 @@ class PostWithComment extends Component {
                 </Pagination>
               </div>
           </Paper>
+
+          <Divider className={ classes.postCommentDivider }/>
 
         </div>
       </React.Fragment>

@@ -50,7 +50,7 @@ class Header extends Component {
     };
 
     return (
-      <div className={classes.root}>
+      <header>
         <Grid container className="navContainer" >
         <AppBar position="static">
           <div className={ classes.widthLimit }>
@@ -88,7 +88,8 @@ class Header extends Component {
           </div>
         </AppBar>
         </Grid>
-      </div>
+        { this.props.children }
+      </header>
 
     )
   }
