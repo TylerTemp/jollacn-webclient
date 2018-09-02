@@ -17,3 +17,8 @@ article.post img {
 a.pagination {
   text-decoration: none;
 }
+
+
+body {
+  background-color: #3a7ba2 !important;
+}

@@ -46,33 +46,43 @@ class Pagination extends Component {
       const { classes } = this.props;
       return <span className={ classes.disabledText }>...</span>;
     };
-    if(this.props.pageUrl) {
-      return (
-        <span key={ page_number }>
-          <Link
-              to={ this.props.pageUrl(page_number) }
-              onClick={ (() => this.goToPage(page_number)).bind(this) }
-              >
-            { page_number }
-          </Link>
-        </span>
-      );
-    };
 
     if(this_disabled === undefined) {
       this_disabled = (page_number == current);
-    }
+    };
+
+    // console.log('render page', page_number, page_display);
+
+    if(this.props.pageUrl) {
+      return (
+        <Link
+            key={ page_display? undefined: page_number }
+            className={ (page_number == current)? 'pagination active': 'pagination' }
+            to={ this.props.pageUrl(page_number) }
+            onClick={ this_disabled? (() => false) : (() => this.goToPage(page_number)).bind(this) }
+            >
+          <Button
+            variant='text'
+            size='small'
+            mini={ true }
+            disabled={ this_disabled }
+            >{ page_display || page_number }</Button>
+        </Link>
+      );
+    };
+
+
 
     return (
       <a
+          key={ page_display? undefined: page_number }
           className={ (page_number == current)? 'pagination active': 'pagination' }
           href={ `#${ page_number }` }
-          onClick={ !this_disabled && (() => this.goToPage(page_number)).bind(this) }
+          onClick={ this_disabled? (() => false) : (() => this.goToPage(page_number)).bind(this) }
         >
         <Button
-            key={ page_number }
             variant='text'
-            size='fab'
+            size='small'
             mini={ true }
             disabled={ this_disabled }
           >
@@ -92,42 +102,43 @@ class Pagination extends Component {
 
     let page_numbers = [];
     let start_page_number = 1;
+    let left_omit = false;
     if(current - 1 > display_left_right) {
       start_page_number = current - display_left_right;
-      page_numbers.push('...');
+      left_omit = true;
     };
 
     let end_page_num = current + display_left_right;
-    let trans_end = true;
+    let right_omit = true;
     if(end_page_num > total - 1) {
       end_page_num = total;
-      trans_end = false;
+      right_omit = false;
     };
-
 
     for(var page_number = start_page_number; page_number <= end_page_num; page_number++)
     {
       page_numbers.push(page_number);
     };
 
-    if(trans_end) {
-      page_numbers.push('...');
-    }
+    console.log('page numbers:', page_numbers);
 
     const {auto_left, auto_right} = this.state;
 
     return (
       <React.Fragment>
-        {this.props.children}
-        { auto_left && current == 1 || this.renderPageNumber(1, current, <FirstPageIcon />, current == 1) }
-        { auto_left && current == 1 || this.renderPageNumber(current == 1? 1: current - 1, current, <ChevronLeftIcon />, current == 1) }
+        { auto_left && current == 1 || this.renderPageNumber(1, current, <FirstPageIcon />, current == 1, '|<') }
+        { auto_left && current == 1 || this.renderPageNumber(current == 1? 1: current - 1, current, <ChevronLeftIcon />, current == 1, '<') }
+
+        { left_omit && '...' }
 
         {page_numbers.map((page_number) => {
           return this.renderPageNumber(page_number, current);
         })}
 
-        { auto_right && current == total || this.renderPageNumber(current + 1, current, <ChevronRightIcon />, current == total) }
-        { auto_right && current == total || this.renderPageNumber(total, current, <LastPageIcon />, current == total) }
+        { right_omit && '...' }
+
+        { auto_right && current == total || this.renderPageNumber(current + 1, current, <ChevronRightIcon />, current == total, '>') }
+        { auto_right && current == total || this.renderPageNumber(total, current, <LastPageIcon />, current == total, '>|') }
 
       </React.Fragment>
     );

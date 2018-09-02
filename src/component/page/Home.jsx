@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
 
 import Header from '../Header'
+import PostListWithPagination from './post/PostListWithPagination';
 
 
 class Home extends Component {
@@ -12,9 +12,8 @@ class Home extends Component {
         <Header></Header>
         <div className="home">
             <h1 className="title">Welcome, { React.version }</h1>
-            <Button variant="contained" color="primary">
-              Hello World
-            </Button>
+            <div>Tie preview goes here</div>
+            <PostListWithPagination limit={ 8 }></PostListWithPagination>
         </div>
       </div>
     );

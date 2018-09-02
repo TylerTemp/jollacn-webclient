@@ -15,25 +15,28 @@ def post_list():
     args = flask.request.args
     offset = int(args.get('offset', 0))
     limit = min((50, int(args.get('limit', 50))))
-    result = {
-        'total': 100,
-        'limit': limit,
-        'post_infos': [
+    post_infos = []
+    for num in range(5):
+        post_infos.extend([
             {
-                'slug': 'test %s' % (offset + 1),
-                'title': 'test title %s' % (offset + 1),
+                'slug': 'test %s left' % (offset + num),
+                'title': 'test title %s left' % (offset + num),
                 'cover': 'https://dn-jolla.qbox.me/sailfish-os-2.2.0-update/cover.jpg',
                 'description': 'description',
                 'author': 'test_author',
             },
             {
-                'slug': 'test %s' % (offset + 2),
-                'title': 'test title %s' % (offset + 2),
+                'slug': 'test %s right' % (offset + num),
+                'title': 'test title %s right' % (offset + num),
                 'cover': 'https://dn-jolla.qbox.me/gemini/cover.jpg',
                 'description': 'description2',
                 'author': 'test_author',
             },
-        ]
+        ])
+    result = {
+        'total': 100,
+        'limit': limit,
+        'post_infos': post_infos
     }
 
     return flask.Response(

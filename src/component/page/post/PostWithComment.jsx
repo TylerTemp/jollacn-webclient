@@ -162,7 +162,7 @@ class PostWithComment extends Component {
     const { classes } = this.props;
 
     return (
-      <div>
+      <React.Fragment>
         <Header at="post"></Header>
 
         <div className={classes.headerContentSpace}></div>
@@ -200,7 +200,7 @@ class PostWithComment extends Component {
           </Paper>
 
         </div>
-      </div>
+      </React.Fragment>
     );
 
   }

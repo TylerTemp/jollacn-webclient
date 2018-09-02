@@ -1,13 +1,31 @@
-import React, { Component } from 'react'
-// import {
-//     Route,
-//     NavLink
-// } from 'react-router-dom'
+import React, { Component } from 'react';
+
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 
 import axios from 'axios';
 
-import Pagination from '../../Pagination'
-import PostList from './PostList'
+import Pagination from '../../Pagination';
+import PostPreview from './PostPreview';
+
+
+const styles = theme => ({
+  centerDiv: {
+    'width': '100%',
+    'text-align': 'center',
+  },
+  pagination: {
+    'display': 'inline-block',
+  },
+
+  postListPaginationDivider: {
+    'border': 'none',
+    'height': 0,
+    'margin': '16px',
+  }
+});
 
 
 class PostListWithPagination extends Component {
@@ -114,6 +132,29 @@ class PostListWithPagination extends Component {
     // this.setState({current_page: num});
   }
 
+  renderPost(error, post_infos_loaded, post_infos) {
+    if(error) {
+      return error;
+    };
+    if(!post_infos_loaded) {
+      return 'loading';
+    };
+
+    // console.log('rendering', post_infos);
+    return post_infos.map((post_info, index) => {
+      return (
+        <Grid item key={ index } sm={ 12 } md={ 6 }>
+          <PostPreview
+              slug={ post_info.slug }
+              cover={ post_info.cover }
+              title={ post_info.title }
+              description={ post_info.description }
+            >
+          </PostPreview>
+        </Grid>);
+    });
+  }
+
   render() {
     const { error, post_infos_loaded, post_infos } = this.state;
 
@@ -122,24 +163,34 @@ class PostListWithPagination extends Component {
       'total_page:', this.state.total_page,
       'current_page:', this.state.current_page
     );
-    return (
-      <div>
-      <PostList
-          post_infos={ post_infos }
-          loaded={ post_infos_loaded }
-          error={ error }>
-      </PostList>
 
-      <Pagination
-          total={ this.state.total_page }
-          current={ this.state.current_page }
-          pageUrl={ (num) => `/post/page/${num}` }
-          goToPage={ (num) => this.goToPage(num) }>
-      </Pagination>
-      </div>
+    const { classes } = this.props;
+
+    return (
+      <React.Fragment>
+        <Grid container spacing={ 40 }>
+          { this.renderPost(error, post_infos_loaded, post_infos) }
+        </Grid>
+
+        <Divider className={ classes.postListPaginationDivider } />
+
+        <div className={ classes.centerDiv }>
+          <Paper className={ classes.pagination }>
+            <Pagination
+                total={ this.state.total_page }
+                current={ this.state.current_page }
+                pageUrl={ (num) => `/post/page/${num}` }
+                goToPage={ (num) => this.goToPage(num) }>
+            </Pagination>
+          </Paper>
+        </div>
+
+        <Divider className={ classes.postListPaginationDivider } />
+      </React.Fragment>
     );
   }
 }
 
 
-export default PostListWithPagination;
+// export default PostListWithPagination;
+export default withStyles(styles)(PostListWithPagination);
