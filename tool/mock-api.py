@@ -16,7 +16,7 @@ def post_list():
     offset = int(args.get('offset', 0))
     limit = min((50, int(args.get('limit', 50))))
     post_infos = []
-    for num in range(5):
+    for num in range(int(limit / 2) + 1):
         post_infos.extend([
             {
                 'slug': 'test %s left' % (offset + num),
@@ -33,11 +33,14 @@ def post_list():
                 'author': 'test_author',
             },
         ])
+    post_infos = post_infos[:limit]
     result = {
         'total': 100,
         'limit': limit,
         'post_infos': post_infos
     }
+
+    time.sleep(0.5)
 
     return flask.Response(
         json.dumps(result),
@@ -49,7 +52,7 @@ def post_list():
 def post(slug):
     with open(os.path.join(this_root, 'post_content.html'), 'r', encoding='utf-8') as f:
         result = {
-            'title': 'Sailfish系统2.2.0 Mouhijoki已向提早更新用户放送',
+            'title': 'Sailfish系统2.2.0 Mouhijoki已向提早更新用户放送(%s)' % slug,
             'headerimg': 'https://dn-jolla.qbox.me/sailfish-os-2.2.0-update/banner.jpg',
             'description': '<p>Xperia X支持指纹、修正拍照，安卓支持性能提升，添加Emoji支持</p>',
             'content': f.read(),

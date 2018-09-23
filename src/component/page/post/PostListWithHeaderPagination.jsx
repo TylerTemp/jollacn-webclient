@@ -38,6 +38,9 @@ class PostListWithHeaderPagination extends Component {
 
     const { classes } = this.props;
 
+    let page_str = this.props.match.params.page;
+    let page = parseInt(page_str);
+
     return (
       <React.Fragment>
         <Header at="post"></Header>
@@ -45,7 +48,9 @@ class PostListWithHeaderPagination extends Component {
         <Divider className={classes.headerPostlistDivider}/>
 
         <div className={classes.pageWidthLimit}>
-          <PostListWithPagination></PostListWithPagination>
+          <PostListWithPagination
+              page={ page }
+            ></PostListWithPagination>
         </div>
       </React.Fragment>
     );

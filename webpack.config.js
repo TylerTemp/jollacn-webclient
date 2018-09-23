@@ -37,15 +37,12 @@ module.exports = {
     devServer: {
         contentBase: path.resolve(__dirname, 'build'),
         historyApiFallback: true,
+        disableHostCheck: true,
+        compress: true,
         // historyApiFallback: {index: "build/index.html"},
     },
     module: {
         rules: [ //配置加载器
-            // {
-            //     test: /\.js$/,
-            //     enforce: 'pre', //加载器的执行顺序，不设置为正常执行，pre（前）|post（后），eslint是检查代码规范，应该在编译前就执行
-            //     loader: 'eslint-loader',
-            // },
             {
               test: /\.jsx$/,
               exclude: /node_modules/,
@@ -54,16 +51,6 @@ module.exports = {
                   presets: ['env', 'react']
               }
             },
-            // {
-            //   test: /\.js$/, //配置要处理的文件格式，一般使用正则表达式匹配
-            //   loader: 'babel-loader', //使用的加载器名称
-            //   include: [
-            //       path.resolve(__dirname, "node_modules/amazeui-react")
-            //   ],
-            //   query: { //babel的配置参数，可以写在.babelrc文件里也可以写在这里
-            //       presets: ['es2015','react','stage-0']
-            //   },
-            // },
             {
                 test: /\.css/,
                 loader: 'style-loader!css-loader'

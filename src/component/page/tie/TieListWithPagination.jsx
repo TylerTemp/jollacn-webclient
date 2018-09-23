@@ -113,7 +113,7 @@ class TieListWithPagination extends Component {
   render() {
     const { error, ties_loaded, ties } = this.state;
 
-    console.log('post with pagination rendering', ties,
+    console.log('tie with pagination rendering', ties,
       ' is loaded: ', ties_loaded, ' error: ', error,
       'total_page:', this.state.total_page,
       'current_page:', this.state.current_page

@@ -10,8 +10,9 @@ import {
 import 'typeface-roboto';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Home from './component/page/Home'
-import Header from './component/Header'
+import Home from './component/page/Home';
+import Header from './component/Header';
+import NotFound from './component/page/NotFound';
 // import Layout from './component/Layout'
 // import {default as PostList} from './component/page/post/List'
 import PostListWithPagination from './component/page/post/PostListWithPagination'
@@ -40,6 +41,7 @@ class App extends Component {
             <Route exact path="/tie/page/:page" component={TieListWithPagination}/>
 
             <Route exact path="/tie/:slug" component={TieWithComment}/>
+            <Route component={NotFound} />
           </Switch>
         </Router>
       </div>

@@ -36,7 +36,7 @@ class PostListWithPagination extends Component {
     let match_params = props_match.params || {};
 
     let page_str = match_params.page;
-    let page = page_str? parseInt(page_str): 1;
+    let page = page_str? parseInt(page_str): (this.props.page || 1);
     // this.limit = 10;
     this.state = {
       limit: (this.props.limit == undefined? 10: this.props.limit),
