@@ -18,7 +18,7 @@ import NotFound from './component/page/NotFound';
 import PostListWithPagination from './component/page/post/PostListWithPagination'
 import PostListWithHeaderPagination from './component/page/post/PostListWithHeaderPagination'
 import PostWithComment from './component/page/post/PostWithComment'
-import TieListWithPagination from './component/page/tie/TieListWithPagination'
+import TieListWithHeaderPagination from './component/page/tie/TieListWithHeaderPagination'
 import TieWithComment from './component/page/tie/TieWithComment'
 
 import './css/index.css'
@@ -37,8 +37,8 @@ class App extends Component {
             <Route exact path="/post/page/:page" component={PostListWithHeaderPagination}/>
             <Route exact path="/post/:slug" component={PostWithComment}/>
 
-            <Route exact path="/tie" component={TieListWithPagination}/>
-            <Route exact path="/tie/page/:page" component={TieListWithPagination}/>
+            <Route exact path="/tie" component={TieListWithHeaderPagination}/>
+            <Route exact path="/tie/page/:page" component={TieListWithHeaderPagination}/>
 
             <Route exact path="/tie/:slug" component={TieWithComment}/>
             <Route component={NotFound} />
@@ -52,4 +52,4 @@ class App extends Component {
 ReactDom.render(
     <App />,
     document.getElementById('root')
-)
+);

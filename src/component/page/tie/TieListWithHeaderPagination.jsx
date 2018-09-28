@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 // import {
 //     Route,
 //     NavLink
@@ -6,11 +6,12 @@ import React, { Component } from 'react'
 
 import axios from 'axios';
 
-import Pagination from '../../Pagination'
-import TieList from './TieList'
+import Pagination from '../../Pagination';
+import Header from '../../Header';
+import TieList from './TieList';
 
 
-class TieListWithPagination extends Component {
+class TieListWithHeaderPagination extends Component {
 
   constructor(props) {
     super(props);
@@ -121,6 +122,7 @@ class TieListWithPagination extends Component {
 
     return (
       <div>
+        <Header></Header>
         <TieList
             ties={ ties }
             loaded={ ties_loaded }
@@ -139,4 +141,4 @@ class TieListWithPagination extends Component {
 }
 
 
-export default TieListWithPagination;
+export default TieListWithHeaderPagination;

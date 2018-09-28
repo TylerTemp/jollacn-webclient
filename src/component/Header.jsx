@@ -39,15 +39,19 @@ class Header extends Component {
   render() {
     const { classes } = this.props;
     let at_tab = this.props.at;
+    if(at_tab === undefined) {
+      at_tab = 'home';
+    };
+
     let at_tab_index = {
       "home": 0,
       "post": 1,
       "tie": 2,
     }[at_tab];
 
-    if(at_tab_index == undefined) {
-      at_tab_index = 0;
-    };
+    // if(at_tab_index === undefined) {
+    //   at_tab_index = 0;
+    // };
 
     return (
       <header>
