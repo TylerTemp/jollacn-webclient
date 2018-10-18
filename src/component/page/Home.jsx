@@ -46,7 +46,7 @@ class Home extends Component {
     return (
       <div>
 
-        <Header>
+        <Header at="home">
           <div className={ classes.headerImgWrapper }>
             <Link to="/">
               <img src={ BlogHeaderImg } alt="Jolla非官方中文博客" />

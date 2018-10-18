@@ -24,14 +24,14 @@ module.exports = {
     entry: './src/index.jsx', //相对路径
     mode: 'development',
     output: {
-        path: path.resolve(__dirname, 'build'), //打包文件的输出路径
-        // publicPath: 'build',
+        path: path.resolve(__dirname, 'build', 'static'), //打包文件的输出路径
+        publicPath: '/static/',
         filename: 'bundle.js' //打包文件名
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './public/index.html', //指定模板路径
-            filename: 'index.html', //指定文件名
+            filename: path.resolve(__dirname, 'build', 'index.html'), //指定文件名
         })
     ],
     devServer: {
@@ -43,12 +43,22 @@ module.exports = {
     },
     module: {
         rules: [ //配置加载器
+            // {
+            //   test: /\.jsx$/,
+            //   exclude: /node_modules/,
+            //   loader: 'babel-loader',
+            //   query: {
+            //       presets: ['env', 'react']
+            //   }
+            // },
             {
               test: /\.jsx$/,
               exclude: /node_modules/,
               loader: 'babel-loader',
               query: {
-                  presets: ['env', 'react']
+                cacheDirectory: true,
+                plugins: ['transform-decorators-legacy' ],
+                presets: ['es2015', 'stage-0', 'react']
               }
             },
             {

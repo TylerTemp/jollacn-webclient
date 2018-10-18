@@ -45,7 +45,7 @@ class NotFound extends Component {
     return (
       <div>
 
-        <Header at={ "whatever" }>
+        <Header at="404">
           <div className={ classes.headerImgWrapper }>
             <Link to="/">
               <img src={ BlogHeaderImg } alt="Jolla非官方中文博客" />

@@ -44,7 +44,7 @@ class TieWithComment extends Component {
     axios.get(
         `/api/tie/${this.slug}/comment?offset=${offset}&limit=${limit}`,
         {
-          headers: {'Accpected': 'application/json'},
+          headers: {'Accept': 'application/json'},
           transformResponse: undefined
         }
       )

@@ -4,138 +4,153 @@ import React, { Component } from 'react';
 //     NavLink
 // } from 'react-router-dom'
 
-import axios from 'axios';
+// import { observer } from 'mobx-react';
+// import axios from 'axios';
 
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import tieListCache from '../../storage/TieListCache';
+// import { TieStore } from '../../store/TieStore';
 import Pagination from '../../Pagination';
 import Header from '../../Header';
 import TieList from './TieList';
 
 
+const styles = theme => ({
+  centerDiv: {
+    'width': '100%',
+    'text-align': 'center',
+  },
+  pagination: {
+    'display': 'inline-block',
+  },
+
+  postListPaginationDivider: {
+    'border': 'none',
+    'height': 0,
+    'margin': '16px',
+  },
+
+  contentWrapper: {
+    'padding': '10px',
+  },
+});
+
+
+// @observer
+@withStyles(styles)
 class TieListWithHeaderPagination extends Component {
 
   constructor(props) {
     super(props);
     let page_str = this.props.match.params.page;
     let page = page_str? parseInt(page_str): 1;
-    // this.limit = 10;
+    // this.limit = 50;
     this.state = {
-      limit: 50,
-      ties_loaded: false,
-      page_loaded: false,
-      error: null,
       current_page: page,
-      total_page: 0,
+      total_page: page,
+      limit: 50,
+      loaded: true,
+      error: null,
       ties: []
     }
   }
 
   componentDidMount() {
     let page = this.state.current_page;
-    console.log('tie list with pagination, did mount to page', page)
-    this.fetchTies(page);
+    console.log('tie list with pagination, did mount to page', page);
+    this.fetchTiesPage(page);
   }
 
-  fetchTies(page = 1) {
-    this.setState({error: null, ties_loaded: false, current_page: page});
+  fetchTiesPage(page = 1) {
+    this.setState({error: null, loaded: false, current_page: page});
     console.log('fetching ties from page', page);
-    let limit = this.state.limit;
-    let offset = (page - 1) * limit;
-    axios.get(
-        `/api/tie?offset=${offset}&limit=${limit}`,
-        {
-          headers: {'Accpected': 'application/json'},
-          transformResponse: undefined
+    const limit = this.state.limit;
+    const offset = (page - 1) * limit;
+    const promise = new Promise((resolve, reject) => {
+      return tieListCache.fetchTieList(offset, limit, resolve, reject);
+    });
+    promise
+      .then(
+        (api_result) => {  // succeed
+          const {total, limit, ties} = api_result;
+
+          const page_mod = total % limit;
+          const page_div = Math.trunc(total / limit);
+          let total_page = page_div;
+          if(page_div == 0) {
+            total_page = 1;
+          } else if (page_mod != 0) {
+            total_page = page_div + 1;
+          };
+
+          this.setState({
+            'loaded': true,
+            'error': null,
+            'ties': ties,
+            'limit': limit,
+            'current_page': page,
+            'total_page': total_page,
+          });
+        },
+        (error_msg) => {  // failed
+          this.setState({
+            'loaded': true,
+            'error': error_msg,
+          });
         }
       )
-      .then(res => {
-        var data = res.data;
-        var result = JSON.parse(data);
-        console.log('fetched ties result', result);
-        var total_count = result.total;
-        var ties = result.ties;
-        var page_mod = total_count % result.limit;
-        var page_div = Math.trunc(total_count / result.limit);
-        var total_page = page_div;
-        if(page_div == 0) {
-          total_page = 1;
-        } else if (page_mod != 0) {
-          total_page = page_div + 1;
-        };
-        this.setState({
-          limit: result.limit,
-          ties_loaded: true,
-          page_loaded: true,
-          error: null,
-          current_page: page,
-          total_page: total_page,
-          ties: ties
-        });
-      })
-      .catch(res => {
-        var error = 'unknown server error';
-        if (res.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            var data = res.response.data;
-            console.log('response', data);
-            var json_resp = null;
-            try {
-              json_resp = JSON.parse(data);
-            } catch (e) {
-              // console.log(res.response);
-              error = `${res.response.status} ${res.response.statusText}`;
-            };
-            if(json_resp) {
-              error = json_resp.message || error;
-            };
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', res);
-            error = res.message;
-        };
-        console.log('set error to', error);
-        this.setState({
-          post_infos_loaded: true,
-          error: error,
-        });
-      })
-      .then(() => {
-        // console.log('always');
-        this.setState({post_infos_loaded: true});
-      });
+      .catch(
+        (error) => {
+          console.log(error);
+          this.setState({'loaded': true, 'error': 'Unknown Error'});
+        }
+      );
   }
 
   goToPage(num) {
     console.log('post list with pagination goes to page', num);
-    this.fetchTies(num);
+    this.fetchTiesPage(num);
     // this.setState({current_page: num});
   }
 
   render() {
-    const { error, ties_loaded, ties } = this.state;
+    const { error, loaded, ties } = this.state;
 
     console.log('tie with pagination rendering', ties,
-      ' is loaded: ', ties_loaded, ' error: ', error,
+      ' is loaded: ', loaded, ' error: ', error,
       'total_page:', this.state.total_page,
       'current_page:', this.state.current_page
     );
 
-    return (
-      <div>
-        <Header></Header>
-        <TieList
-            ties={ ties }
-            loaded={ ties_loaded }
-            error={ error }>
-        </TieList>
+    const { classes } = this.props;
 
-        <Pagination
-            total={ this.state.total_page }
-            current={ this.state.current_page }
-            pageUrl={ (num) => `/tie/page/${num}` }
-            goToPage={ (num) => this.goToPage(num) }>
-        </Pagination>
-      </div>
+    return (
+      <React.Fragment>
+
+        <Header at="tie"></Header>
+
+        <div className={ classes.contentWrapper }>
+          <TieList
+              ties={ ties }
+              loaded={ loaded }
+              error={ error }>
+          </TieList>
+
+
+          <div className={ classes.centerDiv }>
+            <Paper className={ classes.pagination }>
+              <Pagination
+                  total={ this.state.total_page }
+                  current={ this.state.current_page }
+                  pageUrl={ (num) => `/tie/page/${num}` }
+                  goToPage={ (num) => this.goToPage(num) }>
+              </Pagination>
+            </Paper>
+          </div>
+        </div>
+
+      </React.Fragment>
     );
   }
 }

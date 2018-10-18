@@ -1,21 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
     Link
-} from 'react-router-dom'
+} from 'react-router-dom';
 
-import axios from 'axios';
-
-import Header from '../../Header'
-import Tie from './Tie'
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 
 class TieList extends Component {
 
-    constructor(props) {
-      super(props);
-      this.state = {
-      }
-    }
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //   }
+    // }
 
     render() {
       // console.log(this.props);
@@ -34,24 +32,23 @@ class TieList extends Component {
         )
       };
       return (
-        <div>
-          <ol>
+        <React.Fragment>
+          <Grid container spacing={24}>
             {
-              this.props.ties.map((item, index) => (
-                <li key={ item.slug }>
-                  <Tie
-                      slug={ item.slug }
-                      loaded={ true }
-                      error={ null }
-                      tie={ item }>
-                  </Tie>
-                  <Link to={ `/tie/${ item.slug }` }>...
-                  </Link>
-                </li>
+              this.props.ties.map((tie, index) => (
+                <React.Fragment key={ tie.id }>
+                  <Grid item xs={ 12 / 2} md={ 12 / 4 } lg={ 12 / 4 } >
+                    <Paper>
+                      <div dangerouslySetInnerHTML={{__html: tie.content}}></div>
+                      <Link to={ `/tie/${ tie.id }` }>展开...
+                      </Link>
+                    </Paper>
+                  </Grid>
+                </React.Fragment>
               ))
             }
-          </ol>
-        </div>
+          </Grid>
+        </React.Fragment>
       );
     }
 }

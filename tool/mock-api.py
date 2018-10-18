@@ -122,25 +122,78 @@ def comment_add(slug):
     )
 
 
+def tie_gen():
+    with open(os.path.join(this_root, 'tie1.html'), 'r', encoding='utf-8') as f:
+        tie_1_content = f.read()
+    tie_1 = {
+        'media_previews': [
+            {'type': 'img', 'src': '/api/static/tie1.1.png'},
+        ],
+        'media': [
+            {'type': 'img', 'src': '/api/static/tie1.1.png'},
+        ],
+        'content': tie_1_content,
+    }
+
+    with open(os.path.join(this_root, 'tie2.html'), 'r', encoding='utf-8') as f:
+        tie_2_content = f.read()
+
+    tie_2 = {
+        'media_previews': [
+            {'type': 'img', 'src': '/api/static/tie2.1.preview.png'},
+            {'type': 'img', 'src': '/api/static/tie2.2.preview.png'},
+            {'type': 'img', 'src': '/api/static/tie2.3.preview.png'},
+        ],
+        'media': [
+            {'type': 'img', 'src': '/api/static/tie2.1.png'},
+            {'type': 'img', 'src': '/api/static/tie2.2.png'},
+            {'type': 'img', 'src': '/api/static/tie2.3.png'},
+        ],
+        'content': tie_2_content,
+    }
+
+    with open(os.path.join(this_root, 'tie3.html'), 'r', encoding='utf-8') as f:
+        tie_3_content = f.read()
+
+    tie_3 = {
+        'media_previews': [
+        ],
+        'media': [
+        ],
+        'content': tie_3_content,
+    }
+
+    tie_3 = {
+        'img_previews': [
+        ],
+        'img': [
+        ],
+        'content': tie_2_content,
+    }
+    while True:
+        yield tie_1
+        yield tie_2
+        yield tie_3
+
+
 @app.route('/tie')
 def tie_list():
     args = flask.request.args
     offset = int(args.get('offset', 0))
     limit = min((50, int(args.get('limit', 50))))
+    ties = []
+    tie_yielder = tie_gen()
+    for current_offset in range(limit):
+        tie = next(tie_yielder)
+        tie['id'] = current_offset + offset
+        ties.append(tie)
     result = {
         'total': 100,
         'limit': limit,
-        'ties': [
-            {
-                'slug': 'test tie %s' % (offset + 1),
-                'content': 'tie content {}'.format(offset + 1),
-            },
-            {
-                'slug': 'test tie %s' % (offset + 2),
-                'content': 'tie content {}'.format(offset + 2),
-            },
-        ]
+        'ties': ties
     }
+
+    time.sleep(1)
 
     return flask.Response(
         json.dumps(result),

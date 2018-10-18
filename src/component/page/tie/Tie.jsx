@@ -5,6 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 
+import tieListCache from '../../storage/TieListCache';
+
 
 const styles = (theme) => ({
   // pageWidthLimit: {
@@ -25,7 +27,7 @@ class Tie extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      slug: this.props.slug || this.props.match.params.slug,
+      id: this.props.id || parseInt(this.props.match.params.id),
       loaded: this.props.loaded === undefined? false: this.props.loaded,
       error: this.props.error === undefined? null: this.props.error,
       tie: this.props.tie === undefined? {
@@ -38,17 +40,20 @@ class Tie extends Component {
     this.fetchTie(this.state.slug);
   }
 
-  fetchTie(slug) {
+  fetchTie(id) {
     this.setState({
       loaded: false,
       error: null,
-      slug: slug,
+      id: id,
     });
-    axios.get(`/api/tie/${slug}`, {transformResponse: undefined})
+    axios.get(`/api/tie/${id}`, {
+        headers: {'Accept': 'application/json'},
+        transformResponse: undefined
+      })
       .then(res => {
         var data = res.data;
         var tie = JSON.parse(data);
-        this.setState({error: null, tie: tie});
+        this.setState({loaded: true, error: null, tie: tie});
       })
       .catch(res => {
         var error = 'unknown server error';
@@ -73,7 +78,7 @@ class Tie extends Component {
           error = resp.message;
         };
         console.log('set error to', error);
-        this.setState({error: error});
+        this.setState({loaded: true, error: error});
       })
       .then(() => {
         // console.log('always');
@@ -82,15 +87,15 @@ class Tie extends Component {
   }
 
   render() {
-    const { slug, error } = this.state;
+    const { id, error } = this.state;
     const tie = this.props.tie || this.state.tie;
     let loaded = this.state.loaded;
-    const check_slug = this.props.slug || this.props.match.params.slug;
+    const check_id = this.props.id || parseInt(this.props.match.params.id);
 
-    if(check_slug != slug) {
-      console.log(`tie change slug from ${slug} to ${this.props.slug} when trying to render`)
+    if(check_id != id) {
+      console.log(`tie change slug from ${id} to ${check_id} when trying to render`)
       loaded = false;
-      fetchTie(check_slug);
+      fetchTie(check_id);
     };
 
     if (error) {

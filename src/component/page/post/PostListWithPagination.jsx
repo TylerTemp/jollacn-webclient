@@ -64,7 +64,7 @@ class PostListWithPagination extends Component {
     axios.get(
         `/api/post?offset=${offset}&limit=${limit}`,
         {
-          headers: {'Accpected': 'application/json'},
+          headers: {'Accept': 'application/json'},
           transformResponse: undefined
         }
       )

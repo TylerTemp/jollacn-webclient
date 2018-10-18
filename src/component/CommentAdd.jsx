@@ -44,6 +44,7 @@ const styles = theme => ({
 });
 
 
+@withStyles(styles)
 class CommentAdd extends Component {
 
   constructor(props) {
@@ -72,7 +73,7 @@ class CommentAdd extends Component {
         {
           headers: {
             'Content-Type': 'application/json',
-            'Accpected': 'application/json'
+            'Accept': 'application/json'
           },
           transformResponse: undefined
         }
@@ -242,5 +243,5 @@ class CommentAdd extends Component {
 }
 
 
-// export default CommentAdd;
-export default withStyles(styles)(CommentAdd);
+export default CommentAdd;
+// export default withStyles(styles)(CommentAdd);

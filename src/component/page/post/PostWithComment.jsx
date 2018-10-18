@@ -81,7 +81,7 @@ class PostWithComment extends Component {
     axios.get(
         `/api/post/${this.slug}/comment?offset=${offset}&limit=${limit}`,
         {
-          headers: {'Accpected': 'application/json'},
+          headers: {'Accept': 'application/json'},
           transformResponse: undefined
         }
       )

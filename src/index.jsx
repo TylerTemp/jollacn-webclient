@@ -27,7 +27,7 @@ import './css/index.css'
 class App extends Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
         <CssBaseline></CssBaseline>
         <Router>
           <Switch>
@@ -40,11 +40,11 @@ class App extends Component {
             <Route exact path="/tie" component={TieListWithHeaderPagination}/>
             <Route exact path="/tie/page/:page" component={TieListWithHeaderPagination}/>
 
-            <Route exact path="/tie/:slug" component={TieWithComment}/>
+            <Route exact path="/tie/:id" component={TieWithComment}/>
             <Route component={NotFound} />
           </Switch>
         </Router>
-      </div>
+      </React.Fragment>
     );
   }
 }
