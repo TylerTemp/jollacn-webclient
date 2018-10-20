@@ -2,7 +2,8 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 // import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Modal from '@material-ui/core/Modal';
+// import Modal from '@material-ui/core/Modal';
+import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
 
 // import TieWithComment from './TieWithComment';
@@ -27,8 +28,8 @@ const styles = theme => ({
   },
 
   modal: {
-    top: '85px',
-    padding: '20px',
+    // top: '85px',
+    // padding: '20px',
   },
 
   centerDiv: {
@@ -94,9 +95,10 @@ class TieModal extends React.Component {
     // const comments = commentListPaginationStore.comments.map((comment, _index) => (comment));
 
     return (
-      <Modal
+      <Dialog
         open={ this.state.open }
         onClose={ this.handleClose }
+        maxWidth={ false }
         className={ classes.modal }
       >
         <React.Fragment>
@@ -130,7 +132,7 @@ class TieModal extends React.Component {
             </CommentAdd>
           </div>
         </React.Fragment>
-      </Modal>
+      </Dialog>
     );
   }
 }

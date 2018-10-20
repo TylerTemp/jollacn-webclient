@@ -259,6 +259,8 @@ def tie_comment(slug):
         ]
     }
 
+    time.sleep(0.5)
+
     return flask.Response(
         json.dumps(result),
         mimetype='application/json'
