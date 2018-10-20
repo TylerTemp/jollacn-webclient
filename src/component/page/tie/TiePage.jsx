@@ -108,7 +108,7 @@ class TiePage extends React.Component {
           <Paper>
             <div className={ classes.tieBox }>
               <div className={ classes.textRight }>
-                <Button href="/tie" color="inherit">
+                <Button color="inherit" onClick={ (e) => {e.preventDefault(); this.props.history.push("/tie")} }>
                   <ChevronLeftSharpIcon />
                   返回
                 </Button>
