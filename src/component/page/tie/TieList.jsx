@@ -14,6 +14,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
+import Lightbox from 'react-image-lightbox';
+
 
 const styles = theme => ({
   tieContent: {
@@ -29,11 +31,15 @@ const styles = theme => ({
 @withStyles(styles)
 class TieList extends Component {
 
-    // constructor(props) {
-    //   super(props);
-    //   this.state = {
-    //   }
-    // }
+    constructor(props) {
+      super(props);
+      this.state = {
+        media_viewer_is_open: false,
+        media_index: 0,
+        media_viewer_content: '',
+        media_viewer_medias: [],
+      }
+    }
 
     // TODO: video media?
     makeMediaPreview(previews) {
@@ -78,6 +84,20 @@ class TieList extends Component {
       };
     }
 
+    openMediaViewer(content, medias) {
+      // console.log('media view tie', tie);
+      // tie.map((key, value) => {
+      //   console.log(key, value);
+      // })
+      // console.log(tie.content)
+      this.setState({
+          media_viewer_is_open: true,
+          media_index: 0,
+          media_viewer_content: content,
+          media_viewer_medias: medias,
+        })
+    }
+
     render() {
       // console.log(this.props);
 
@@ -97,6 +117,12 @@ class TieList extends Component {
           </div>
         )
       };
+
+      const { media_index, media_viewer_is_open, media_viewer_content, media_viewer_medias } = this.state;
+
+      const media_srcs = media_viewer_medias.map((media) => (media['src']));
+      const media_count = media_srcs.length;
+
       return (
         <React.Fragment>
           <Grid container spacing={24}>
@@ -105,13 +131,8 @@ class TieList extends Component {
                 <React.Fragment key={ tie.id }>
                   <Grid item xs={ 12 / 1 } md={ 12 / 3 } lg={ 12 / 4 } >
                     <Card>
-                      <CardActionArea>
-                        <Link to={{
-                              'pathname': `/tie/${tie.id}/mediaview`,
-                              'state': { modal: true, modalMediaView: true, returnTo: this.props.location.pathname }
-                            }} className={ classes.muteLink }>
+                      <CardActionArea onClick={ () => { this.openMediaViewer(tie.content, tie.medias) } }>
                           { this.makeMediaPreview(tie.media_previews) }
-                        </Link>
                       </CardActionArea>
                       <CardActionArea>
                         <CardContent>
@@ -130,6 +151,35 @@ class TieList extends Component {
               ))
             }
           </Grid>
+
+          {
+            media_viewer_is_open && (
+              <Lightbox
+                reactModalStyle={{
+                  overlay: {
+                    zIndex: 2000,
+                  }
+                }}
+                imageCaption={<div dangerouslySetInnerHTML={{__html: media_viewer_content}}></div>}
+                imageTitle={media_viewer_medias[media_index]['title'] || media_viewer_medias[media_index]['alt'] || false}
+                mainSrc={media_srcs[media_index]}
+                nextSrc={media_srcs[(media_index + 1) % media_count]}
+                prevSrc={media_srcs[(media_index + media_count - 1) % media_count]}
+                onCloseRequest={() => this.setState({ media_viewer_is_open: false })}
+                onMovePrevRequest={() =>
+                  this.setState({
+                    media_index: (media_index + media_count - 1) % media_count,
+                  })
+                }
+                onMoveNextRequest={() =>
+                  this.setState({
+                    media_index: (media_index + 1) % media_count,
+                  })
+                }
+              />
+            )
+          }
+
         </React.Fragment>
       );
     }

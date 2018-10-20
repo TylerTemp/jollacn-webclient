@@ -145,10 +145,10 @@ def tie_gen():
         tie_1_content = f.read()
     tie_1 = {
         'media_previews': [
-            {'type': 'img', 'src': '/api/s/tie1.1.png'},
+            {'type': 'img', 'src': 'http://dev.jolla.cn/api/s/tie1.1.png'},
         ],
-        'media': [
-            {'type': 'img', 'src': '/api/s/tie1.1.png'},
+        'medias': [
+            {'type': 'img', 'src': 'http://dev.jolla.cn/api/s/tie1.1.png'},
         ],
         'content': tie_1_content,
     }
@@ -158,14 +158,14 @@ def tie_gen():
 
     tie_2 = {
         'media_previews': [
-            {'type': 'img', 'src': '/api/s/tie2.1.preview.png'},
-            {'type': 'img', 'src': '/api/s/tie2.2.preview.png'},
-            {'type': 'img', 'src': '/api/s/tie2.3.preview.png'},
+            {'type': 'img', 'src': 'http://dev.jolla.cn/api/s/tie2.1.preview.png'},
+            {'type': 'img', 'src': 'http://dev.jolla.cn/api/s/tie2.2.preview.png'},
+            {'type': 'img', 'src': 'http://dev.jolla.cn/api/s/tie2.3.preview.png'},
         ],
-        'media': [
-            {'type': 'img', 'src': '/api/s/tie2.1.png'},
-            {'type': 'img', 'src': '/api/s/tie2.2.png'},
-            {'type': 'img', 'src': '/api/s/tie2.3.png'},
+        'medias': [
+            {'type': 'img', 'src': 'http://dev.jolla.cn/api/s/tie2.1.png'},
+            {'type': 'img', 'src': 'http://dev.jolla.cn/api/s/tie2.2.png'},
+            {'type': 'img', 'src': 'http://dev.jolla.cn/api/s/tie2.3.png'},
         ],
         'content': tie_2_content,
     }
@@ -176,7 +176,7 @@ def tie_gen():
     tie_3 = {
         'media_previews': [
         ],
-        'media': [
+        'medias': [
         ],
         'content': tie_3_content,
     }
@@ -270,7 +270,12 @@ def tie_comment(slug):
 def s_route(filename):
     print(filename)
     with open(os.path.join(this_root, filename), 'rb') as f:
-        return f.read()
+        content = f.read()
+
+    return flask.Response(
+        content,
+        mimetype='image/png'
+    )
 
 @app.route('/tie/<path:slug>/comment', methods=('POST',))
 def tie_comment_add(slug):
