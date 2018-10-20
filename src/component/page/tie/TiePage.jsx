@@ -107,7 +107,7 @@ class TiePage extends React.Component {
         <div className={classes.pageWidthLimit}>
           <Paper>
             <div className={ classes.tieBox }>
-              <div className={ classes.textRight }>
+              <div>
                 <Button color="inherit" onClick={ (e) => {e.preventDefault(); this.props.history.push("/tie")} }>
                   <ChevronLeftSharpIcon />
                   返回

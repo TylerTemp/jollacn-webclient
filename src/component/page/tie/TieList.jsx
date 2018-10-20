@@ -103,10 +103,13 @@ class TieList extends Component {
             {
               this.props.ties.map((tie, index) => (
                 <React.Fragment key={ tie.id }>
-                  <Grid item xs={ 12 / 2 } md={ 12 / 4 } lg={ 12 / 4 } >
+                  <Grid item xs={ 12 / 1 } md={ 12 / 3 } lg={ 12 / 4 } >
                     <Card>
                       <CardActionArea>
-                        <Link to={ `/tie/${tie.id}/mediaview` } className={ classes.muteLink }>
+                        <Link to={{
+                              'pathname': `/tie/${tie.id}/mediaview`,
+                              'state': { modal: true, modalMediaView: true, returnTo: this.props.location.pathname }
+                            }} className={ classes.muteLink }>
                           { this.makeMediaPreview(tie.media_previews) }
                         </Link>
                       </CardActionArea>
@@ -114,7 +117,7 @@ class TieList extends Component {
                         <CardContent>
                           <Link className={ classes.muteLink } to={{
                                 'pathname': `/tie/${tie.id}`,
-                                'state': { modal: true, returnTo: this.props.location.pathname }
+                                'state': { modal: true, modalTie: true, returnTo: this.props.location.pathname }
                               }}>
                             <div className={ classes.tieContent } dangerouslySetInnerHTML={{__html: tie.content}}>
                             </div>
