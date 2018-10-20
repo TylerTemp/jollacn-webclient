@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-// import {
-//     Route,
-//     NavLink
-// } from 'react-router-dom'
+import {
+    Route,
+    Switch
+} from 'react-router-dom';
 
 // import { observer } from 'mobx-react';
 // import axios from 'axios';
 
-import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+
 import tieListCache from '../../storage/TieListCache';
 // import { TieStore } from '../../store/TieStore';
 import Pagination from '../../Pagination';
@@ -21,6 +22,7 @@ const styles = theme => ({
     'width': '100%',
     'text-align': 'center',
   },
+
   pagination: {
     'display': 'inline-block',
   },
@@ -31,9 +33,6 @@ const styles = theme => ({
     'margin': '16px',
   },
 
-  contentWrapper: {
-    'padding': '10px',
-  },
 });
 
 
@@ -73,7 +72,7 @@ class TieListWithHeaderPagination extends Component {
     promise
       .then(
         (api_result) => {  // succeed
-          const {total, limit, ties} = api_result;
+          const { total, limit, ties } = api_result;
 
           const page_mod = total % limit;
           const page_div = Math.trunc(total / limit);
@@ -134,9 +133,10 @@ class TieListWithHeaderPagination extends Component {
           <TieList
               ties={ ties }
               loaded={ loaded }
-              error={ error }>
+              error={ error }
+              location={ this.props.location }
+            >
           </TieList>
-
 
           <div className={ classes.centerDiv }>
             <Paper className={ classes.pagination }>

@@ -30,10 +30,10 @@ class TieListCache {
     this.tie_id_buffer = updated_tie_ids;
   }
 
-  fetchTie(promise, tie_id) {
+  fetchTie(tie_id, resolve, reject) {
     const cached_tie = this.id_to_ties[tie_id];
     if(cached_tie) {
-      return promise.resolve(cached_tie);
+      return resolve(cached_tie);
     };
 
     axios.get(`/api/tie/${tie_id}`, {
@@ -43,7 +43,7 @@ class TieListCache {
       .then(res => {
         var data = res.data;
         var tie = JSON.parse(data);
-        return promise.resolve(tie);
+        return resolve(tie);
       })
       .catch(res => {
         var error = 'unknown server error';
@@ -70,12 +70,12 @@ class TieListCache {
         console.log('set error to', error);
         // this.setState({error: error});
         // this.apiFailed(error);
-        promise.reject(error);
+        return reject(error);
       })
       .then(() => {
         console.log(`fetch tie remote ${tie_id} finished`);
       });
-    return promise;
+    // return promise;
   }
 
   fetchTieList(offset, limit, resolve, reject) {

@@ -127,10 +127,10 @@ def tie_gen():
         tie_1_content = f.read()
     tie_1 = {
         'media_previews': [
-            {'type': 'img', 'src': '/api/static/tie1.1.png'},
+            {'type': 'img', 'src': '/api/s/tie1.1.png'},
         ],
         'media': [
-            {'type': 'img', 'src': '/api/static/tie1.1.png'},
+            {'type': 'img', 'src': '/api/s/tie1.1.png'},
         ],
         'content': tie_1_content,
     }
@@ -140,14 +140,14 @@ def tie_gen():
 
     tie_2 = {
         'media_previews': [
-            {'type': 'img', 'src': '/api/static/tie2.1.preview.png'},
-            {'type': 'img', 'src': '/api/static/tie2.2.preview.png'},
-            {'type': 'img', 'src': '/api/static/tie2.3.preview.png'},
+            {'type': 'img', 'src': '/api/s/tie2.1.preview.png'},
+            {'type': 'img', 'src': '/api/s/tie2.2.preview.png'},
+            {'type': 'img', 'src': '/api/s/tie2.3.preview.png'},
         ],
         'media': [
-            {'type': 'img', 'src': '/api/static/tie2.1.png'},
-            {'type': 'img', 'src': '/api/static/tie2.2.png'},
-            {'type': 'img', 'src': '/api/static/tie2.3.png'},
+            {'type': 'img', 'src': '/api/s/tie2.1.png'},
+            {'type': 'img', 'src': '/api/s/tie2.2.png'},
+            {'type': 'img', 'src': '/api/s/tie2.3.png'},
         ],
         'content': tie_2_content,
     }
@@ -161,14 +161,6 @@ def tie_gen():
         'media': [
         ],
         'content': tie_3_content,
-    }
-
-    tie_3 = {
-        'img_previews': [
-        ],
-        'img': [
-        ],
-        'content': tie_2_content,
     }
     while True:
         yield tie_1
@@ -184,7 +176,7 @@ def tie_list():
     ties = []
     tie_yielder = tie_gen()
     for current_offset in range(limit):
-        tie = next(tie_yielder)
+        tie = dict(next(tie_yielder))
         tie['id'] = current_offset + offset
         ties.append(tie)
     result = {
@@ -193,7 +185,7 @@ def tie_list():
         'ties': ties
     }
 
-    time.sleep(1)
+    time.sleep(0.1)
 
     return flask.Response(
         json.dumps(result),
@@ -243,6 +235,11 @@ def tie_comment(slug):
         mimetype='application/json'
     )
 
+@app.route('/s/<path:filename>')
+def s_route(filename):
+    print(filename)
+    with open(os.path.join(this_root, filename), 'rb') as f:
+        return f.read()
 
 @app.route('/tie/<path:slug>/comment', methods=('POST',))
 def tie_comment_add(slug):

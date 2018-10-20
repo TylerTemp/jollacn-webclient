@@ -15,7 +15,7 @@ class TieWithComment extends Component {
 
   constructor(props) {
     super(props);
-    this.slug = this.props.match.params.slug;
+    this.id = this.props.match.params.id;
     this.state = {
       comment_limit: 10,
       comment_page_loaded: false,
@@ -42,7 +42,7 @@ class TieWithComment extends Component {
     let offset = (page - 1) * limit;
 
     axios.get(
-        `/api/tie/${this.slug}/comment?offset=${offset}&limit=${limit}`,
+        `/api/tie/${this.id}/comment?offset=${offset}&limit=${limit}`,
         {
           headers: {'Accept': 'application/json'},
           transformResponse: undefined
@@ -50,7 +50,7 @@ class TieWithComment extends Component {
       )
       .then(res => {
         let data = res.data;
-        console.log(`comment for tie/${this.slug} result:`, data);
+        console.log(`comment for tie/${this.id} result:`, data);
         let comments_result = JSON.parse(data);
 
         let total = comments_result.total;
@@ -121,14 +121,14 @@ class TieWithComment extends Component {
 
   render() {
 
-    const slug = this.slug;
+    const id = this.id;
     const { comment_loaded, comment_error, comments } = this.state
 
     return (
       <div>
 
         <Tie
-          slug={ slug }>
+          id={ id }>
         </Tie>
 
         <CommentList
@@ -137,7 +137,7 @@ class TieWithComment extends Component {
           comment_list={ comments }>
         </CommentList>
         <CommentAdd
-          api={ `/api/tie/${this.slug}/comment` }
+          api={ `/api/tie/${this.id}/comment` }
           commentAdd={ this.commentAdd.bind(this) }>
         </CommentAdd>
         <Pagination

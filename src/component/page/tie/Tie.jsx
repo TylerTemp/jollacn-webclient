@@ -22,6 +22,7 @@ const styles = (theme) => ({
 });
 
 
+@withStyles(styles)
 class Tie extends Component {
 
   constructor(props) {
@@ -41,62 +42,30 @@ class Tie extends Component {
   }
 
   fetchTie(id) {
+
+    const promise = new Promise((resolve, reject) => {
+      return tieListCache.fetchTie(id, resolve, reject);
+    });
+
     this.setState({
       loaded: false,
       error: null,
       id: id,
     });
-    axios.get(`/api/tie/${id}`, {
-        headers: {'Accept': 'application/json'},
-        transformResponse: undefined
-      })
-      .then(res => {
-        var data = res.data;
-        var tie = JSON.parse(data);
+
+    promise.then(
+      (tie) => {
         this.setState({loaded: true, error: null, tie: tie});
-      })
-      .catch(res => {
-        var error = 'unknown server error';
-        if (res.response) {
-            // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          var data = res.response.data;
-          console.log('response', data);
-          var json_resp = null;
-          try {
-            json_resp = JSON.parse(data);
-          } catch (e) {
-            // console.log(res.response);
-            error = `${res.response.status} ${res.response.statusText}`;
-          };
-          if(json_resp) {
-            error = json_resp.message || error;
-          };
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', res);
-          error = resp.message;
-        };
-        console.log('set error to', error);
-        this.setState({loaded: true, error: error});
-      })
-      .then(() => {
-        // console.log('always');
-        this.setState({loaded: true});
-      });
+      },
+      (error_msg) => {
+        this.setState({loaded: true, error: error_msg});
+      }
+    );
   }
 
   render() {
-    const { id, error } = this.state;
+    const { id, error, loaded } = this.state;
     const tie = this.props.tie || this.state.tie;
-    let loaded = this.state.loaded;
-    const check_id = this.props.id || parseInt(this.props.match.params.id);
-
-    if(check_id != id) {
-      console.log(`tie change slug from ${id} to ${check_id} when trying to render`)
-      loaded = false;
-      fetchTie(check_id);
-    };
 
     if (error) {
       return (
@@ -124,4 +93,4 @@ class Tie extends Component {
 }
 
 
-export default withStyles(styles)(Tie);
+export default Tie;

@@ -203,8 +203,7 @@ class CommentAdd extends Component {
               <FormControl className={ classes.formControlFullWidth }>
                 <Input
                   id="comment-content"
-                  multiline={ true }
-                  rows={ 2 }
+                  multiline
                   startAdornment={
                     <InputAdornment position="start">
                       <TextsmsOutlinedIcon className={ classes.flipIcon } />
