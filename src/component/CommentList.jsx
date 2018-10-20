@@ -45,7 +45,7 @@ class CommentList extends Component {
 
                       <header className="am-comment-hd">
                         <div className="am-comment-meta">
-                          评论于 <time>{ item.inserted_at}</time>
+                          { item.nickname } 评论于 <time>{ item.inserted_at }</time>
                         </div>
                       </header>
 

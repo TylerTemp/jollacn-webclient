@@ -192,7 +192,7 @@ class CommentAdd extends Component {
                       <EmailOutlinedIcon />
                     </InputAdornment>
                   }
-                  type="email" name="email" value={ comment.email } onChange={ this.onChange.bind(this) } placeholder="不会被显示和公布"
+                  type="email" name="email" value={ comment.email || '' } onChange={ this.onChange.bind(this) } placeholder="不会被显示和公布"
                 />
               </FormControl>
             </Grid>

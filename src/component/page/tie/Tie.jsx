@@ -19,6 +19,9 @@ const styles = (theme) => ({
   //     marginRight: 'auto',
   //   },
   // },
+  tieContent: {
+    fontSize: '1.5rem',
+  },
 });
 
 
@@ -38,7 +41,7 @@ class Tie extends Component {
   }
 
   componentDidMount() {
-    this.fetchTie(this.state.slug);
+    this.fetchTie(this.state.id);
   }
 
   fetchTie(id) {
@@ -66,11 +69,12 @@ class Tie extends Component {
   render() {
     const { id, error, loaded } = this.state;
     const tie = this.props.tie || this.state.tie;
+    const { classes } = this.props;
 
     if (error) {
       return (
         <div>
-            <p>ERROR: { error }</p>
+          <p>ERROR: { error }</p>
         </div>
       );
     };
@@ -84,9 +88,8 @@ class Tie extends Component {
     };
 
     return (
-      <Paper>
-        { tie.content }
-      </Paper>
+      <div className={ classes.tieContent } dangerouslySetInnerHTML={{__html: tie.content}}>
+      </div>
     );
 
   }

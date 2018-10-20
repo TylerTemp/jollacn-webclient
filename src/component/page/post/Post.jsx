@@ -101,7 +101,7 @@ class Post extends Component {
         } else {
             // Something happened in setting up the request that triggered an Error
             console.log('Error', res);
-            error = resp.message;
+            error = res.message;;
         };
         console.log('set error to', error);
         this.setState({error: error});

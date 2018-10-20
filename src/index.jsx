@@ -19,7 +19,7 @@ import PostListWithPagination from './component/page/post/PostListWithPagination
 import PostListWithHeaderPagination from './component/page/post/PostListWithHeaderPagination';
 import PostWithComment from './component/page/post/PostWithComment';
 // import TieListWithHeaderPagination from './component/page/tie/TieListWithHeaderPagination';
-import TieWithComment from './component/page/tie/TieWithComment';
+// import TieWithComment from './component/page/tie/TieWithComment';
 import TieModalSwitch from './component/page/tie/TieModalable';
 
 import './css/index.css';

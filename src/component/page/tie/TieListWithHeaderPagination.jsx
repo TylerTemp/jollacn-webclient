@@ -4,14 +4,14 @@ import {
     Switch
 } from 'react-router-dom';
 
-// import { observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+// import { computed } from 'mobx';
 // import axios from 'axios';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
-import tieListCache from '../../storage/TieListCache';
-// import { TieStore } from '../../store/TieStore';
+import tieListPaginationStore from '../../storage/TieListPaginationStore';
 import Pagination from '../../Pagination';
 import Header from '../../Header';
 import TieList from './TieList';
@@ -33,93 +33,42 @@ const styles = theme => ({
     'margin': '16px',
   },
 
+  contentWrapper: {
+    'padding': 12,
+  },
+
 });
 
 
-// @observer
 @withStyles(styles)
+@observer
 class TieListWithHeaderPagination extends Component {
 
   constructor(props) {
     super(props);
     let page_str = this.props.match.params.page;
     let page = page_str? parseInt(page_str): 1;
-    // this.limit = 50;
-    this.state = {
-      current_page: page,
-      total_page: page,
-      limit: 50,
-      loaded: true,
-      error: null,
-      ties: []
-    }
+    tieListPaginationStore.fetchTiesPage(page);
   }
 
-  componentDidMount() {
-    let page = this.state.current_page;
-    console.log('tie list with pagination, did mount to page', page);
-    this.fetchTiesPage(page);
-  }
-
-  fetchTiesPage(page = 1) {
-    this.setState({error: null, loaded: false, current_page: page});
-    console.log('fetching ties from page', page);
-    const limit = this.state.limit;
-    const offset = (page - 1) * limit;
-    const promise = new Promise((resolve, reject) => {
-      return tieListCache.fetchTieList(offset, limit, resolve, reject);
-    });
-    promise
-      .then(
-        (api_result) => {  // succeed
-          const { total, limit, ties } = api_result;
-
-          const page_mod = total % limit;
-          const page_div = Math.trunc(total / limit);
-          let total_page = page_div;
-          if(page_div == 0) {
-            total_page = 1;
-          } else if (page_mod != 0) {
-            total_page = page_div + 1;
-          };
-
-          this.setState({
-            'loaded': true,
-            'error': null,
-            'ties': ties,
-            'limit': limit,
-            'current_page': page,
-            'total_page': total_page,
-          });
-        },
-        (error_msg) => {  // failed
-          this.setState({
-            'loaded': true,
-            'error': error_msg,
-          });
-        }
-      )
-      .catch(
-        (error) => {
-          console.log(error);
-          this.setState({'loaded': true, 'error': 'Unknown Error'});
-        }
-      );
-  }
-
-  goToPage(num) {
-    console.log('post list with pagination goes to page', num);
-    this.fetchTiesPage(num);
-    // this.setState({current_page: num});
-  }
+  // @computed get total_page() {
+  //   return tieListPaginationStore.total_page;
+  // }
+  //
+  // @computed get current_page() {
+  //   return tieListPaginationStore.current_page;
+  // }
 
   render() {
-    const { error, loaded, ties } = this.state;
+    // let page_str = this.props.match.params.page;
+    // let page = page_str? parseInt(page_str): 1;
+
+    const { error, loaded, ties } = tieListPaginationStore;
 
     console.log('tie with pagination rendering', ties,
       ' is loaded: ', loaded, ' error: ', error,
-      'total_page:', this.state.total_page,
-      'current_page:', this.state.current_page
+      'total_page:', tieListPaginationStore.total_page,
+      'current_page:', tieListPaginationStore.current_page
     );
 
     const { classes } = this.props;
@@ -141,10 +90,10 @@ class TieListWithHeaderPagination extends Component {
           <div className={ classes.centerDiv }>
             <Paper className={ classes.pagination }>
               <Pagination
-                  total={ this.state.total_page }
-                  current={ this.state.current_page }
+                  total={ tieListPaginationStore.total_page }
+                  current={ tieListPaginationStore.current_page }
                   pageUrl={ (num) => `/tie/page/${num}` }
-                  goToPage={ (num) => this.goToPage(num) }>
+                  goToPage={ (num) => tieListPaginationStore.fetchTiesPage(num) }>
               </Pagination>
             </Paper>
           </div>

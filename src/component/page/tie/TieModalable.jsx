@@ -1,10 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
 import { withStyles } from '@material-ui/core/styles';
 
 import TieListWithHeaderPagination from './TieListWithHeaderPagination';
-import TieWithComment from './TieWithComment';
+import TiePage from './TiePage';
 import TieModal from './TieModal';
+import tieListPaginationStore from '../../storage/TieListPaginationStore';
 
 
 const styles = theme => ({
@@ -38,9 +40,20 @@ class TieModalSwitch extends React.Component {
     return (
       <React.Fragment>
         <Switch location={is_modal ? this.previousLocation : location}>
+          {/* TODO: fix: click to go to page 1 */}
           <Route path="/tie" exact component={TieListWithHeaderPagination} />
+          {/* <Route path="/tie" exact render={
+              ({match, location}) => {
+                match.params['page'] = '1';
+                tieListPaginationStore.fetchTiesPage(1);
+                return <TieListWithHeaderPagination
+                  match={ match }
+                  location={ location }
+                ></TieListWithHeaderPagination>
+              }
+            } /> */}
           <Route path="/tie/page/:page" exact component={TieListWithHeaderPagination} />
-          <Route path="/tie/:id" exact component={TieWithComment} />
+          <Route path="/tie/:id" exact component={TiePage} />
         </Switch>
         {
           is_modal

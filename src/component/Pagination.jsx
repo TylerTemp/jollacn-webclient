@@ -4,6 +4,8 @@ import {
     Link
 } from 'react-router-dom';
 
+// import { observer } from 'mobx-react';
+
 import { withStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -20,23 +22,25 @@ const styles = theme => ({
 });
 
 
-
+@withStyles(styles)
+// @observer
 class Pagination extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      current: this.props.current, //当前页码
+      // current: this.props.current, //当前页码
       display_range: this.props.display_range || 5,
       auto_left: this.props.auto_left,
       auto_right: this.props.auto_right,
-    }
+    };
+    this.goToPage = this.goToPage.bind(this);
   }
 
   goToPage(num) {
     console.log('pagination goes to page', num);
     // console.log(this.state);
-    this.setState({current: num});
+    // this.setState({current: num});
     // console.log(this.state);
     this.props.goToPage(num);  // parent call
   }
@@ -78,7 +82,13 @@ class Pagination extends Component {
           key={ page_display? undefined: page_number }
           className={ (page_number == current)? 'pagination active': 'pagination' }
           href={ `#${ page_number }` }
-          onClick={ this_disabled? (() => false) : (() => this.goToPage(page_number)).bind(this) }
+          onClick={ (evt) => {
+              evt.preventDefault();
+              if(!this_disabled) {
+                this.goToPage(page_number);
+              };
+            }
+          }
         >
         <Button
             variant='text'
@@ -94,7 +104,9 @@ class Pagination extends Component {
 
   render() {
     // console.log('on render props', this.props);
-    let current = this.state.current;
+    // let current = this.state.current;
+    let current = this.props.current;
+    // alert(`paging, status_current = ${current}; props_current = ${this.props.current}`)
     let display_range = this.state.display_range;
     let total = this.props.total;
 
@@ -147,4 +159,4 @@ class Pagination extends Component {
 
 
 // export default Pagination;
-export default withStyles(styles)(Pagination);
+export default (Pagination);

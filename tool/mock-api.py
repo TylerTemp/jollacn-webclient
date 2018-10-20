@@ -2,7 +2,17 @@ import flask
 import json
 import time
 import os
+import random
 
+try:
+    from io import BytesIO
+except ImportError:
+    try:
+        from cStringIO import StringIO as BytesIO
+    except ImportError:
+        from StringIO import StringIO as BytesIO
+
+import pagan
 
 this_root = os.path.dirname(__file__)
 
@@ -87,6 +97,8 @@ def comment_list(slug):
             {
                 'id': offset + 1,
                 'nickname': 'testnickname',
+                'inserted_at': '2018-08-08 08:80',
+                'avatar': '/api/avatar/{}.png'.format(time.time()),
                 # 'email': 'test_email@test.com',
                 'content': 'test comment content %s' % (offset + 1),
                 'inserted_at': '2018-08-08',
@@ -94,6 +106,8 @@ def comment_list(slug):
             {
                 'id': offset + 2,
                 'nickname': 'testnickname',
+                'inserted_at': '2018-08-08 08:80',
+                'avatar': '/api/avatar/{}.png'.format(time.time()),
                 # 'email': 'test_email@test.com',
                 'content': 'test comment content %s' % (offset + 2),
                 'inserted_at': '2018-08-08',
@@ -114,7 +128,11 @@ def comment_add(slug):
 
     result = dict(req)
 
-    result['id'] = int(str(time.time()).replace('.', ''))
+    result.update({
+        'id': int(str(time.time()).replace('.', '')),
+        'inserted_at': '2018-08-08 08:80',
+        'avatar': '/api/avatar/{}.png'.format(time.time()),
+    })
 
     return flask.Response(
         json.dumps(result),
@@ -193,19 +211,26 @@ def tie_list():
     )
 
 
-@app.route('/tie/<path:slug>')
-def tie(slug):
-    result = {
-        'content': 'test tie content {}'.format(slug)
-    }
+@app.route('/tie/<path:tie_id>')
+def tie(tie_id):
 
+    current_tie_id = int(tie_id)
+
+    ties = []
+    tie_yielder = tie_gen()
+    for current_offset in range(3):
+        tie = dict(next(tie_yielder))
+        tie['id'] = current_tie_id
+        ties.append(tie)
+
+    result = ties[current_tie_id % 3]
     return flask.Response(
         json.dumps(result),
         mimetype='application/json'
     )
 
 
-@app.route('/tie/<path:slug>/comment')
+@app.route('/tie/<path:slug>/comment', methods=('GET',))
 def tie_comment(slug):
 
     args = flask.request.args
@@ -218,6 +243,8 @@ def tie_comment(slug):
             {
                 'id': offset + 1,
                 'nickname': 'testnickname',
+                'inserted_at': '2018-08-08 08:80',
+                'avatar': '/api/avatar/{}.png'.format(time.time()),
                 'email': 'test_email@test.com',
                 'content': 'test tie {} comment content {}'.format(slug, (offset + 1)),
             },
@@ -225,6 +252,8 @@ def tie_comment(slug):
                 'id': offset + 2,
                 'nickname': 'testnickname',
                 'email': 'test_email@test.com',
+                'inserted_at': '2018-08-08 08:80',
+                'avatar': '/api/avatar/{}.png'.format(time.time()),
                 'content': 'test tie {} comment content {}'.format(slug, (offset + 2)),
             },
         ]
@@ -248,12 +277,26 @@ def tie_comment_add(slug):
 
     result = dict(req)
 
-    result['id'] = int(str(time.time()).replace('.', ''))
+    result.update({
+        'id': int(str(time.time()).replace('.', '')),
+        'inserted_at': '2018-08-08 08:80',
+        'avatar': '/api/avatar/{}.png'.format(time.time()),
+    })
+
 
     return flask.Response(
         json.dumps(result),
         mimetype='application/json'
     )
+
+
+@app.route('/avatar/<path:avatar_id>')
+def avatar(avatar_id):
+    with BytesIO() as output:
+        img = pagan.generator.generate(avatar_id, pagan.generator.HASH_MD5)
+        # img = pagan.generator.generate(inpt, lambda x: x)
+        img.save(output, format='PNG')
+        return output.getvalue()
 
 
 app.run(port=8082, debug=True)
