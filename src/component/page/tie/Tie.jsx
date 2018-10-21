@@ -158,7 +158,7 @@ class Tie extends Component {
           tie.medias.length > 0 && (
             <Card>
               <CardActionArea onClick={ this.openMediaViewer.bind(this) }>
-                { this.makeMediaPreview(tie.medias) }
+                { this.makeMediaPreview(tie.media_previews) }
               </CardActionArea>
             </Card>
           )
