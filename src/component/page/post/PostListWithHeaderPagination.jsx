@@ -6,7 +6,7 @@ import Divider from '@material-ui/core/Divider';
 
 import axios from 'axios';
 
-import Header from '../../Header'
+import Header from '../../Header';
 import PostListWithPagination from './PostListWithPagination';
 
 

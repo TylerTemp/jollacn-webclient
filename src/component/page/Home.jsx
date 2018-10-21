@@ -15,9 +15,9 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-
 import BlogHeaderImg from '../../images/blog_header.png';
-import Header from '../Header'
+import Header from '../Header';
+import Footer from '../Footer';
 import PostListWithPagination from './post/PostListWithPagination';
 import tieListCache from '../storage/TieListCache';
 
@@ -119,7 +119,7 @@ class Home extends Component {
     const { classes } = this.props;
 
     return (
-      <div>
+      <React.Fragment>
 
         <Header at="home">
           <div className={ classes.headerImgWrapper }>
@@ -145,8 +145,8 @@ class Home extends Component {
                     <Card>
                       <CardActionArea>
                         <CardContent>
-                            <div className={ classes.tieContent } dangerouslySetInnerHTML={{__html: tie.content}}>
-                            </div>
+                          <div className={ classes.tieContent } dangerouslySetInnerHTML={{__html: tie.content}}>
+                          </div>
                         </CardContent>
                       </CardActionArea>
                     </Card>
@@ -164,7 +164,8 @@ class Home extends Component {
           </div>
           <PostListWithPagination></PostListWithPagination>
         </div>
-      </div>
+        <Footer></Footer>
+      </React.Fragment>
     );
   }
 }

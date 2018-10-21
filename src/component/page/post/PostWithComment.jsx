@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import ChevronLeftSharpIcon from '@material-ui/icons/ChevronLeftSharp';
 
 import axios from 'axios';
 
@@ -44,10 +46,18 @@ const styles = (theme) => ({
   },
   textRight: {
     'text-align': 'right',
-  }
+  },
+
+  backButtonWrapper: {
+    'padding-bottom': '10px',
+  },
+  backButton: {
+    'color': 'white',
+  },
 });
 
 
+@withStyles(styles)
 class PostWithComment extends Component {
 
   constructor(props) {
@@ -79,8 +89,9 @@ class PostWithComment extends Component {
     let offset = (page - 1) * limit;
 
     axios.get(
-        `/api/post/${this.slug}/comment?offset=${offset}&limit=${limit}`,
+        `/api/post/${this.slug}/comment`,
         {
+          params: {'offset': offset, 'limit': limit},
           headers: {'Accept': 'application/json'},
           transformResponse: undefined
         }
@@ -162,6 +173,9 @@ class PostWithComment extends Component {
 
     const { classes } = this.props;
 
+    const { location } = this.props;
+    const back_page = (location.state && location.state['backPage']) || 1;
+
     return (
       <React.Fragment>
         <Header at="post"></Header>
@@ -169,6 +183,13 @@ class PostWithComment extends Component {
         <div className={classes.headerContentSpace}></div>
 
         <div className={classes.pageWidthLimit}>
+
+          <div className={ classes.backButtonWrapper }>
+            <Button className={ classes.backButton } onClick={ () => { this.props.history.push(`/post/page/${back_page}`) } }>
+              <ChevronLeftSharpIcon />
+              返回
+            </Button>
+          </div>
 
           <Paper>
             <Post
@@ -210,5 +231,4 @@ class PostWithComment extends Component {
 }
 
 
-// export default PostWithComment;
-export default withStyles(styles)(PostWithComment);
+export default PostWithComment;

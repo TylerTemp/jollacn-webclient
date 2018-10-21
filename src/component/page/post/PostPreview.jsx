@@ -46,18 +46,27 @@ class PostPreview extends Component {
 
       const { slug, cover, title, description} = this.props;
 
+      const { backPage=1 } = this.props;
+      // console.log(`preview backpage = ${backPage}; props.backPage=${this.props.backPage}`)
+
       return (
         <Card className={ classes.card }>
-          <Link to={ `/post/${slug}` } className={ classes.muteLink }>
+          { cover && <Link to={{
+                'pathname': `/post/${slug}`,
+                'state': { backPage: backPage }
+              }} className={ classes.muteLink }>
             <CardMedia
               component='img'
               className={ classes.media }
               image={ cover }
               title={ title }
             />
-          </Link>
+          </Link>}
           <CardContent>
-            <Link to={ `/post/${slug}` } className={ classes.muteLink }>
+            <Link to={{
+                  'pathname': `/post/${slug}`,
+                  'state': { backPage: backPage }
+                }} className={ classes.muteLink }>
               <Typography gutterBottom variant="headline" component="h2">
                 { title }
               </Typography>
@@ -65,7 +74,10 @@ class PostPreview extends Component {
             <Typography component="div" dangerouslySetInnerHTML={{__html: description}}>
             </Typography>
           </CardContent>
-          <Link to={ `/post/${slug}` } className={ classes.muteLink }>
+          <Link to={{
+                'pathname': `/post/${slug}`,
+                'state': { backPage: backPage }
+              }} className={ classes.muteLink }>
             <CardActions>
                 <Button size="small" color="primary">
                   阅读 &gt;&gt;

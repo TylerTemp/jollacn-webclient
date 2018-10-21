@@ -105,7 +105,9 @@ class TiePage extends React.Component {
   render() {
     const { classes } = this.props;
 
-    const { return_to="/tie" } = this.props.location.state;
+    const location_state = this.props.location.state || {};
+
+    const { return_to="/tie" } = location_state;
 
     // console.log();
 

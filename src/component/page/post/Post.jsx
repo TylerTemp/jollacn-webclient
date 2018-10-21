@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 import axios from 'axios';
 
+import '../../../css/post.css';
 
 const styles = {
   // paper: {
@@ -113,8 +114,7 @@ class Post extends Component {
   }
 
   render() {
-    const { slug } = this.state;
-    const { error, post } = this.state;
+    const { slug, error, post } = this.state;
     let loaded = this.state.loaded;
 
     if(this.props.slug != slug) {

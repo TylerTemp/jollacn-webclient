@@ -132,7 +132,7 @@ class PostListWithPagination extends Component {
     // this.setState({current_page: num});
   }
 
-  renderPost(error, post_infos_loaded, post_infos) {
+  renderPost(error, post_infos_loaded, post_infos, back_page) {
     if(error) {
       return error;
     };
@@ -149,6 +149,7 @@ class PostListWithPagination extends Component {
               cover={ post_info.cover }
               title={ post_info.title }
               description={ post_info.description }
+              backPage={ back_page }
             >
           </PostPreview>
         </Grid>);
@@ -169,7 +170,7 @@ class PostListWithPagination extends Component {
     return (
       <React.Fragment>
         <Grid container spacing={ 40 }>
-          { this.renderPost(error, post_infos_loaded, post_infos) }
+          { this.renderPost(error, post_infos_loaded, post_infos, this.state.current_page) }
         </Grid>
 
         <Divider className={ classes.postListPaginationDivider } />
