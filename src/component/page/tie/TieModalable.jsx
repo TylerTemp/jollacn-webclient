@@ -30,6 +30,9 @@ class TieModalSwitch extends React.Component {
 
   render() {
     const { location } = this.props;
+
+    console.log('location = ', location);
+
     const is_modal = !!(
       location.state &&
       location.state.modal &&
@@ -61,10 +64,11 @@ class TieModalSwitch extends React.Component {
                 path="/tie/:id"
                 exact
                 render={
-                  ({match}) => {
+                  ({match, location, history}) => {
                     return <TieModal
                       match={ match }
-                      closeCallback={ () => { console.log(`back to ${back_path}`); this.props.history.push(back_path)} }
+                      location={ location }
+                      history={ history }
                     ></TieModal>
                   }
                 }

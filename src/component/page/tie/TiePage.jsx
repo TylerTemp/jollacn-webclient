@@ -78,7 +78,14 @@ const styles = theme => ({
 
   textRight: {
     'text-align': 'right',
-  }
+  },
+
+  pageFooterDivider: {
+    'height': 0,
+    'border': 'none',
+    'margin-top': '15px',
+    'margin-bottom': '15px',
+  },
 
 });
 
@@ -98,6 +105,10 @@ class TiePage extends React.Component {
   render() {
     const { classes } = this.props;
 
+    const { return_to="/tie" } = this.props.location.state;
+
+    // console.log();
+
     return (
       <React.Fragment>
         <Header at="tie"></Header>
@@ -108,7 +119,7 @@ class TiePage extends React.Component {
           <Paper>
             <div className={ classes.tieBox }>
               <div>
-                <Button color="inherit" onClick={ (e) => {e.preventDefault(); this.props.history.push("/tie")} }>
+                <Button color="inherit" onClick={ (e) => {e.preventDefault(); this.props.history.push(return_to)} }>
                   <ChevronLeftSharpIcon />
                   返回
                 </Button>
@@ -149,6 +160,7 @@ class TiePage extends React.Component {
             </div>
           </Paper>
         </div>
+        <Divider className={ classes.pageFooterDivider } />
       </React.Fragment>
     );
   }

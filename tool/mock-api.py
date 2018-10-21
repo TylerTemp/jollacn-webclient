@@ -31,14 +31,14 @@ def post_list():
             {
                 'slug': 'test %s left' % (offset + num),
                 'title': 'test title %s left' % (offset + num),
-                'cover': 'https://dn-jolla.qbox.me/sailfish-os-2.2.0-update/cover.jpg',
+                'cover': 'https://cdn-blog.jolla.com/wp-content/uploads/2018/02/MWC18_640.jpg',
                 'description': 'description',
                 'author': 'test_author',
             },
             {
                 'slug': 'test %s right' % (offset + num),
                 'title': 'test title %s right' % (offset + num),
-                'cover': 'https://dn-jolla.qbox.me/gemini/cover.jpg',
+                'cover': 'https://cdn-blog.jolla.com/wp-content/uploads/2018/01/SailfishX_640.jpg',
                 'description': 'description2',
                 'author': 'test_author',
             },
@@ -63,7 +63,7 @@ def post(slug):
     with open(os.path.join(this_root, 'post_content.html'), 'r', encoding='utf-8') as f:
         result = {
             'title': 'Sailfish系统2.2.0 Mouhijoki已向提早更新用户放送(%s)' % slug,
-            'headerimg': 'https://dn-jolla.qbox.me/sailfish-os-2.2.0-update/banner.jpg',
+            'headerimg': 'https://cdn-blog.jolla.com/wp-content/uploads/2017/12/Suomi100_1024.jpg',
             'description': '<p>Xperia X支持指纹、修正拍照，安卓支持性能提升，添加Emoji支持</p>',
             'content': f.read(),
             'author': 'test author',

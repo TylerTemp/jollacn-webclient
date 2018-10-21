@@ -61,12 +61,13 @@ class TieModal extends React.Component {
     this.state = {
       open: true,
       // current_comment_page: 1,
+      return_to: '/tie',
     }
-    console.log('inited');
+    // console.log('inited');
   }
 
   componentDidMount() {
-    console.log('did mount');
+    // console.log('did mount');
     const tie_id = this.props.match.params.id;
     // alert(`tie modal tie id = ${tie_id}`);
     commentListPaginationStore.setApi(`/api/tie/${tie_id}/comment`);
@@ -79,20 +80,19 @@ class TieModal extends React.Component {
 
   handleClose() {
     this.setState({ open: false });
-    const closeCallback = this.props.closeCallback || this.emptyFunction;
-    closeCallback();
+    const state_return_to = this.state.return_to;
+    const { return_to=state_return_to } = this.props.location.state;
+    this.props.history.push(return_to);
   }
 
-  emptyFunction() {
-    ;
-  }
+  // emptyFunction() {
+  //   ;
+  // }
 
   render() {
     const { classes } = this.props;
 
-    // TODO: better solution?
-
-    // const comments = commentListPaginationStore.comments.map((comment, _index) => (comment));
+    // console.log('tie modal location state', this.props.location.state);
 
     return (
       <Dialog

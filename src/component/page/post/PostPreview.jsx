@@ -24,9 +24,14 @@ const styles = {
   media: {
     // height: 140,
   },
+  muteLink: {
+    'color': 'inherit',
+    'text-decoration': 'inherit',
+  },
 };
 
 
+@withStyles(styles)
 class PostPreview extends Component {
 
     constructor(props) {
@@ -43,7 +48,7 @@ class PostPreview extends Component {
 
       return (
         <Card className={ classes.card }>
-          <Link to={ `/post/${slug}` }>
+          <Link to={ `/post/${slug}` } className={ classes.muteLink }>
             <CardMedia
               component='img'
               className={ classes.media }
@@ -52,26 +57,26 @@ class PostPreview extends Component {
             />
           </Link>
           <CardContent>
-            <Link to={ `/post/${slug}` }>
+            <Link to={ `/post/${slug}` } className={ classes.muteLink }>
               <Typography gutterBottom variant="headline" component="h2">
                 { title }
               </Typography>
             </Link>
-            <Typography component="p" dangerouslySetInnerHTML={{__html: description}}>
+            <Typography component="div" dangerouslySetInnerHTML={{__html: description}}>
             </Typography>
           </CardContent>
-          <CardActions>
-            <Link to={ `/post/${slug}` }>
-              <Button size="small" color="primary">
-                阅读 &gt;&gt;
-              </Button>
-            </Link>
-          </CardActions>
+          <Link to={ `/post/${slug}` } className={ classes.muteLink }>
+            <CardActions>
+                <Button size="small" color="primary">
+                  阅读 &gt;&gt;
+                </Button>
+            </CardActions>
+          </Link>
         </Card>
       );
     }
 }
 
 
-export default withStyles(styles)(PostPreview);
+export default PostPreview;
 // export default PostList;

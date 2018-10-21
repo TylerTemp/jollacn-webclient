@@ -138,7 +138,7 @@ class TieList extends Component {
                         <CardContent>
                           <Link className={ classes.muteLink } to={{
                                 'pathname': `/tie/${tie.id}`,
-                                'state': { modal: true, modalTie: true, returnTo: this.props.location.pathname }
+                                'state': { modal: true, modal_tie: true, return_to: this.props.location.pathname }
                               }}>
                             <div className={ classes.tieContent } dangerouslySetInnerHTML={{__html: tie.content}}>
                             </div>

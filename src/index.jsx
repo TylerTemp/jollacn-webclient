@@ -29,17 +29,28 @@ class App extends Component {
 
   previousLocation = this.props.location;
 
-  componentWillUpdate(nextProps) {
-    const { location } = this.props;
-    if (
-      nextProps.history.action !== "POP" &&
-      (!location.state || !location.state.modal)
-    ) {
-      this.previousLocation = this.props.location;
-    }
-  }
+  // componentWillUpdate(nextProps) {
+  //   const { location } = this.props;
+  //   if (
+  //     nextProps.history.action !== "POP" &&
+  //     (!location.state || !location.state.modal)
+  //   ) {
+  //     this.previousLocation = this.props.location;
+  //   }
+  // }
 
   render() {
+
+    // const { location } = this.props;
+    // const is_modal = !!(
+    //   location &&
+    //   location.state &&
+    //   location.state.modal &&
+    //   this.previousLocation !== location
+    // );
+    //
+    // alert(`is_modal = ${is_modal}`);
+
     return (
       <React.Fragment>
         <CssBaseline></CssBaseline>
@@ -51,10 +62,6 @@ class App extends Component {
             <Route exact path="/post/page/:page" component={PostListWithHeaderPagination}/>
             <Route exact path="/post/:slug" component={PostWithComment}/>
 
-            {/* <Route exact path="/tie" component={TieListWithHeaderPagination}/> */}
-            {/* <Route exact path="/tie/page/:page" component={TieListWithHeaderPagination}/> */}
-
-            {/* <Route exact path="/tie/:id" component={TieWithComment}/> */}
             <Route component={TieModalSwitch} />
             <Route component={NotFound} />
           </Switch>
