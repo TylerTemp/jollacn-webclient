@@ -3,5 +3,7 @@
 ```bash
 npm install
 sudo npm install webpack-dev-server --g
-webpack-dev-server
 ```
+
+*   to start: `npm start`
+*   to build: `npm build`
