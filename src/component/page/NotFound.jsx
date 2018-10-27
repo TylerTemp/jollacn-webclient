@@ -36,6 +36,7 @@ const styles = (theme) => ({
 });
 
 
+@withStyles(styles)
 class NotFound extends Component {
 
   render() {
@@ -62,5 +63,4 @@ class NotFound extends Component {
 }
 
 
-// export default Home;
-export default withStyles(styles)(NotFound);
+export default NotFound;

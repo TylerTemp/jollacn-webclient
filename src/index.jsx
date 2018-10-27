@@ -16,6 +16,7 @@ import NotFound from './component/page/NotFound';
 // import Layout from './component/Layout'
 // import {default as PostList} from './component/page/post/List'
 import PostListWithPagination from './component/page/post/PostListWithPagination';
+import RedirectPostSlug from './component/page/post/RedirectPostSlug';
 import PostListWithHeaderPagination from './component/page/post/PostListWithHeaderPagination';
 import PostWithComment from './component/page/post/PostWithComment';
 // import TieListWithHeaderPagination from './component/page/tie/TieListWithHeaderPagination';
@@ -62,7 +63,8 @@ class App extends Component {
             <Route exact path="/post/page/:page" component={PostListWithHeaderPagination}/>
             <Route exact path="/post/:slug" component={PostWithComment}/>
 
-            <Route component={TieModalSwitch} />
+            <Route path="/tie" component={TieModalSwitch} />
+            <Route exact path="/:post_slug" component={RedirectPostSlug} />
             <Route component={NotFound} />
           </Switch>
         </Router>
