@@ -8,9 +8,13 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 // import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
+import classNames from 'classnames';
+import { UniversalStyle as Style } from 'react-css-component';
+
+import Lightbox from 'lightbox-react';
+import 'lightbox-react/style.css';
 
 import axios from 'axios';
 
@@ -30,6 +34,30 @@ const styles = (theme) => ({
   // },
   tieContent: {
     fontSize: '1.5rem',
+  },
+
+  absoluteCenter: {
+    'margin': 'auto',
+    'position': 'absolute',
+    'top': 0,
+    'left': 0,
+    'bottom': 0,
+    'right': 0,
+
+  },
+  playBtn: {
+    'z-index': 1,
+    'font-size': '100px',
+    'color': '#6fcaff',
+    // 'box-shadow': '0px 0px 38px -1px rgba(0,0,0,0.75)',
+    'filter': 'drop-shadow(0px 0px 5px #c5c5c5)',
+  },
+  videoWrapper: {
+    'text-align': 'center',
+  },
+  video: {
+    // 'width': '100%',
+    // 'height': '60%',
   },
 });
 
@@ -79,7 +107,7 @@ class Tie extends Component {
   }
 
   // TODO: video media?
-  makeMediaPreview(previews) {
+  makeMediaPreview(previews, classes) {
     // console.log('previews:', previews);
 
     const preview_length = previews.length;
@@ -92,12 +120,18 @@ class Tie extends Component {
 
     if(preview_length == 1) {
       const tile = previews[0];
-      return <img src={ tile.src } width='100%' height='auto' style={{ width: '100%', height: 'auto', marginBottom: '-3px' }} />
+      return (
+        <React.Fragment>
+          { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
+          <img src={ tile.src } width='100%' height='auto' style={{ width: '100%', height: 'auto', marginBottom: '-3px' }} />
+        </React.Fragment>
+      )
     } else if(preview_length == 2) {
       <GridList cellHeight={oneCellHeight} cols={2} spacing={ 1 }>
         {
           previews.map(tile => (
             <GridListTile key={ tile.src }>
+              { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
               <img src={ tile.src } />
             </GridListTile>))
         }
@@ -107,11 +141,13 @@ class Tie extends Component {
       const rest_tile = previews.slice(1);
       return <GridList cellHeight={oneCellHeight / 2} cols={rest_tile.length} spacing={ 1 }>
         <GridListTile key={ first_tile.src } cols={ rest_tile.length } rows={ 1 }>
+          { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
           <img src={ first_tile.src } />
         </GridListTile>
         {
           rest_tile.map(tile => (
             <GridListTile key={ tile.src }>
+              { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
               <img src={ tile.src } />
             </GridListTile>))
         }
@@ -147,7 +183,52 @@ class Tie extends Component {
 
     const { media_index } = this.state;
 
-    const media_srcs = tie.medias.map((media) => (media['src']));
+    const media_srcs = tie.medias.map((media) => {
+      if(media['type'] == 'img') {
+        return media['src'];
+      };
+      return (
+        <div className={ classes.videoWrapper }>
+          <video className={ classes.video } controls crossOrigin="anonymous" poster={ media['poster'] }>
+            抱歉，你的浏览器不支持<code>video</code>元素
+            {
+              media['sources'].map(({mime, src}, index) => (
+                <source key={ `${index}-${src}` } src={ src } type={ mime } />
+              ))
+            }
+            {
+              media['subtitles'] && media['subtitles'].map((subtitle, index) => (
+                <track
+                  key={ `${index}-${subtitle['src']}` }
+                  default={ index == 0 }
+                  kind="subtitles"
+                  label={ subtitle['label'] }
+                  src={ subtitle['src'] }
+                  srclang={ subtitle['srclang'] } />
+              ))
+            }
+          </video>
+        </div>
+      )
+    });
+
+    let lightbox_css = `
+    .ril-image-current {
+      top: 0;
+    }`;
+
+    for (let index = 0; index < tie.medias.length; index++) {
+      let current_media = tie.medias[index];
+      if(current_media['type'] == 'video') {
+        lightbox_css = `
+          .ril-image-current {
+            top: unset;
+          }
+        `;
+        break;
+      }
+    }
+
     const media_count = media_srcs.length;
 
     return (
@@ -158,36 +239,40 @@ class Tie extends Component {
           tie.medias.length > 0 && (
             <Card>
               <CardActionArea onClick={ this.openMediaViewer.bind(this) }>
-                { this.makeMediaPreview(tie.media_previews) }
+                { this.makeMediaPreview(tie.media_previews, classes) }
               </CardActionArea>
             </Card>
           )
         }
         {
           this.state.media_viewer_is_open && (
-            <Lightbox
-              reactModalStyle={{
-                overlay: {
-                  zIndex: 2000,
+            <React.Fragment>
+              <Style css={ lightbox_css } />
+              <Lightbox
+                reactModalStyle={{
+                  overlay: {
+                    zIndex: 2000,
+                  }
+                }}
+                enableZoom={ tie.medias[media_index]['type'] == 'img' }
+                imageCaption={tie.medias[media_index]['type'] == 'img' && <div dangerouslySetInnerHTML={{__html: tie.content}}></div>}
+                imageTitle={tie.medias[media_index]['title'] || tie.medias[media_index]['alt'] || false}
+                mainSrc={media_srcs[media_index]}
+                nextSrc={media_srcs[(media_index + 1) % media_count]}
+                prevSrc={media_srcs[(media_index + media_count - 1) % media_count]}
+                onCloseRequest={() => this.setState({ media_viewer_is_open: false })}
+                onMovePrevRequest={() =>
+                  this.setState({
+                    media_index: (media_index + media_count - 1) % media_count,
+                  })
                 }
-              }}
-              imageCaption={<div dangerouslySetInnerHTML={{__html: tie.content}}></div>}
-              imageTitle={tie.medias[media_index]['title'] || tie.medias[media_index]['alt'] || false}
-              mainSrc={media_srcs[media_index]}
-              nextSrc={media_srcs[(media_index + 1) % media_count]}
-              prevSrc={media_srcs[(media_index + media_count - 1) % media_count]}
-              onCloseRequest={() => this.setState({ media_viewer_is_open: false })}
-              onMovePrevRequest={() =>
-                this.setState({
-                  media_index: (media_index + media_count - 1) % media_count,
-                })
-              }
-              onMoveNextRequest={() =>
-                this.setState({
-                  media_index: (media_index + 1) % media_count,
-                })
-              }
-            />
+                onMoveNextRequest={() =>
+                  this.setState({
+                    media_index: (media_index + 1) % media_count,
+                  })
+                }
+                />
+            </React.Fragment>
           )
         }
       </React.Fragment>

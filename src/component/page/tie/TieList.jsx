@@ -13,8 +13,13 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 
-import Lightbox from 'react-image-lightbox';
+import classNames from 'classnames';
+import { UniversalStyle as Style } from 'react-css-component';
+
+import Lightbox from 'lightbox-react';
+import 'lightbox-react/style.css';
 
 
 const styles = theme => ({
@@ -24,6 +29,29 @@ const styles = theme => ({
   muteLink: {
     'color': 'inherit',
     'text-decoration': 'inherit',
+  },
+  absoluteCenter: {
+    'margin': 'auto',
+    'position': 'absolute',
+    'top': 0,
+    'left': 0,
+    'bottom': 0,
+    'right': 0,
+
+  },
+  playBtn: {
+    'z-index': 1,
+    'font-size': '100px',
+    'color': '#6fcaff',
+    // 'box-shadow': '0px 0px 38px -1px rgba(0,0,0,0.75)',
+    'filter': 'drop-shadow(0px 0px 5px #c5c5c5)',
+  },
+  videoWrapper: {
+    'text-align': 'center',
+  },
+  video: {
+    // 'width': '100%',
+    // 'height': '60%',
   }
 });
 
@@ -42,8 +70,11 @@ class TieList extends Component {
     }
 
     // TODO: video media?
-    makeMediaPreview(previews) {
+    makeMediaPreview(previews, classes) {
       // console.log('previews:', previews);
+      // previews.map((preview, _index) => {
+      //   console.log(`${preview["type"]}, ${preview["src"]}`)
+      // })
 
       const preview_length = previews.length;
 
@@ -55,6 +86,7 @@ class TieList extends Component {
         const tile = previews[0];
         return <GridList cellHeight={200} cols={1}>
           <GridListTile key={ tile.src }>
+            { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
             <img src={ tile.src } />
           </GridListTile>
         </GridList>
@@ -63,6 +95,7 @@ class TieList extends Component {
           {
             previews.map(tile => (
               <GridListTile key={ tile.src }>
+                { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
                 <img src={ tile.src } />
               </GridListTile>))
           }
@@ -72,11 +105,13 @@ class TieList extends Component {
         const rest_tile = previews.slice(1);
         return <GridList cellHeight={100} cols={rest_tile.length} spacing={ 1 }>
           <GridListTile key={ first_tile.src } cols={ rest_tile.length } rows={ 1 }>
+            { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
             <img src={ first_tile.src } />
           </GridListTile>
           {
             rest_tile.map(tile => (
               <GridListTile key={ tile.src }>
+                { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
                 <img src={ tile.src } />
               </GridListTile>))
           }
@@ -120,7 +155,52 @@ class TieList extends Component {
 
       const { media_index, media_viewer_is_open, media_viewer_content, media_viewer_medias } = this.state;
 
-      const media_srcs = media_viewer_medias.map((media) => (media['src']));
+      const media_srcs = media_viewer_medias.map((media) => {
+        if(media['type'] == 'img') {
+          return media['src'];
+        };
+        return (
+          <div className={ classes.videoWrapper }>
+            <video className={ classes.video } controls crossOrigin="anonymous" poster={ media['poster'] }>
+              抱歉，你的浏览器不支持<code>video</code>元素
+              {
+                media['sources'].map(({mime, src}, index) => (
+                  <source key={ `${index}-${src}` } src={ src } type={ mime } />
+                ))
+              }
+              {
+                media['subtitles'] && media['subtitles'].map((subtitle, index) => (
+                  <track
+                    key={ `${index}-${subtitle['src']}` }
+                    default={ index == 0 }
+                    kind="subtitles"
+                    label={ subtitle['label'] }
+                    src={ subtitle['src'] }
+                    srclang={ subtitle['srclang'] } />
+                ))
+              }
+            </video>
+          </div>
+        )
+      });
+
+      let lightbox_css = `
+      .ril-image-current {
+        top: 0;
+      }`;
+
+      for (let index = 0; index < media_viewer_medias.length; index++) {
+        let current_media = media_viewer_medias[index];
+        if(current_media['type'] == 'video') {
+          lightbox_css = `
+            .ril-image-current {
+              top: unset;
+            }
+          `;
+          break;
+        }
+      }
+
       const media_count = media_srcs.length;
 
       return (
@@ -132,7 +212,7 @@ class TieList extends Component {
                   <Grid item xs={ 12 / 1 } md={ 12 / 3 } lg={ 12 / 4 } >
                     <Card>
                       <CardActionArea onClick={ () => { this.openMediaViewer(tie.content, tie.medias) } }>
-                          { this.makeMediaPreview(tie.media_previews) }
+                        { this.makeMediaPreview(tie.media_previews, classes) }
                       </CardActionArea>
                       <CardActionArea>
                         <CardContent>
@@ -154,29 +234,33 @@ class TieList extends Component {
 
           {
             media_viewer_is_open && (
-              <Lightbox
-                reactModalStyle={{
-                  overlay: {
-                    zIndex: 2000,
+              <React.Fragment>
+                <Style css={ lightbox_css } />
+                <Lightbox
+                  reactModalStyle={{
+                    overlay: {
+                      zIndex: 2000,
+                    },
+                  }}
+                  enableZoom={ media_viewer_medias[media_index]['type'] == 'img' }
+                  imageCaption={media_viewer_medias[media_index]['type'] == 'img' && <div dangerouslySetInnerHTML={{__html: media_viewer_content}}></div>}
+                  imageTitle={media_viewer_medias[media_index]['title'] || media_viewer_medias[media_index]['alt'] || false}
+                  mainSrc={media_srcs[media_index]}
+                  nextSrc={media_srcs[(media_index + 1) % media_count]}
+                  prevSrc={media_srcs[(media_index + media_count - 1) % media_count]}
+                  onCloseRequest={() => this.setState({ media_viewer_is_open: false })}
+                  onMovePrevRequest={() =>
+                    this.setState({
+                      media_index: (media_index + media_count - 1) % media_count,
+                    })
                   }
-                }}
-                imageCaption={<div dangerouslySetInnerHTML={{__html: media_viewer_content}}></div>}
-                imageTitle={media_viewer_medias[media_index]['title'] || media_viewer_medias[media_index]['alt'] || false}
-                mainSrc={media_srcs[media_index]}
-                nextSrc={media_srcs[(media_index + 1) % media_count]}
-                prevSrc={media_srcs[(media_index + media_count - 1) % media_count]}
-                onCloseRequest={() => this.setState({ media_viewer_is_open: false })}
-                onMovePrevRequest={() =>
-                  this.setState({
-                    media_index: (media_index + media_count - 1) % media_count,
-                  })
-                }
-                onMoveNextRequest={() =>
-                  this.setState({
-                    media_index: (media_index + 1) % media_count,
-                  })
-                }
-              />
+                  onMoveNextRequest={() =>
+                    this.setState({
+                      media_index: (media_index + 1) % media_count,
+                    })
+                  }
+                />
+              </React.Fragment>
             )
           }
 
