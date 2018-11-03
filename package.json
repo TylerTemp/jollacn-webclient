@@ -1,6 +1,6 @@
 {
   "name": "jollacn",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "jolla Chinese blog and more",
   "main": "index.js",
   "scripts": {

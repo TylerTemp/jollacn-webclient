@@ -43,6 +43,12 @@ const styles = (theme) => ({
     'text-align': 'center',
     'padding-top': '40px',
     'padding-bottom': '25px',
+    'padding-left': '10px',
+    'padding-right': '10px',
+  },
+  headerImg: {
+    'width': '100%',
+    'maxWidth': '575px',
   },
   miniTieWrapper: {
   },
@@ -124,7 +130,7 @@ class Home extends Component {
         <Header at="home">
           <div className={ classes.headerImgWrapper }>
             <Link to="/">
-              <img src={ BlogHeaderImg } alt="Jolla非官方中文博客" />
+              <img src={ BlogHeaderImg } alt="Jolla非官方中文博客" className={ classes.headerImg } />
             </Link>
           </div>
         </Header>

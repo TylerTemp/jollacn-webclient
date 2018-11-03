@@ -33,6 +33,7 @@ const styles = theme => ({
 });
 
 
+@withStyles(styles)
 class Header extends Component {
 
   render() {
@@ -100,4 +101,4 @@ class Header extends Component {
 
 
 // export default Header
-export default withStyles(styles)(Header);
+export default Header;
