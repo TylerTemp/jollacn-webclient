@@ -91,7 +91,7 @@ class TieList extends Component {
           </GridListTile>
         </GridList>
       } else if(preview_length == 2) {
-        <GridList cellHeight={200} cols={2} spacing={ 1 }>
+        return <GridList cellHeight={200} cols={2} spacing={ 1 }>
           {
             previews.map(tile => (
               <GridListTile key={ tile.src }>

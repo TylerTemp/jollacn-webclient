@@ -127,7 +127,7 @@ class Tie extends Component {
         </React.Fragment>
       )
     } else if(preview_length == 2) {
-      <GridList cellHeight={oneCellHeight} cols={2} spacing={ 1 }>
+      return <GridList cellHeight={oneCellHeight} cols={2} spacing={ 1 }>
         {
           previews.map(tile => (
             <GridListTile key={ tile.src }>
