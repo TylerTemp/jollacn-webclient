@@ -141,7 +141,7 @@ class Tie extends Component {
       const rest_tile = previews.slice(1);
       return <GridList cellHeight={oneCellHeight / 2} cols={rest_tile.length} spacing={ 1 }>
         <GridListTile key={ first_tile.src } cols={ rest_tile.length } rows={ 1 }>
-          { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
+          { first_tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
           <img src={ first_tile.src } />
         </GridListTile>
         {
