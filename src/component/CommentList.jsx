@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 
 import axios from 'axios';
 
-import '../css/comment.css'
+import '~/css/comment.css'
 
 
 class CommentList extends Component {

@@ -7,8 +7,8 @@ import { withStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
 // import Divider from '@material-ui/core/Divider';
 
-import BlogHeaderImg from '../../images/blog_header.png';
-import Header from '../Header'
+import BlogHeaderImg from '~/images/blog_header.png';
+import Header from '~/component/Header';
 
 
 const styles = (theme) => ({

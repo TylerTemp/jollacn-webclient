@@ -10,20 +10,20 @@ import {
 import 'typeface-roboto';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Home from './component/page/Home';
-import Header from './component/Header';
-import NotFound from './component/page/NotFound';
+import Home from '~/component/page/Home';
+import Header from '~/component/Header';
+import NotFound from '~/component/page/NotFound';
 // import Layout from './component/Layout'
 // import {default as PostList} from './component/page/post/List'
-import PostListWithPagination from './component/page/post/PostListWithPagination';
-import RedirectPostSlug from './component/page/post/RedirectPostSlug';
-import PostListWithHeaderPagination from './component/page/post/PostListWithHeaderPagination';
-import PostWithComment from './component/page/post/PostWithComment';
+import PostListWithPagination from '~/component/page/post/PostListWithPagination';
+import RedirectPostSlug from '~/component/page/post/RedirectPostSlug';
+import PostListWithHeaderPagination from '~/component/page/post/PostListWithHeaderPagination';
+import PostWithComment from '~/component/page/post/PostWithComment';
 // import TieListWithHeaderPagination from './component/page/tie/TieListWithHeaderPagination';
 // import TieWithComment from './component/page/tie/TieWithComment';
-import TieModalSwitch from './component/page/tie/TieModalable';
+import TieModalSwitch from '~/component/page/tie/TieModalable';
 
-import './css/index.css';
+import '~/css/index.css';
 
 
 class App extends Component {

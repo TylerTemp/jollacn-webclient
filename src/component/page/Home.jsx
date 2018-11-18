@@ -15,11 +15,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-import BlogHeaderImg from '../../images/blog_header.png';
-import Header from '../Header';
-import Footer from '../Footer';
+import BlogHeaderImg from '~/images/blog_header.png';
+import Header from '~/component/Header';
+import Footer from '~/component/Footer';
 import PostListWithPagination from './post/PostListWithPagination';
-import tieListCache from '../storage/TieListCache';
+import tieListCache from '~/component/storage/TieListCache';
 
 
 const styles = (theme) => ({
