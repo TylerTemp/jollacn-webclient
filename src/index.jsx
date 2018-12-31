@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 
 import 'typeface-roboto';
-import CssBaseline from '@material-ui/core/CssBaseline';
+// import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Home from '~/component/page/Home';
 import Header from '~/component/Header';
@@ -54,7 +54,7 @@ class App extends Component {
 
     return (
       <React.Fragment>
-        <CssBaseline></CssBaseline>
+        {/* <CssBaseline></CssBaseline> */}
         <Router>
           <Switch >
             <Route exact path="/" component={Home}/>
