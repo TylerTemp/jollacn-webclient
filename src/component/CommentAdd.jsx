@@ -165,7 +165,9 @@ class CommentAdd extends Component {
         <fieldset disabled={ submitting? "disabled": false } className={ classes.formBorder }>
           <legend className={ classes.formLegend }>我有话要讲</legend>
           <Grid container spacing={24}>
-            <Grid item sm={12} md={6}>
+            <Grid item sm={12} md={6} classes={{
+              item: classes.formControlFullWidth
+            }}>
               <FormControl className={ classes.formControlFullWidth }>
                 <InputLabel htmlFor="comment-name">
                   <span className={ classes.requiredColor }>*</span> 昵称
@@ -181,7 +183,9 @@ class CommentAdd extends Component {
                 />
               </FormControl>
             </Grid>
-            <Grid item sm={12} md={6}>
+            <Grid item sm={12} md={6} classes={{
+              item: classes.formControlFullWidth
+            }}>
               <FormControl className={ classes.formControlFullWidth }>
                 <InputLabel htmlFor="comment-email">邮箱(可选)</InputLabel>
                 <Input
@@ -198,11 +202,14 @@ class CommentAdd extends Component {
           </Grid>
 
           <Grid container spacing={24}>
-            <Grid item sm={12}>
+            <Grid item sm={12} classes={{
+              item: classes.formControlFullWidth
+            }}>
               <FormControl className={ classes.formControlFullWidth }>
                 <Input
                   id="comment-content"
                   multiline
+                  // rows={ 2 }
                   startAdornment={
                     <InputAdornment position="start">
                       <TextsmsOutlinedIcon className={ classes.flipIcon } />
@@ -212,7 +219,7 @@ class CommentAdd extends Component {
                   name="content"
                   value={ comment.content }
                   onChange={ this.onChange.bind(this) }
-                  placeholder="* 来都来了不说说都不好意思直接走..."
+                  placeholder="*来都来了不说说都不好意思直接走..."
                   required={ true }
                 />
               </FormControl>

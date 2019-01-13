@@ -5,6 +5,10 @@ import Paper from '@material-ui/core/Paper';
 // import Modal from '@material-ui/core/Modal';
 import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
+// import withMobileDialog from '@material-ui/core/withMobileDialog';
+import Button from '@material-ui/core/Button';
+import ChevronLeftSharpIcon from '@material-ui/icons/ChevronLeftSharp';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
 // import TieWithComment from './TieWithComment';
 import { observer } from 'mobx-react';
@@ -19,12 +23,18 @@ import Tie from './Tie';
 
 const styles = theme => ({
   modalContent: {
-    // width: theme.spacing.unit * 50,
-    maxWidth: '1100px',
     backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-    margin:'auto',
+    padding: theme.spacing.unit,
+  },
+
+  [theme.breakpoints.up('sm')]: {
+    modalContent: {
+      // width: theme.spacing.unit * 50,
+      maxWidth: '1100px',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing.unit * 4,
+      margin:'auto',
+    },
   },
 
   modal: {
@@ -44,14 +54,16 @@ const styles = theme => ({
   divider: {
     // 'height': 1,
     // 'border': 'none',
-    'margin-left': '-20px',
-    'margin-right': '-20px',
+    // 'margin-left': '-20px',
+    // 'margin-right': '-20px',
   },
 });
 
 
 @withStyles(styles)
 @observer
+@withWidth()
+// @withMobileDialog()
 class TieModal extends React.Component {
 
   constructor(props) {
@@ -96,6 +108,7 @@ class TieModal extends React.Component {
 
     return (
       <Dialog
+        fullScreen={ !isWidthUp('sm', this.props.width) }
         open={ this.state.open }
         onClose={ this.handleClose }
         maxWidth={ false }
@@ -103,6 +116,10 @@ class TieModal extends React.Component {
       >
         <React.Fragment>
           <div className={ classes.modalContent }>
+            <Button className={classes.button} variant="contained" color="default" onClick={ (e) => {e.preventDefault(); this.handleClose()} }>
+              <ChevronLeftSharpIcon />
+              返回
+            </Button>
             <Tie
                 id={ this.props.match.params.id }
               >

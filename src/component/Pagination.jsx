@@ -139,7 +139,7 @@ class Pagination extends Component {
     return (
       <React.Fragment>
         { auto_left && current == 1 || this.renderPageNumber(1, current, <FirstPageIcon />, current == 1, '|<') }
-        { auto_left && current == 1 || this.renderPageNumber(current == 1? 1: current - 1, current, <ChevronLeftIcon />, current == 1, '<') }
+        { auto_left && current == 1 || this.renderPageNumber(Math.max(current - 1, 1), current, <ChevronLeftIcon />, current == 1, '<') }
 
         { left_omit && '...' }
 
@@ -149,7 +149,7 @@ class Pagination extends Component {
 
         { right_omit && '...' }
 
-        { auto_right && current == total || this.renderPageNumber(current + 1, current, <ChevronRightIcon />, current == total, '>') }
+        { auto_right && current == total || this.renderPageNumber(Math.min(current + 1, total), current, <ChevronRightIcon />, current == total, '>') }
         { auto_right && current == total || this.renderPageNumber(total, current, <LastPageIcon />, current == total, '>|') }
 
       </React.Fragment>
