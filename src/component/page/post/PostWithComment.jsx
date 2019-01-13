@@ -8,11 +8,11 @@ import ChevronLeftSharpIcon from '@material-ui/icons/ChevronLeftSharp';
 
 import axios from 'axios';
 
-import Header from '../../Header'
-import Pagination from '../../Pagination'
-import CommentList from '../../CommentList'
-import CommentAdd from '../../CommentAdd'
-import Post from './Post'
+import Header from '~/component/Header';
+import Pagination from '~/component/Pagination';
+import CommentList from '~/component/CommentList';
+import CommentAdd from '~/component/CommentAdd';
+import Post from './Post';
 
 
 const styles = (theme) => ({
@@ -24,6 +24,10 @@ const styles = (theme) => ({
       width: 1100,
       marginLeft: 'auto',
       marginRight: 'auto',
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: theme.spacing.unit * 0.5,
+      marginRight: theme.spacing.unit * 0.5,
     },
   },
   headerContentSpace: {
