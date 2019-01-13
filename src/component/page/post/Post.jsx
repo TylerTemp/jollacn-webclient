@@ -232,10 +232,10 @@ class Post extends Component {
             const first_ext = first_src_dot_parts.pop();
             const base_url = first_src_dot_parts.join('.');
             const search_alternative = [
-              {key: 'en', label: '英语'},
-              {key: 'zh', label: '中文'},
               {key: 'zh_en', label: '中/英'},
               {key: 'en_zh', label: '英/中'},
+              {key: 'en', label: '英语'},
+              {key: 'zh', label: '中文'},
             ];
 
             let alternatives = [];
