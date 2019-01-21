@@ -48,6 +48,21 @@ button.subtitle-switch-btn-active {
   color: #3e3e3e;
 }
 
+blockquote {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 15px;
+  border-left: 4px solid #ddd;
+  font-family: Georgia,"Times New Roman",Times,Kai,"Kaiti SC",KaiTi,BiauKai,FontAwesome,serif;
+}
+
+blockquote small {
+  display: block;
+  color: #999;
+  font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+  text-align: right;
+}
+
 /* START: table */
 table {
     max-width: 100%;
