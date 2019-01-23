@@ -10,10 +10,11 @@ import { observer } from 'mobx-react';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 
-import tieListPaginationStore from '../../storage/TieListPaginationStore';
-import Pagination from '../../Pagination';
-import Header from '../../Header';
+import tieListPaginationStore from '~/component/storage/TieListPaginationStore';
+import Pagination from '~/component/Pagination';
+import Header from '~/component/Header';
 import TieList from './TieList';
 
 
@@ -27,7 +28,7 @@ const styles = theme => ({
     'display': 'inline-block',
   },
 
-  postListPaginationDivider: {
+  tieListPaginationDivider: {
     'border': 'none',
     'height': 0,
     'margin': '16px',
@@ -86,6 +87,8 @@ class TieListWithHeaderPagination extends Component {
               location={ this.props.location }
             >
           </TieList>
+
+          <Divider className={ classes.tieListPaginationDivider }/>
 
           <div className={ classes.centerDiv }>
             <Paper className={ classes.pagination }>

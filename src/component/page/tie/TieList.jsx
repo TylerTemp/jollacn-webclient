@@ -214,17 +214,17 @@ class TieList extends Component {
                       <CardActionArea onClick={ () => { this.openMediaViewer(tie.content, tie.medias) } }>
                         { this.makeMediaPreview(tie.media_previews, classes) }
                       </CardActionArea>
-                      <CardActionArea>
-                        <CardContent>
-                          <Link className={ classes.muteLink } to={{
-                                'pathname': `/tie/${tie.id}`,
-                                'state': { modal: true, modal_tie: true, return_to: this.props.location.pathname }
-                              }}>
-                            <div className={ classes.tieContent } dangerouslySetInnerHTML={{__html: tie.content}}>
-                            </div>
-                          </Link>
-                        </CardContent>
-                      </CardActionArea>
+                      <Link className={ classes.muteLink } to={{
+                        'pathname': `/tie/${tie.id}`,
+                        'state': { modal: true, modal_tie: true, return_to: this.props.location.pathname }
+                      }}>
+                        <CardActionArea>
+                          <CardContent>
+                              <div className={ classes.tieContent } dangerouslySetInnerHTML={{__html: tie.content}}>
+                              </div>
+                          </CardContent>
+                        </CardActionArea>
+                      </Link>
                     </Card>
                   </Grid>
                 </React.Fragment>
