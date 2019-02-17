@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
-    Link
-} from 'react-router-dom'
+  Link,
+} from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -24,7 +24,7 @@ const styles = {
     // height: 140,
   },
   muteLink: {
-    'color': 'inherit',
+    color: 'inherit',
     'text-decoration': 'inherit',
   },
 };
@@ -32,60 +32,70 @@ const styles = {
 
 @withStyles(styles)
 class PostPreview extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
 
-    constructor(props) {
-      super(props);
-      this.state = {
-      }
-    }
+  render() {
+    const { classes } = this.props;
 
-    render() {
+    const {
+      slug, cover, title, description,
+    } = this.props;
 
-      const { classes } = this.props;
+    const { backPage = 1 } = this.props;
+    // console.log(`preview backpage = ${backPage}; props.backPage=${this.props.backPage}`)
 
-      const { slug, cover, title, description} = this.props;
-
-      const { backPage=1 } = this.props;
-      // console.log(`preview backpage = ${backPage}; props.backPage=${this.props.backPage}`)
-
-      return (
-        <Card className={ classes.card }>
-          { cover && <Link to={{
-                'pathname': `/post/${slug}`,
-                'state': { backPage: backPage }
-              }} className={ classes.muteLink }>
+    return (
+      <Card className={classes.card}>
+        { cover && (
+          <Link
+            to={{
+              pathname: `/post/${slug}`,
+              state: { backPage },
+            }}
+            className={classes.muteLink}
+          >
             <CardMedia
-              component='img'
-              className={ classes.media }
-              image={ cover }
-              title={ title }
+              component="img"
+              className={classes.media}
+              image={cover}
+              title={title}
             />
-          </Link>}
-          <CardContent>
-            <Link to={{
-                  'pathname': `/post/${slug}`,
-                  'state': { backPage: backPage }
-                }} className={ classes.muteLink }>
-              <Typography gutterBottom variant="headline" component="h2">
-                { title }
-              </Typography>
-            </Link>
-            <Typography component="div" dangerouslySetInnerHTML={{__html: description}}>
-            </Typography>
-          </CardContent>
-          <Link to={{
-                'pathname': `/post/${slug}`,
-                'state': { backPage: backPage }
-              }} className={ classes.muteLink }>
-            <CardActions>
-                <Button size="small" color="primary">
-                  阅读 &gt;&gt;
-                </Button>
-            </CardActions>
           </Link>
-        </Card>
-      );
-    }
+        )}
+        <CardContent>
+          <Link
+            to={{
+              pathname: `/post/${slug}`,
+              state: { backPage },
+            }}
+            className={classes.muteLink}
+          >
+            <Typography gutterBottom variant="headline" component="h2">
+              { title }
+            </Typography>
+          </Link>
+          <Typography component="div" dangerouslySetInnerHTML={{ __html: description }} />
+        </CardContent>
+        <Link
+          to={{
+            pathname: `/post/${slug}`,
+            state: { backPage },
+          }}
+          className={classes.muteLink}
+        >
+          <CardActions>
+            <Button size="small" color="primary">
+                  阅读 &gt;&gt;
+            </Button>
+          </CardActions>
+        </Link>
+      </Card>
+    );
+  }
 }
 
 

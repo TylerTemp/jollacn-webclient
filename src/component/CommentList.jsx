@@ -1,51 +1,56 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 // import {
 //     Route,
 // } from 'react-router-dom'
 
 import axios from 'axios';
 
-import '~/css/comment.css'
+import '~/css/comment.css';
 
 
 class CommentList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
 
-    constructor(props) {
-      super(props);
-      this.state = {
-      }
-    }
-
-    render() {
-      if (this.props.error) {
-        return (
-          <div>
-              <p>ERROR: { this.props.error }</p>
-          </div>
-        )
-      };
-      if (!this.props.loaded) {
-        return (
-          <div>
-            <p>loading...</p>
-          </div>
-        )
-      };
+  render() {
+    if (this.props.error) {
       return (
         <div>
-          <div>
-            <ul className="am-comments-list">
-              {
+          <p>
+ERROR:
+            { this.props.error }
+          </p>
+        </div>
+      );
+    }
+    if (!this.props.loaded) {
+      return (
+        <div>
+          <p>loading...</p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <div>
+          <ul className="am-comments-list">
+            {
                 this.props.comment_list.map((item, _index) => (
-                  <li className="am-comment" key={ item.id }>
+                  <li className="am-comment" key={item.id}>
 
-                    <img src={ item.avatar } alt="" className="am-comment-avatar" width="48" height="48"/>
+                    <img src={item.avatar} alt="" className="am-comment-avatar" width="48" height="48" />
 
                     <div className="am-comment-main">
 
                       <header className="am-comment-hd">
                         <div className="am-comment-meta">
-                          { item.nickname } 评论于 <time>{ item.inserted_at }</time>
+                          { item.nickname }
+                          {' '}
+评论于
+                          <time>{ item.inserted_at }</time>
                         </div>
                       </header>
 
@@ -56,11 +61,11 @@ class CommentList extends Component {
                   </li>
                 ))
               }
-            </ul>
-          </div>
+          </ul>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 }
 
 

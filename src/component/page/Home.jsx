@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Link
+  Link,
 } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -22,7 +22,7 @@ import PostListWithPagination from './post/PostListWithPagination';
 import tieListCache from '~/component/storage/TieListCache';
 
 
-const styles = (theme) => ({
+const styles = theme => ({
   // Divider: {
   //   'height': 0,
   //   'border': 'none',
@@ -47,38 +47,37 @@ const styles = (theme) => ({
     'padding-right': '10px',
   },
   headerImg: {
-    'width': '100%',
-    'maxWidth': '575px',
+    width: '100%',
+    maxWidth: '575px',
   },
   miniTieWrapper: {
   },
   muteLink: {
-    'color': 'inherit',
+    color: 'inherit',
     'text-decoration': 'inherit',
   },
   tieMoreWrapper: {
     'text-align': 'right',
-    'width': '100%',
+    width: '100%',
     'margin-top': '-68px',
-  }
+  },
 });
 
 
 @withStyles(styles)
 class Home extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       minitie_loaded: false,
       minitie_error: null,
-      minities: []
-    }
+      minities: [],
+    };
   }
 
   componentDidMount() {
     const promise = new Promise((resolve, reject) => {
-      tieListCache.fetchTieList(0, 3, resolve, reject)
+      tieListCache.fetchTieList(0, 3, resolve, reject);
     });
 
     this.setState({
@@ -89,20 +88,20 @@ class Home extends Component {
 
     promise
       .then(
-        (api_result) => {  // succeed
+        (api_result) => { // succeed
           this.setState({
             minitie_loaded: true,
             minitie_error: null,
-            minities: api_result['ties'],
-          })
+            minities: api_result.ties,
+          });
         },
-        (error_msg) => {  // failed
+        (error_msg) => { // failed
           this.setState({
             minitie_loaded: true,
             minitie_error: error_msg,
             minities: [],
-          })
-        }
+          });
+        },
       )
       .catch(
         (error) => {
@@ -111,13 +110,12 @@ class Home extends Component {
             minitie_loaded: true,
             minitie_error: error,
             minities: [],
-          })
-        }
+          });
+        },
       );
   }
 
   render() {
-
     const { minitie_loaded, minitie_error, minities } = this.state;
 
     // console.log('minities=', minities);
@@ -128,31 +126,38 @@ class Home extends Component {
       <React.Fragment>
 
         <Header at="home">
-          <div className={ classes.headerImgWrapper }>
+          <div className={classes.headerImgWrapper}>
             <Link to="/">
-              <img src={ BlogHeaderImg } alt="Jolla非官方中文博客" className={ classes.headerImg } />
+              <img src={BlogHeaderImg} alt="Jolla非官方中文博客" className={classes.headerImg} />
             </Link>
           </div>
         </Header>
 
         <div className={classes.pageWidthLimit}>
-          <div className={ classes.miniTieWrapper }>
+          <div className={classes.miniTieWrapper}>
 
             { !minitie_loaded && <p>loading...</p> }
-            { minitie_error && <p>ERROR: { minitie_error }</p> }
-            <Grid container spacing={ 40 }>
-            {
+            { minitie_error && (
+            <p>
+ERROR:
+              { minitie_error }
+            </p>
+            ) }
+            <Grid container spacing={40}>
+              {
               minitie_loaded && (!minitie_error) && minities.map((tie, _index) => (
-                <Grid item key={ `tie-${tie.id}` } sm={ 12 / 1 } md={ 12 / 3 }>
-                  <Link className={ classes.muteLink } to={{
-                        'pathname': `/tie/${tie.id}`,
-                        'state': { modal: true, modal_tie: true, return_to: this.props.location.pathname }
-                      }}>
+                <Grid item key={`tie-${tie.id}`} sm={12 / 1} md={12 / 3}>
+                  <Link
+                    className={classes.muteLink}
+                    to={{
+                      pathname: `/tie/${tie.id}`,
+                      state: { modal: true, modal_tie: true, return_to: this.props.location.pathname },
+                    }}
+                  >
                     <Card>
                       <CardActionArea>
                         <CardContent>
-                          <div className={ classes.tieContent } dangerouslySetInnerHTML={{__html: tie.content}}>
-                          </div>
+                          <div className={classes.tieContent} dangerouslySetInnerHTML={{ __html: tie.content }} />
                         </CardContent>
                       </CardActionArea>
                     </Card>
@@ -160,17 +165,17 @@ class Home extends Component {
                 </Grid>
               ))
             }
-            <div className={ classes.tieMoreWrapper }>
-              <Button variant="fab" color="default" className={ classes.tieMore } onClick={ () => { this.props.history.push('/tie') } }>
-                <MoreHorizIcon />
-              </Button>
-            </div>
+              <div className={classes.tieMoreWrapper}>
+                <Button variant="fab" color="default" className={classes.tieMore} onClick={() => { this.props.history.push('/tie'); }}>
+                  <MoreHorizIcon />
+                </Button>
+              </div>
 
             </Grid>
           </div>
-          <PostListWithPagination></PostListWithPagination>
+          <PostListWithPagination />
         </div>
-        <Footer></Footer>
+        <Footer />
       </React.Fragment>
     );
   }

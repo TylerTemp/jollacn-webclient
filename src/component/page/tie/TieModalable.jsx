@@ -1,5 +1,7 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React from 'react';
+import {
+  BrowserRouter as Router, Switch, Route, Link,
+} from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -15,14 +17,13 @@ const styles = theme => ({
 
 @withStyles(styles)
 class TieModalSwitch extends React.Component {
-
   previousLocation = this.props.location;
 
   componentWillUpdate(nextProps) {
     const { location } = this.props;
     if (
-      nextProps.history.action !== "POP" &&
-      (!location.state || !location.state.modal)
+      nextProps.history.action !== 'POP'
+      && (!location.state || !location.state.modal)
     ) {
       this.previousLocation = this.props.location;
     }
@@ -34,12 +35,12 @@ class TieModalSwitch extends React.Component {
     console.log('location = ', location);
 
     const is_modal = !!(
-      location.state &&
-      location.state.modal &&
-      this.previousLocation !== location
+      location.state
+      && location.state.modal
+      && this.previousLocation !== location
     ); // not initial render
     // console.log('history', this.props.history);
-    const back_path = is_modal? this.previousLocation.pathname: `/tie`;
+    const back_path = is_modal ? this.previousLocation.pathname : '/tie';
     return (
       <React.Fragment>
         <Switch location={is_modal ? this.previousLocation : location}>
@@ -60,19 +61,21 @@ class TieModalSwitch extends React.Component {
         </Switch>
         {
           is_modal
-            ? <Route
+            ? (
+              <Route
                 path="/tie/:id"
                 exact
                 render={
-                  ({match, location, history}) => {
-                    return <TieModal
-                      match={ match }
-                      location={ location }
-                      history={ history }
-                    ></TieModal>
-                  }
+                  ({ match, location, history }) => (
+                    <TieModal
+                      match={match}
+                      location={location}
+                      history={history}
+                    />
+                  )
                 }
               />
+            )
             : null
         }
       </React.Fragment>

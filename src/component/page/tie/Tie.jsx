@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 import Paper from '@material-ui/core/Paper';
 // import Divider from '@material-ui/core/Divider';
@@ -21,7 +21,7 @@ import axios from 'axios';
 import tieListCache from '../../storage/TieListCache';
 
 
-const styles = (theme) => ({
+const styles = theme => ({
   // pageWidthLimit: {
   //   width: 'auto',
   //   marginLeft: theme.spacing.unit * 3,
@@ -37,20 +37,20 @@ const styles = (theme) => ({
   },
 
   absoluteCenter: {
-    'margin': 'auto',
-    'position': 'absolute',
-    'top': 0,
-    'left': 0,
-    'bottom': 0,
-    'right': 0,
+    margin: 'auto',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
 
   },
   playBtn: {
     'z-index': 1,
     'font-size': '100px',
-    'color': '#6fcaff',
+    color: '#6fcaff',
     // 'box-shadow': '0px 0px 38px -1px rgba(0,0,0,0.75)',
-    'filter': 'drop-shadow(0px 0px 5px #c5c5c5)',
+    filter: 'drop-shadow(0px 0px 5px #c5c5c5)',
   },
   videoWrapper: {
     'text-align': 'center',
@@ -64,16 +64,15 @@ const styles = (theme) => ({
 
 @withStyles(styles)
 class Tie extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       id: this.props.id || parseInt(this.props.match.params.id),
-      loaded: this.props.loaded === undefined? false: this.props.loaded,
-      error: this.props.error === undefined? null: this.props.error,
-      tie: this.props.tie === undefined? {
-          'content': null
-        }: this.props.tie,
+      loaded: this.props.loaded === undefined ? false : this.props.loaded,
+      error: this.props.error === undefined ? null : this.props.error,
+      tie: this.props.tie === undefined ? {
+        content: null,
+      } : this.props.tie,
 
       media_viewer_is_open: false,
       media_index: 0,
@@ -85,24 +84,21 @@ class Tie extends Component {
   }
 
   fetchTie(id) {
-
-    const promise = new Promise((resolve, reject) => {
-      return tieListCache.fetchTie(id, resolve, reject);
-    });
+    const promise = new Promise((resolve, reject) => tieListCache.fetchTie(id, resolve, reject));
 
     this.setState({
       loaded: false,
       error: null,
-      id: id,
+      id,
     });
 
     promise.then(
       (tie) => {
-        this.setState({loaded: true, error: null, tie: tie});
+        this.setState({ loaded: true, error: null, tie });
       },
       (error_msg) => {
-        this.setState({loaded: true, error: error_msg});
-      }
+        this.setState({ loaded: true, error: error_msg });
+      },
     );
   }
 
@@ -112,52 +108,55 @@ class Tie extends Component {
 
     const preview_length = previews.length;
 
-    if(preview_length == 0) {
+    if (preview_length == 0) {
       return null;
     }
 
     const oneCellHeight = 600;
 
-    if(preview_length == 1) {
+    if (preview_length == 1) {
       const tile = previews[0];
       return (
         <React.Fragment>
           { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
-          <img src={ tile.src } width='100%' height='auto' style={{ width: '100%', height: 'auto', marginBottom: '-3px' }} />
+          <img src={tile.src} width="100%" height="auto" style={{ width: '100%', height: 'auto', marginBottom: '-3px' }} />
         </React.Fragment>
-      )
-    } else if(preview_length == 2) {
-      return <GridList cellHeight={oneCellHeight} cols={2} spacing={ 1 }>
-        {
+      );
+    } if (preview_length == 2) {
+      return (
+        <GridList cellHeight={oneCellHeight} cols={2} spacing={1}>
+          {
           previews.map(tile => (
-            <GridListTile key={ tile.src }>
+            <GridListTile key={tile.src}>
               { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
-              <img src={ tile.src } />
+              <img src={tile.src} />
             </GridListTile>))
         }
-      </GridList>
-    } else {
-      const first_tile = previews[0];
-      const rest_tile = previews.slice(1);
-      return <GridList cellHeight={oneCellHeight / 2} cols={rest_tile.length} spacing={ 1 }>
-        <GridListTile key={ first_tile.src } cols={ rest_tile.length } rows={ 1 }>
+        </GridList>
+      );
+    }
+    const first_tile = previews[0];
+    const rest_tile = previews.slice(1);
+    return (
+      <GridList cellHeight={oneCellHeight / 2} cols={rest_tile.length} spacing={1}>
+        <GridListTile key={first_tile.src} cols={rest_tile.length} rows={1}>
           { first_tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
-          <img src={ first_tile.src } />
+          <img src={first_tile.src} />
         </GridListTile>
         {
           rest_tile.map(tile => (
-            <GridListTile key={ tile.src }>
+            <GridListTile key={tile.src}>
               { tile.type == 'video_poster' && <PlayCircleOutlineIcon classes={{ root: classNames(classes.absoluteCenter, classes.playBtn) }} />}
-              <img src={ tile.src } />
+              <img src={tile.src} />
             </GridListTile>))
         }
       </GridList>
-    };
+    );
   }
 
   openMediaViewer() {
     // const old_media_viewer_is_open = this.state.media_viewer_is_open
-    this.setState({media_viewer_is_open: true})
+    this.setState({ media_viewer_is_open: true });
   }
 
   render() {
@@ -168,10 +167,13 @@ class Tie extends Component {
     if (error) {
       return (
         <div>
-          <p>ERROR: { error }</p>
+          <p>
+ERROR:
+            { error }
+          </p>
         </div>
       );
-    };
+    }
 
     if (!loaded) {
       return (
@@ -179,37 +181,40 @@ class Tie extends Component {
           <p>tie loading...</p>
         </div>
       );
-    };
+    }
 
     const { media_index } = this.state;
 
     const media_srcs = tie.medias.map((media) => {
-      if(media['type'] == 'img') {
-        return media['src'];
-      };
+      if (media.type == 'img') {
+        return media.src;
+      }
       return (
-        <div className={ classes.videoWrapper }>
-          <video className={ classes.video } controls crossOrigin="anonymous" poster={ media['poster'] }>
-            抱歉，你的浏览器不支持<code>video</code>元素
+        <div className={classes.videoWrapper}>
+          <video className={classes.video} controls crossOrigin="anonymous" poster={media.poster}>
+            抱歉，你的浏览器不支持
+            <code>video</code>
+元素
             {
-              media['sources'].map(({mime, src}, index) => (
-                <source key={ `${index}-${src}` } src={ src } type={ mime } />
+              media.sources.map(({ mime, src }, index) => (
+                <source key={`${index}-${src}`} src={src} type={mime} />
               ))
             }
             {
-              media['subtitles'] && media['subtitles'].map((subtitle, index) => (
+              media.subtitles && media.subtitles.map((subtitle, index) => (
                 <track
-                  key={ `${index}-${subtitle['src']}` }
-                  default={ index == 0 }
+                  key={`${index}-${subtitle.src}`}
+                  default={index == 0}
                   kind="subtitles"
-                  label={ subtitle['label'] }
-                  src={ subtitle['src'] }
-                  srclang={ subtitle['srclang'] } />
+                  label={subtitle.label}
+                  src={subtitle.src}
+                  srcLang={subtitle.srclang}
+                />
               ))
             }
           </video>
         </div>
-      )
+      );
     });
 
     let lightbox_css = `
@@ -218,8 +223,8 @@ class Tie extends Component {
     }`;
 
     for (let index = 0; index < tie.medias.length; index++) {
-      let current_media = tie.medias[index];
-      if(current_media['type'] == 'video') {
+      const current_media = tie.medias[index];
+      if (current_media.type == 'video') {
         lightbox_css = `
           .ril-image-current {
             top: unset;
@@ -233,12 +238,11 @@ class Tie extends Component {
 
     return (
       <React.Fragment>
-        <div className={ classes.tieContent } dangerouslySetInnerHTML={{__html: tie.content}}>
-        </div>
+        <div className={classes.tieContent} dangerouslySetInnerHTML={{ __html: tie.content }} />
         {
           tie.medias.length > 0 && (
             <Card>
-              <CardActionArea onClick={ this.openMediaViewer.bind(this) }>
+              <CardActionArea onClick={this.openMediaViewer.bind(this)}>
                 { this.makeMediaPreview(tie.media_previews, classes) }
               </CardActionArea>
             </Card>
@@ -247,37 +251,34 @@ class Tie extends Component {
         {
           this.state.media_viewer_is_open && (
             <React.Fragment>
-              <Style css={ lightbox_css } />
+              <Style css={lightbox_css} />
               <Lightbox
                 reactModalStyle={{
                   overlay: {
                     zIndex: 2000,
-                  }
+                  },
                 }}
-                enableZoom={ tie.medias[media_index]['type'] == 'img' }
-                imageCaption={tie.medias[media_index]['type'] == 'img' && <div dangerouslySetInnerHTML={{__html: tie.content}}></div>}
-                imageTitle={tie.medias[media_index]['title'] || tie.medias[media_index]['alt'] || false}
+                enableZoom={tie.medias[media_index].type == 'img'}
+                imageCaption={tie.medias[media_index].type == 'img' && <div dangerouslySetInnerHTML={{ __html: tie.content }} />}
+                imageTitle={tie.medias[media_index].title || tie.medias[media_index].alt || false}
                 mainSrc={media_srcs[media_index]}
                 nextSrc={media_srcs[(media_index + 1) % media_count]}
                 prevSrc={media_srcs[(media_index + media_count - 1) % media_count]}
                 onCloseRequest={() => this.setState({ media_viewer_is_open: false })}
-                onMovePrevRequest={() =>
-                  this.setState({
-                    media_index: (media_index + media_count - 1) % media_count,
-                  })
+                onMovePrevRequest={() => this.setState({
+                  media_index: (media_index + media_count - 1) % media_count,
+                })
                 }
-                onMoveNextRequest={() =>
-                  this.setState({
-                    media_index: (media_index + 1) % media_count,
-                  })
+                onMoveNextRequest={() => this.setState({
+                  media_index: (media_index + 1) % media_count,
+                })
                 }
-                />
+              />
             </React.Fragment>
           )
         }
       </React.Fragment>
     );
-
   }
 }
 

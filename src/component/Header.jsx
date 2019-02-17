@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {
-    NavLink
+  NavLink,
 } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -35,18 +35,17 @@ const styles = theme => ({
 
 @withStyles(styles)
 class Header extends Component {
-
   render() {
     const { classes } = this.props;
-    let at_tab = this.props.at;
+    const at_tab = this.props.at;
     // if(at_tab === undefined) {
     //   at_tab = 'home';
     // };
 
-    let at_tab_index = {
-      "home": 0,
-      "post": 1,
-      "tie": 2,
+    const at_tab_index = {
+      home: 0,
+      post: 1,
+      tie: 2,
     }[at_tab];
 
     // if(at_tab_index === undefined) {
@@ -55,47 +54,53 @@ class Header extends Component {
 
     return (
       <header>
-        <Grid container className="navContainer" >
-        <AppBar position="static">
-          <div className={ classes.widthLimit }>
-            <Toolbar className="navToolbar">
-              <Tabs value={ at_tab_index }>
-                <NavLink exact to="/" className="nav-link">
-                  <Tab label={
-                      <Typography variant="title" color="inherit">
-                        <HomeIcon className={classes.icon, "nav-icon"} />
+        <Grid container className="navContainer">
+          <AppBar position="static">
+            <div className={classes.widthLimit}>
+              <Toolbar className="navToolbar">
+                <Tabs value={at_tab_index}>
+                  <NavLink exact to="/" className="nav-link">
+                    <Tab
+                      label={(
+                        <Typography variant="title" color="inherit">
+                          <HomeIcon className={classes.icon, 'nav-icon'} />
                         首页
-                      </Typography>
-                    } value={ "home" }>
-                  </Tab>
-                </NavLink>
-                <NavLink exact to="/post" className="nav-link">
-                  <Tab label={
-                      <Typography variant="title" color="inherit">
-                        <BallotIcon className={classes.icon, "nav-icon"} />
+                        </Typography>
+)}
+                      value="home"
+                    />
+                  </NavLink>
+                  <NavLink exact to="/post" className="nav-link">
+                    <Tab
+                      label={(
+                        <Typography variant="title" color="inherit">
+                          <BallotIcon className={classes.icon, 'nav-icon'} />
                         文章
-                      </Typography>
-                    } value={ "post" }>
-                  </Tab>
-                </NavLink>
-                <NavLink exact to="/tie" className="nav-link">
-                  <Tab label={
-                      <Typography variant="title" color="inherit">
-                        <StyleIcon className={classes.icon, "nav-icon"} />
+                        </Typography>
+)}
+                      value="post"
+                    />
+                  </NavLink>
+                  <NavLink exact to="/tie" className="nav-link">
+                    <Tab
+                      label={(
+                        <Typography variant="title" color="inherit">
+                          <StyleIcon className={classes.icon, 'nav-icon'} />
                         快讯
-                      </Typography>
-                    } value={ "tie" }>
-                  </Tab>
-                </NavLink>
-              </Tabs>
-            </Toolbar>
-          </div>
-        </AppBar>
+                        </Typography>
+)}
+                      value="tie"
+                    />
+                  </NavLink>
+                </Tabs>
+              </Toolbar>
+            </div>
+          </AppBar>
         </Grid>
         { this.props.children }
       </header>
 
-    )
+    );
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
-    Route,
-    Switch
+  Route,
+  Switch,
 } from 'react-router-dom';
 
 import { observer } from 'mobx-react';
@@ -20,22 +20,22 @@ import TieList from './TieList';
 
 const styles = theme => ({
   centerDiv: {
-    'width': '100%',
+    width: '100%',
     'text-align': 'center',
   },
 
   pagination: {
-    'display': 'inline-block',
+    display: 'inline-block',
   },
 
   tieListPaginationDivider: {
-    'border': 'none',
-    'height': 0,
-    'margin': '16px',
+    border: 'none',
+    height: 0,
+    margin: '16px',
   },
 
   contentWrapper: {
-    'padding': 12,
+    padding: 12,
   },
 
 });
@@ -44,11 +44,10 @@ const styles = theme => ({
 @withStyles(styles)
 @observer
 class TieListWithHeaderPagination extends Component {
-
   constructor(props) {
     super(props);
-    let page_str = this.props.match.params.page;
-    let page = page_str? parseInt(page_str): 1;
+    const page_str = this.props.match.params.page;
+    const page = page_str ? parseInt(page_str) : 1;
     tieListPaginationStore.fetchTiesPage(page);
   }
 
@@ -69,35 +68,33 @@ class TieListWithHeaderPagination extends Component {
     console.log('tie with pagination rendering', ties,
       ' is loaded: ', loaded, ' error: ', error,
       'total_page:', tieListPaginationStore.total_page,
-      'current_page:', tieListPaginationStore.current_page
-    );
+      'current_page:', tieListPaginationStore.current_page);
 
     const { classes } = this.props;
 
     return (
       <React.Fragment>
 
-        <Header at="tie"></Header>
+        <Header at="tie" />
 
-        <div className={ classes.contentWrapper }>
+        <div className={classes.contentWrapper}>
           <TieList
-              ties={ ties }
-              loaded={ loaded }
-              error={ error }
-              location={ this.props.location }
-            >
-          </TieList>
+            ties={ties}
+            loaded={loaded}
+            error={error}
+            location={this.props.location}
+          />
 
-          <Divider className={ classes.tieListPaginationDivider }/>
+          <Divider className={classes.tieListPaginationDivider} />
 
-          <div className={ classes.centerDiv }>
-            <Paper className={ classes.pagination }>
+          <div className={classes.centerDiv}>
+            <Paper className={classes.pagination}>
               <Pagination
-                  total={ tieListPaginationStore.total_page }
-                  current={ tieListPaginationStore.current_page }
-                  pageUrl={ (num) => `/tie/page/${num}` }
-                  goToPage={ (num) => tieListPaginationStore.fetchTiesPage(num) }>
-              </Pagination>
+                total={tieListPaginationStore.total_page}
+                current={tieListPaginationStore.current_page}
+                pageUrl={num => `/tie/page/${num}`}
+                goToPage={num => tieListPaginationStore.fetchTiesPage(num)}
+              />
             </Paper>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -10,11 +10,11 @@ import Header from '../../Header';
 import PostListWithPagination from './PostListWithPagination';
 
 
-const styles = (theme) => ({
+const styles = theme => ({
   headerPostlistDivider: {
     // 'border-color': '#eee',
-    'height': 0,
-    'border': 'none',
+    height: 0,
+    border: 'none',
     // 'border-top': '1px solid #eee',
     'margin-top': '15px',
     'margin-bottom': '15px',
@@ -33,24 +33,22 @@ const styles = (theme) => ({
 
 
 class PostListWithHeaderPagination extends Component {
-
   render() {
-
     const { classes } = this.props;
 
-    let page_str = this.props.match.params.page;
-    let page = parseInt(page_str);
+    const page_str = this.props.match.params.page;
+    const page = parseInt(page_str);
 
     return (
       <React.Fragment>
-        <Header at="post"></Header>
+        <Header at="post" />
 
-        <Divider className={classes.headerPostlistDivider}/>
+        <Divider className={classes.headerPostlistDivider} />
 
         <div className={classes.pageWidthLimit}>
           <PostListWithPagination
-              page={ page }
-            ></PostListWithPagination>
+            page={page}
+          />
         </div>
       </React.Fragment>
     );

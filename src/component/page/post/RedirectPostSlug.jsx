@@ -14,11 +14,16 @@ const styles = {
 
 @withStyles(styles)
 class RedirectPostSlug extends Component {
-
   render() {
-    const post_slug = this.props.match.params.post_slug;
+    const { post_slug } = this.props.match.params;
     this.props.history.push(`/post/${post_slug}`);
-    return <p>redirecting to `/post/${post_slug}`</p>
+    return (
+      <p>
+redirecting to `/post/$
+        {post_slug}
+`
+      </p>
+    );
   }
 }
 

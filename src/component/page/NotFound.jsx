@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Link
+  Link,
 } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -11,7 +11,7 @@ import BlogHeaderImg from '~/images/blog_header.png';
 import Header from '~/component/Header';
 
 
-const styles = (theme) => ({
+const styles = theme => ({
   // Divider: {
   //   'height': 0,
   //   'border': 'none',
@@ -38,18 +38,16 @@ const styles = (theme) => ({
 
 @withStyles(styles)
 class NotFound extends Component {
-
   render() {
-
     const { classes } = this.props;
 
     return (
       <div>
 
         <Header at="404">
-          <div className={ classes.headerImgWrapper }>
+          <div className={classes.headerImgWrapper}>
             <Link to="/">
-              <img src={ BlogHeaderImg } alt="Jolla非官方中文博客" />
+              <img src={BlogHeaderImg} alt="Jolla非官方中文博客" />
             </Link>
           </div>
         </Header>

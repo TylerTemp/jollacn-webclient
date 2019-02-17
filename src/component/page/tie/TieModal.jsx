@@ -33,7 +33,7 @@ const styles = theme => ({
       maxWidth: '1100px',
       boxShadow: theme.shadows[5],
       padding: theme.spacing.unit * 4,
-      margin:'auto',
+      margin: 'auto',
     },
   },
 
@@ -43,12 +43,12 @@ const styles = theme => ({
   },
 
   centerDiv: {
-    'width': '100%',
+    width: '100%',
     'text-align': 'center',
   },
 
   pagination: {
-    'display': 'inline-block',
+    display: 'inline-block',
   },
 
   divider: {
@@ -65,7 +65,6 @@ const styles = theme => ({
 @withWidth()
 // @withMobileDialog()
 class TieModal extends React.Component {
-
   constructor(props) {
     super(props);
     this.handleOpen = this.handleOpen.bind(this);
@@ -74,7 +73,7 @@ class TieModal extends React.Component {
       open: true,
       // current_comment_page: 1,
       return_to: '/tie',
-    }
+    };
     // console.log('inited');
   }
 
@@ -93,7 +92,7 @@ class TieModal extends React.Component {
   handleClose() {
     this.setState({ open: false });
     const state_return_to = this.state.return_to;
-    const { return_to=state_return_to } = this.props.location.state;
+    const { return_to = state_return_to } = this.props.location.state;
     this.props.history.push(return_to);
   }
 
@@ -108,45 +107,43 @@ class TieModal extends React.Component {
 
     return (
       <Dialog
-        fullScreen={ !isWidthUp('sm', this.props.width) }
-        open={ this.state.open }
-        onClose={ this.handleClose }
-        maxWidth={ false }
-        className={ classes.modal }
+        fullScreen={!isWidthUp('sm', this.props.width)}
+        open={this.state.open}
+        onClose={this.handleClose}
+        maxWidth={false}
+        className={classes.modal}
       >
         <React.Fragment>
-          <div className={ classes.modalContent }>
-            <Button className={classes.button} variant="contained" color="default" onClick={ (e) => {e.preventDefault(); this.handleClose()} }>
+          <div className={classes.modalContent}>
+            <Button className={classes.button} variant="contained" color="default" onClick={(e) => { e.preventDefault(); this.handleClose(); }}>
               <ChevronLeftSharpIcon />
               返回
             </Button>
             <Tie
-                id={ this.props.match.params.id }
-              >
-            </Tie>
-            <Divider className={ classes.divider } />
+              id={this.props.match.params.id}
+            />
+            <Divider className={classes.divider} />
             <CommentList
-                error={ commentListPaginationStore.error }
-                loaded={ commentListPaginationStore.loaded }
-                comment_list={ commentListPaginationStore.comments }
-              >
-            </CommentList>
+              error={commentListPaginationStore.error}
+              loaded={commentListPaginationStore.loaded}
+              comment_list={commentListPaginationStore.comments}
+            />
 
-            <div className={ classes.centerDiv }>
-              <Paper className={ classes.pagination }>
+            <div className={classes.centerDiv}>
+              <Paper className={classes.pagination}>
                 <Pagination
-                  total={ commentListPaginationStore.total_page }
-                  current={ commentListPaginationStore.current_page }
-                  pageUrl={ undefined }
-                  goToPage={ (num) => { commentListPaginationStore.fetchCommentPage(num); } }>
-                </Pagination>
+                  total={commentListPaginationStore.total_page}
+                  current={commentListPaginationStore.current_page}
+                  pageUrl={undefined}
+                  goToPage={(num) => { commentListPaginationStore.fetchCommentPage(num); }}
+                />
               </Paper>
             </div>
 
             <CommentAdd
-              api={ `/api/tie/${ this.props.match.params.id }/comment` }
-              commentAdd={ (comment) => { commentListPaginationStore.commentPush(comment) } }>
-            </CommentAdd>
+              api={`/api/tie/${this.props.match.params.id}/comment`}
+              commentAdd={(comment) => { commentListPaginationStore.commentPush(comment); }}
+            />
           </div>
         </React.Fragment>
       </Dialog>

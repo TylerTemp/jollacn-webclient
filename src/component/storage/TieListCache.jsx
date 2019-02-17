@@ -2,7 +2,6 @@ import axios from 'axios';
 
 
 class TieListCache {
-
   constructor() {
     this.cache_limit = 1000;
     this.tie_id_buffer = [];
@@ -10,15 +9,15 @@ class TieListCache {
   }
 
   cacheTies(ties) {
-    let tie_id_buffer = this.tie_id_buffer;
+    const { tie_id_buffer } = this;
     const limit = this.cache_limit;
     const overflow_count = tie_id_buffer.length + ties.length - limit;
-    let removed_tie_ids = tie_id_buffer.concat(
-      ties.map((tie, _index) => { return tie['id']; })
+    const removed_tie_ids = tie_id_buffer.concat(
+      ties.map((tie, _index) => tie.id),
     );
-    let updated_tie_ids = removed_tie_ids.splice(overflow_count - 1);
+    const updated_tie_ids = removed_tie_ids.splice(overflow_count - 1);
     ties.map((new_tie, _index) => {
-      const tie_id = new_tie['id'];
+      const tie_id = new_tie.id;
       console.log(`adding tie cache ${tie_id}`);
       this.id_to_ties[tie_id] = new_tie;
     });
@@ -32,41 +31,41 @@ class TieListCache {
 
   fetchTie(tie_id, resolve, reject) {
     const cached_tie = this.id_to_ties[tie_id];
-    if(cached_tie) {
+    if (cached_tie) {
       return resolve(cached_tie);
-    };
+    }
 
     axios.get(`/api/tie/${tie_id}`, {
-        headers: {'Accept': 'application/json'},
-        transformResponse: undefined
-      })
-      .then(res => {
-        var data = res.data;
-        var tie = JSON.parse(data);
+      headers: { Accept: 'application/json' },
+      transformResponse: undefined,
+    })
+      .then((res) => {
+        const { data } = res;
+        const tie = JSON.parse(data);
         return resolve(tie);
       })
-      .catch(res => {
-        var error = 'unknown server error';
+      .catch((res) => {
+        let error = 'unknown server error';
         if (res.response) {
-            // The request was made and the server responded with a status code
+          // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          var data = res.response.data;
+          const { data } = res.response;
           console.log('response', data);
-          var json_resp = null;
+          let json_resp = null;
           try {
             json_resp = JSON.parse(data);
           } catch (e) {
             // console.log(res.response);
             error = `${res.response.status} ${res.response.statusText}`;
-          };
-          if(json_resp) {
+          }
+          if (json_resp) {
             error = json_resp.message || error;
-          };
+          }
         } else {
           // Something happened in setting up the request that triggered an Error
           console.log('Error', res);
-          error = res.message;;
-        };
+          error = res.message;
+        }
         console.log('set error to', error);
         // this.setState({error: error});
         // this.apiFailed(error);
@@ -79,40 +78,40 @@ class TieListCache {
   }
 
   fetchTieList(offset, limit, resolve, reject) {
-    axios.get(`/api/tie`, {
-        params: {'offset': offset, 'limit': limit},
-        headers: {'Accept': 'application/json'},
-        transformResponse: undefined
-      })
-      .then(res => {
-        let data = res.data;
-        let result = JSON.parse(data);
-        let ties = result['ties'];
+    axios.get('/api/tie', {
+      params: { offset, limit },
+      headers: { Accept: 'application/json' },
+      transformResponse: undefined,
+    })
+      .then((res) => {
+        const { data } = res;
+        const result = JSON.parse(data);
+        const { ties } = result;
         resolve(result);
         this.cacheTies(ties);
       })
-      .catch(res => {
-        var error = 'unknown server error';
+      .catch((res) => {
+        let error = 'unknown server error';
         if (res.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          var data = res.response.data;
+          const { data } = res.response;
           console.log('response', data);
-          var json_resp = null;
+          let json_resp = null;
           try {
             json_resp = JSON.parse(data);
           } catch (e) {
             // console.log(res.response);
             error = `${res.response.status} ${res.response.statusText}`;
-          };
-          if(json_resp) {
+          }
+          if (json_resp) {
             error = json_resp.message || error;
-          };
+          }
         } else {
           // Something happened in setting up the request that triggered an Error
           console.log('Error', res);
           error = res.message;
-        };
+        }
         console.log('set error to', error);
         return reject(error);
       })
@@ -121,7 +120,6 @@ class TieListCache {
       });
     // return promise;
   }
-
 }
 
 

@@ -21,14 +21,14 @@ import Tie from './Tie';
 const styles = theme => ({
 
   centerDiv: {
-    'width': '100%',
+    width: '100%',
     'text-align': 'center',
   },
 
   commentDivider: {
-    'height': 0,
-    'padding': '10px',
-    'border': 'none',
+    height: 0,
+    padding: '10px',
+    border: 'none',
     'background-color': 'transparent',
     // 'margin-left': '-20px',
     // 'margin-right': '-20px',
@@ -47,8 +47,8 @@ const styles = theme => ({
 
   headerTieDivider: {
     // 'border-color': '#eee',
-    'height': 0,
-    'border': 'none',
+    height: 0,
+    border: 'none',
     // 'border-top': '1px solid #eee',
     'margin-top': '15px',
     'margin-bottom': '15px',
@@ -58,7 +58,7 @@ const styles = theme => ({
     'max-width': '900px',
     'margin-left': 'auto',
     'margin-right': 'auto',
-    'padding': '15px 10px 20px 10px',
+    padding: '15px 10px 20px 10px',
     // 'font-size': '1.3rem',
     // 'font-weight': '300',
   },
@@ -67,13 +67,13 @@ const styles = theme => ({
     'max-width': '900px',
     'margin-left': 'auto',
     'margin-right': 'auto',
-    'padding': '20px 10px 20px 10px',
+    padding: '20px 10px 20px 10px',
     // 'font-size': '1.3rem',
     // 'font-weight': '300',
   },
 
   pagination: {
-    'display': 'inline-block',
+    display: 'inline-block',
   },
 
   textRight: {
@@ -81,8 +81,8 @@ const styles = theme => ({
   },
 
   pageFooterDivider: {
-    'height': 0,
-    'border': 'none',
+    height: 0,
+    border: 'none',
     'margin-top': '15px',
     'margin-bottom': '15px',
   },
@@ -93,7 +93,6 @@ const styles = theme => ({
 @withStyles(styles)
 @observer
 class TiePage extends React.Component {
-
   componentDidMount() {
     console.log('did mount');
     const tie_id = this.props.match.params.id;
@@ -107,62 +106,60 @@ class TiePage extends React.Component {
 
     const location_state = this.props.location.state || {};
 
-    const { return_to="/tie" } = location_state;
+    const { return_to = '/tie' } = location_state;
 
     // console.log();
 
     return (
       <React.Fragment>
-        <Header at="tie"></Header>
+        <Header at="tie" />
 
-        <Divider className={classes.headerTieDivider}/>
+        <Divider className={classes.headerTieDivider} />
 
         <div className={classes.pageWidthLimit}>
           <Paper>
-            <div className={ classes.tieBox }>
+            <div className={classes.tieBox}>
               <div>
-                <Button color="inherit" onClick={ (e) => {e.preventDefault(); this.props.history.push(return_to)} }>
+                <Button color="inherit" onClick={(e) => { e.preventDefault(); this.props.history.push(return_to); }}>
                   <ChevronLeftSharpIcon />
                   返回
                 </Button>
               </div>
               <Tie
-                  id={ this.props.match.params.id }
-                >
-              </Tie>
+                id={this.props.match.params.id}
+              />
             </div>
           </Paper>
 
-          <Divider className={ classes.commentDivider } />
+          <Divider className={classes.commentDivider} />
 
           <Paper>
-            <div className={ classes.commentBox }>
+            <div className={classes.commentBox}>
               <CommentList
-                  error={ commentListPaginationStore.error }
-                  loaded={ commentListPaginationStore.loaded }
-                  comment_list={ commentListPaginationStore.comments }
-                >
-              </CommentList>
+                error={commentListPaginationStore.error}
+                loaded={commentListPaginationStore.loaded}
+                comment_list={commentListPaginationStore.comments}
+              />
 
-              <div className={ classes.centerDiv }>
-                <Paper className={ classes.pagination }>
+              <div className={classes.centerDiv}>
+                <Paper className={classes.pagination}>
                   <Pagination
-                    total={ commentListPaginationStore.total_page }
-                    current={ commentListPaginationStore.current_page }
-                    pageUrl={ undefined }
-                    goToPage={ (num) => { commentListPaginationStore.fetchCommentPage(num); } }>
-                  </Pagination>
+                    total={commentListPaginationStore.total_page}
+                    current={commentListPaginationStore.current_page}
+                    pageUrl={undefined}
+                    goToPage={(num) => { commentListPaginationStore.fetchCommentPage(num); }}
+                  />
                 </Paper>
               </div>
 
               <CommentAdd
-                api={ `/api/tie/${ this.props.match.params.id }/comment` }
-                commentAdd={ (comment) => { commentListPaginationStore.commentPush(comment) } }>
-              </CommentAdd>
+                api={`/api/tie/${this.props.match.params.id}/comment`}
+                commentAdd={(comment) => { commentListPaginationStore.commentPush(comment); }}
+              />
             </div>
           </Paper>
         </div>
-        <Divider className={ classes.pageFooterDivider } />
+        <Divider className={classes.pageFooterDivider} />
       </React.Fragment>
     );
   }

@@ -18,23 +18,23 @@ import axios from 'axios';
 
 const styles = theme => ({
   requiredColor: {
-    'color': red[800],
+    color: red[800],
   },
   flipIcon: {
     '-moz-transform': 'scaleX(-1)',
     '-webkit-transform': 'scaleX(-1)',
     '-o-transform': 'scaleX(-1)',
-    'transform': 'scaleX(-1)',
-    /*IE*/
-    'filter': 'FlipH',
+    transform: 'scaleX(-1)',
+    /* IE */
+    filter: 'FlipH',
   },
   formControlFullWidth: {
-    'width': '100%',
+    width: '100%',
   },
   formBorder: {
     // 'box-shadow': 'inset 0 0 10px #a3a0a0db',
     // 'border': 'none',
-    'border': '1px solid #dddbdb',
+    border: '1px solid #dddbdb',
     // 'padding-top': '24px',
   },
   formLegend: {
@@ -45,43 +45,41 @@ const styles = theme => ({
 
 @withStyles(styles)
 class CommentAdd extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       submitting: false,
       error: null,
       comment: {
-        'nickname': '',
-        'email': '',
-        'content': ''
-      }
-    }
+        nickname: '',
+        email: '',
+        content: '',
+      },
+    };
   }
 
   addComment(req_body) {
-
-    this.setState({submitting: true, error: null, comment: req_body});
-    if(req_body['email'] == '') {
-      req_body['email'] = null;
-    };
+    this.setState({ submitting: true, error: null, comment: req_body });
+    if (req_body.email == '') {
+      req_body.email = null;
+    }
 
     axios.post(
-        this.props.api,
-        JSON.stringify(req_body),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          transformResponse: undefined
-        }
-      )
-      .then(res => {
-        let data = res.data;
+      this.props.api,
+      JSON.stringify(req_body),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        transformResponse: undefined,
+      },
+    )
+      .then((res) => {
+        const { data } = res;
         console.log(`comment add for ${this.props.api} result:`, data);
-        let comment_result = JSON.parse(data);
-        if(comment_result.email == null) {
+        const comment_result = JSON.parse(data);
+        if (comment_result.email == null) {
           comment_result.email = '';
         }
 
@@ -91,52 +89,52 @@ class CommentAdd extends Component {
           submitting: false,
           error: null,
           comment: {
-            'nickname': '',
-            'email': '',
-            'content': ''
-          }
+            nickname: '',
+            email: '',
+            content: '',
+          },
         });
       })
-      .catch(res => {
-        var error = 'unknown server error';
+      .catch((res) => {
+        let error = 'unknown server error';
         if (res.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          var data = res.response.data;
+          const { data } = res.response;
           console.log('response', data);
-          var json_resp = null;
+          let json_resp = null;
           try {
             json_resp = JSON.parse(data);
           } catch (e) {
             error = 'server error and unable to parse error response';
-          };
-          if(json_resp) {
+          }
+          if (json_resp) {
             error = json_resp.message || 'unknown server error';
-          };
+          }
         } else {
           // Something happened in setting up the request that triggered an Error
           console.log('Error', res);
           error = res.message;
-        };
+        }
         console.log('set error to', error);
         this.setState({
           submitting: false,
-          error: error
+          error,
         });
       })
       .then(() => {
-        this.setState({submitting: false});
+        this.setState({ submitting: false });
       });
   }
 
   onChange(evt) {
-    let target = evt.target;
-    let name = target.name;
-    let value = target.value;
+    const { target } = evt;
+    const { name } = target;
+    const { value } = target;
 
-    let comment = this.state.comment;
+    const { comment } = this.state;
     comment[name] = value;
-    this.setState({comment: comment});
+    this.setState({ comment });
   }
 
   onSubmit(evt) {
@@ -161,66 +159,91 @@ class CommentAdd extends Component {
     const { classes } = this.props;
 
     return (
-      <form method="POST" action={ this.props.api } onSubmit={ this.onSubmit.bind(this) }>
-        <fieldset disabled={ submitting? "disabled": false } className={ classes.formBorder }>
-          <legend className={ classes.formLegend }>我有话要讲</legend>
+      <form method="POST" action={this.props.api} onSubmit={this.onSubmit.bind(this)}>
+        <fieldset disabled={submitting ? 'disabled' : false} className={classes.formBorder}>
+          <legend className={classes.formLegend}>我有话要讲</legend>
           <Grid container spacing={24}>
-            <Grid item sm={12} md={6} classes={{
-              item: classes.formControlFullWidth
-            }}>
-              <FormControl className={ classes.formControlFullWidth }>
+            <Grid
+              item
+              sm={12}
+              md={6}
+              classes={{
+                item: classes.formControlFullWidth,
+              }}
+            >
+              <FormControl className={classes.formControlFullWidth}>
                 <InputLabel htmlFor="comment-name">
-                  <span className={ classes.requiredColor }>*</span> 昵称
+                  <span className={classes.requiredColor}>*</span>
+                  {' '}
+昵称
                 </InputLabel>
                 <Input
                   id="comment-name"
-                  startAdornment={
+                  startAdornment={(
                     <InputAdornment position="start">
                       <AccountCircleOutlinedIcon />
                     </InputAdornment>
-                  }
-                  type="text" name="nickname" value={ comment.nickname } onChange={ this.onChange.bind(this) } placeholder="* 怎么称呼您呐_(:з」∠)_" required={ true }
+)}
+                  type="text"
+                  name="nickname"
+                  value={comment.nickname}
+                  onChange={this.onChange.bind(this)}
+                  placeholder="* 怎么称呼您呐_(:з」∠)_"
+                  required
                 />
               </FormControl>
             </Grid>
-            <Grid item sm={12} md={6} classes={{
-              item: classes.formControlFullWidth
-            }}>
-              <FormControl className={ classes.formControlFullWidth }>
+            <Grid
+              item
+              sm={12}
+              md={6}
+              classes={{
+                item: classes.formControlFullWidth,
+              }}
+            >
+              <FormControl className={classes.formControlFullWidth}>
                 <InputLabel htmlFor="comment-email">邮箱(可选)</InputLabel>
                 <Input
                   id="comment-email"
-                  startAdornment={
+                  startAdornment={(
                     <InputAdornment position="start">
                       <EmailOutlinedIcon />
                     </InputAdornment>
-                  }
-                  type="email" name="email" value={ comment.email || '' } onChange={ this.onChange.bind(this) } placeholder="不会被显示和公布"
+)}
+                  type="email"
+                  name="email"
+                  value={comment.email || ''}
+                  onChange={this.onChange.bind(this)}
+                  placeholder="不会被显示和公布"
                 />
               </FormControl>
             </Grid>
           </Grid>
 
           <Grid container spacing={24}>
-            <Grid item sm={12} classes={{
-              item: classes.formControlFullWidth
-            }}>
-              <FormControl className={ classes.formControlFullWidth }>
+            <Grid
+              item
+              sm={12}
+              classes={{
+                item: classes.formControlFullWidth,
+              }}
+            >
+              <FormControl className={classes.formControlFullWidth}>
                 <Input
                   id="comment-content"
                   multiline
                   // rows={ 2 }
-                  startAdornment={
+                  startAdornment={(
                     <InputAdornment position="start">
-                      <TextsmsOutlinedIcon className={ classes.flipIcon } />
+                      <TextsmsOutlinedIcon className={classes.flipIcon} />
                     </InputAdornment>
-                  }
+)}
                   type="text"
                   name="content"
-                  value={ comment.content }
-                  onChange={ this.onChange.bind(this) }
+                  value={comment.content}
+                  onChange={this.onChange.bind(this)}
                   placeholder="*来都来了不说说都不好意思直接走..."
-                  required={ true }
+                  required
                 />
               </FormControl>
             </Grid>
@@ -233,9 +256,13 @@ class CommentAdd extends Component {
           </Grid>
 
           <Grid container spacing={24}>
-            <Grid item sm={12} style={
-                {'textAlign': 'right'}
-              }>
+            <Grid
+              item
+              sm={12}
+              style={
+                { textAlign: 'right' }
+              }
+            >
               <Button type="submit" variant="contained" color="primary">我要讲话了</Button>
             </Grid>
           </Grid>
@@ -244,7 +271,6 @@ class CommentAdd extends Component {
       </form>
     );
   }
-
 }
 
 
