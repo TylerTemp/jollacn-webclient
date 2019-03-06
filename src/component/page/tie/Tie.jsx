@@ -18,7 +18,7 @@ import 'lightbox-react/style.css';
 
 import axios from 'axios';
 
-import tieListCache from '../../storage/TieListCache';
+import tieListCache from '~/component/storage/TieListCache';
 
 
 const styles = theme => ({

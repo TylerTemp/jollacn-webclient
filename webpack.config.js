@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 // the path(s) that should be cleaned
 // let pathsToClean = [
@@ -8,16 +9,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // ]
 
 // the clean options to use
-// let cleanOptions = {
-//     root: __dirname,
-//     verbose: true, // Write logs to console.
-//     dry: false
-// }
+let cleanOptions = {
+    root: __dirname,
+    verbose: true, // Write logs to console.
+    dry: false
+}
 
 
 module.exports = {
   entry: './src/index.jsx', // 相对路径
   // mode: 'development',
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'build', 'static'), // 打包文件的输出路径
     publicPath: '/static/',
@@ -30,6 +32,8 @@ module.exports = {
       favicon: './public/favicon.ico',
     }),
     // new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    new CleanWebpackPlugin(cleanOptions),
+    new ManifestPlugin(),
   ],
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
@@ -38,6 +42,7 @@ module.exports = {
     compress: true,
     // historyApiFallback: {index: "build/index.html"},
   },
+
   module: {
     rules: [ // 配置加载器
       // {

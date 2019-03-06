@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "webpack --progress --colors --mode=production && webpack-dev-server --progress --colors --mode=development --inline --port 8081",
-    "build": "rm -rf build; webpack --progress --colors --mode=production"
+    "start": "webpack --progress --colors --mode=production & webpack-dev-server --progress --colors --mode=development --inline --port 8081",
+    "build": "webpack --progress --colors --mode=production",
+    "stats": "mkdir -p build; webpack --profile --json > build/compilation-stats.json; webpack-bundle-analyzer build/compilation-stats.json"
   },
   "keywords": [
     "jolla",
@@ -27,6 +28,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
+    "clean-webpack-plugin": "^2.0.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.14.0",
     "eslint-config-airbnb": "^17.0.0",
@@ -40,8 +42,10 @@
     "style-loader": "^0.22.1",
     "url-loader": "^1.0.1",
     "webpack": "^4.16.5",
+    "webpack-bundle-analyzer": "^3.1.0",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5"
+    "webpack-dev-server": "^3.1.5",
+    "webpack-manifest-plugin": "^2.0.4"
   },
   "dependencies": {
     "@material-ui/core": "^3.3.2",

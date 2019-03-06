@@ -173,7 +173,7 @@ ERROR:
           <video className={classes.video} controls crossOrigin="anonymous" poster={media.poster}>
               抱歉，你的浏览器不支持
             <code>video</code>
-元素
+            元素
             {
                 media.sources.map(({ mime, src }, index) => (
                   <source key={`${index}-${src}`} src={src} type={mime} />
