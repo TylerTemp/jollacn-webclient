@@ -9,11 +9,11 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 // ]
 
 // the clean options to use
-let cleanOptions = {
-    root: __dirname,
-    verbose: true, // Write logs to console.
-    dry: false
-}
+const cleanOptions = {
+  root: __dirname,
+  verbose: true, // Write logs to console.
+  dry: false,
+};
 
 
 module.exports = {
