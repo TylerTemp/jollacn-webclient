@@ -222,7 +222,7 @@ const parsePostHTML = (html) => {
                 evt.preventDefault();
                 // {# this.openMediaViewer(current_index); #}
                 // console.log("FIX ME!");
-                lightWrapperOpen();
+                lightWrapperOpen(current_index);
               }}
             >
               <figure className="thumbnail" dataImgId={current_index}>
@@ -330,7 +330,7 @@ const PostBody = ({ slug, classes }) => {
     content, headerimg, title, description,
     source_type: sourceType,
     source_url: sourceUrl, source_title: sourceTitle,
-    source_author: sourceAuthor
+    source_author: sourceAuthor,
   } = postResult;
   // Author
   const { medias, dom: post_component } = parsePostHTML(content);
@@ -363,10 +363,15 @@ const PostBody = ({ slug, classes }) => {
         </div>
       </article>
       { needDevider && <Divider />}
-      { sourceAuthor && <Author name={ sourceAuthor} /> }
-      { sourceUrl && <Fragment>
-        <p className={classes.sourceBox}>原文: <a target="_blank" href={sourceUrl}>{sourceDisplay}</a></p>
-      </Fragment>}
+      { sourceAuthor && <Author name={sourceAuthor} /> }
+      { sourceUrl && (
+      <Fragment>
+        <p className={classes.sourceBox}>
+原文:
+          <a target="_blank" href={sourceUrl}>{sourceDisplay}</a>
+        </p>
+      </Fragment>
+      )}
       <LightWrapper medias={medias} />
     </Fragment>
   );

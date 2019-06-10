@@ -49,30 +49,29 @@ const authorResource = createResource(
 
 
 const isEmptyMap = (mapObject) => {
-  for(var key in mapObject) {
-    if(mapObject.hasOwnProperty(key))
-        return false;
+  for (const key in mapObject) {
+    if (mapObject.hasOwnProperty(key)) return false;
   }
   return true;
-}
+};
 
 
 const AuthorLoader = ({ name, classes }) => {
-  const {display_name: displayName, description, avatar} = authorResource.read(name);
+  const { display_name: displayName, description, avatar } = authorResource.read(name);
   let avatarNode = null;
-  if(avatar) {
-    const {default: defaultSrc} = avatar;
-    let sizedAvatar = {...avatar};
+  if (avatar) {
+    const { default: defaultSrc } = avatar;
+    const sizedAvatar = { ...avatar };
     delete sizedAvatar.default;
-    const srcsetInfo = Object.keys(sizedAvatar).map(size => {
+    const srcsetInfo = Object.keys(sizedAvatar).map((size) => {
       const url = sizedAvatar[size];
       return `${url} ${size}`;
     });
     let srcset = null;
-    if(srcsetInfo.length > 0) {
+    if (srcsetInfo.length > 0) {
       srcset = srcsetInfo.join(', ');
     }
-    avatarNode = <img src={defaultSrc} srcset={srcset} className={classes.avatarImg} />;
+    avatarNode = <img src={defaultSrc} srcSet={srcset} className={classes.avatarImg} />;
   }
 
   return (
@@ -80,18 +79,18 @@ const AuthorLoader = ({ name, classes }) => {
       { avatarNode }
       <div className={classes.intro}>
         <h6 className={classes.displayName}>{displayName}</h6>
-        <div className={classes.description} dangerouslySetInnerHTML={{__html: description}} />
+        <div className={classes.description} dangerouslySetInnerHTML={{ __html: description }} />
       </div>
     </div>
   );
 };
 
 
-const Author = ({ name, classes }) => {
-  return <Suspenser fallback={<LinearProgress color="secondary" />}>
+const Author = ({ name, classes }) => (
+  <Suspenser fallback={<LinearProgress color="secondary" />}>
     <AuthorLoader name={name} classes={classes} />
-  </Suspenser>;
-}
+  </Suspenser>
+);
 
 
 const styles = {
@@ -126,7 +125,7 @@ const styles = {
 
   description: {
 
-  }
+  },
 };
 
 

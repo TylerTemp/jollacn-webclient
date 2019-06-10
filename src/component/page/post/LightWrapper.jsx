@@ -19,6 +19,7 @@ class LightWrapperOpenStatus {
 
   @action open(index) {
     transaction(() => {
+      console.log('open img index', index);
       this.isOpen = true;
       this.mediaIndex = index;
     });
