@@ -553,3 +553,14 @@ figure.thumbnail > figcaption {
   }
 }
 /* END: thumbnail */
+
+/* code */
+code {
+  padding: 2px 4px;
+  /* font-size: 1.3rem; */
+  color: #c7254e;
+  background-color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+}
+/* END: code */

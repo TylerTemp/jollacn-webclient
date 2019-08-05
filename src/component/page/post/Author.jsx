@@ -109,6 +109,8 @@ const styles = {
   avatarImg: {
     width: '30%',
     height: '100%',
+    borderRadius: '50%',
+    // border: '#d8d8d8 solid 1px',
   },
 
   intro: {
