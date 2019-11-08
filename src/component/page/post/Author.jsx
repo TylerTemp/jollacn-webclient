@@ -98,7 +98,7 @@ const styles = {
     'max-width': '900px',
     'margin-left': 'auto',
     'margin-right': 'auto',
-    padding: '0 10px 0 10px',
+    padding: '10px 10px 10px 10px',
     'font-size': '1.3rem',
     'font-weight': '300',
 

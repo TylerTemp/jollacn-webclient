@@ -330,12 +330,12 @@ const PostBody = ({ slug, classes }) => {
     content, headerimg, title, description,
     source_type: sourceType,
     source_url: sourceUrl, source_title: sourceTitle,
-    source_author: sourceAuthor,
+    source_authors: sourceAuthors,
   } = postResult;
   // Author
   const { medias, dom: post_component } = parsePostHTML(content);
 
-  const needDevider = (sourceAuthor || (
+  const needDevider = (sourceAuthors.lenth > 0 || (
     sourceType === 'translation' && sourceUrl
   ));
 
@@ -363,7 +363,7 @@ const PostBody = ({ slug, classes }) => {
         </div>
       </article>
       { needDevider && <Divider />}
-      { sourceAuthor && <Author name={sourceAuthor} /> }
+      { sourceAuthors.map(sourceAuthor => <Author name={sourceAuthor} />)}
       { sourceUrl && (
       <Fragment>
         <p className={classes.sourceBox}>
