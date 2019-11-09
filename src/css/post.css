@@ -66,6 +66,18 @@ blockquote small {
   text-align: right;
 }
 
+ruby {
+    background-color: rgba(139,195,74,0.2);
+    /* margin: 4px;
+    padding: 0 2px; */
+    border-bottom: #393 1px dashed;
+}
+
+ruby > rt {
+    color: #000;
+    /* font-family: monospace; */
+}
+
 /* START: table */
 table {
     max-width: 100%;
