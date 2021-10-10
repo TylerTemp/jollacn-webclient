@@ -673,5 +673,6 @@ pre > code {
   color: unset;
   background-color: unset;
   border-radius: unset;
+  white-space: unset;
 }
 /* END: pygments */
