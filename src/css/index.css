@@ -1,8 +1,3 @@
-.nav-link {
-  text-decoration: none;
-  color: white;
-}
-
 .nav-icon {
   position: relative;
   top: 4px;
@@ -16,11 +11,4 @@ article.post img {
 
 a.pagination {
   text-decoration: none;
-}
-
-body {
-  background-color: #3a7ba2 !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans","wenquanyi micro hei","Hiragino Sans GB", "Hiragino Sans GB W3", Arial, sans-serif;
 }

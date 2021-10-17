@@ -5,71 +5,56 @@ import {
   Route,
   // NavLink,
   Switch,
+  Link,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from '@mui/material/styles';
 
 import 'typeface-roboto';
-// import CssBaseline from '@material-ui/core/CssBaseline';
+// import CssBaseline from '@mui/material/CssBaseline';
 
-import Home from '~/component/page/Home';
-// import Header from '~/component/Header';
-import NotFound from '~/component/page/NotFound';
-// import Layout from './component/Layout'
-// import {default as PostList} from './component/page/post/List'
-// import PostListWithPagination from '~/component/page/post/PostListWithPagination';
-import RedirectPostSlug from '~/component/page/post/RedirectPostSlug';
-import PostListWithHeaderPagination from '~/component/page/post/PostListWithHeaderPagination';
-import PostWithComment from '~/component/page/post/PostWithComment';
-// import TieListWithHeaderPagination from './component/page/tie/TieListWithHeaderPagination';
-// import TieWithComment from './component/page/tie/TieWithComment';
-import TieModalSwitch from '~/component/page/tie/TieModalable';
+// import Home from '~/page/Home';
+// // import Header from '~/component/Header';
+// import NotFound from '~/page/NotFound';
+// // import Layout from './component/Layout'
+// // import {default as PostList} from './component/page/post/List'
+// // import PostListWithPagination from '~/component/page/post/PostListWithPagination';
+// import RedirectPostSlug from '~/page/post/RedirectPostSlug';
+// import PostListWithHeaderPagination from '~/page/post/PostListWithHeaderPagination';
+// import PostWithComment from '~/page/post/PostWithComment';
+// // import TieListWithHeaderPagination from './component/page/tie/TieListWithHeaderPagination';
+// // import TieWithComment from './component/page/tie/TieWithComment';
+// import TieModalSwitch from '~/page/tie/TieModalable';
+
+import appTheme from '~/component/Theme';
+import MainLayout from '~/component/main_layout';
+import store from '~/store';
+import Post from '~/page/post';
 
 import '~/css/index.css';
 
 
-class App extends Component {
-  // previousLocation = this.props.location;
+const App = () => <>
+    <Router>
+      <Provider store={store}>
+        <ThemeProvider theme={appTheme}>
+          <MainLayout>
+            <Switch>
+              {/*<Route exact path="/" component={Home} />*/}
 
-  // componentWillUpdate(nextProps) {
-  //   const { location } = this.props;
-  //   if (
-  //     nextProps.history.action !== "POP" &&
-  //     (!location.state || !location.state.modal)
-  //   ) {
-  //     this.previousLocation = this.props.location;
-  //   }
-  // }
+              {/*<Route exact path="/post" component={PostListWithHeaderPagination} />
+              <Route exact path="/post/page/:page" component={PostListWithHeaderPagination} />*/}
+              <Route exact path="/post/:slug" component={props => <Post key={props.match.params.slug} {...props}/>} />
 
-  render() {
-    // const { location } = this.props;
-    // const is_modal = !!(
-    //   location &&
-    //   location.state &&
-    //   location.state.modal &&
-    //   this.previousLocation !== location
-    // );
-    //
-    // alert(`is_modal = ${is_modal}`);
-
-    return (
-      <React.Fragment>
-        {/* <CssBaseline></CssBaseline> */}
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-
-            <Route exact path="/post" component={PostListWithHeaderPagination} />
-            <Route exact path="/post/page/:page" component={PostListWithHeaderPagination} />
-            <Route exact path="/post/:slug" component={PostWithComment} />
-
-            <Route path="/tie" component={TieModalSwitch} />
-            <Route exact path="/:post_slug" component={RedirectPostSlug} />
-            <Route component={NotFound} />
-          </Switch>
-        </Router>
-      </React.Fragment>
-    );
-  }
-}
+              {/*<Route path="/tie" component={TieModalSwitch} />
+              <Route exact path="/:post_slug" component={RedirectPostSlug} />
+              <Route component={NotFound} />*/}
+            </Switch>
+          </MainLayout>
+        </ThemeProvider>
+      </Provider>
+    </Router>
+</>;
 
 ReactDom.render(
   <App />,

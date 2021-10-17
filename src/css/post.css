@@ -1,3 +1,7 @@
+article img {
+  max-width: 100%;
+}
+
 video {
   max-width: 100%;
 }
@@ -655,7 +659,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
 
 pre {
-  padding: 20px;
+  padding: 10px;
   -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
   -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
   box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);

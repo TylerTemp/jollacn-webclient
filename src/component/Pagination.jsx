@@ -6,23 +6,23 @@ import {
 
 // import { observer } from 'mobx-react';
 
-import { withStyles } from '@material-ui/core/styles';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import Button from '@material-ui/core/Button';
-import grey from '@material-ui/core/colors/grey';
+// import { withStyles } from '@mui/material/styles';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import Button from '@mui/material/Button';
+import grey from '@mui/material/colors/grey';
+
+//
+// const styles = theme => ({
+//   disabledText: {
+//     color: grey[400],
+//   },
+// });
 
 
-const styles = theme => ({
-  disabledText: {
-    color: grey[400],
-  },
-});
-
-
-@withStyles(styles)
+// @withStyles(styles)
 // @observer
 class Pagination extends Component {
   constructor(props) {

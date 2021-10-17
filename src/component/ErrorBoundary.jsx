@@ -23,7 +23,8 @@ class ErrorBoundary extends React.Component {
     const { children, onError = this.defaultErrorHandler } = this.props;
     const { error } = this.state;
     if (error) {
-      return onError(error);
+      // return onError(error) || <pre>{error}</pre>;
+      return <pre>{error}</pre>;
     }
     return children;
   }
