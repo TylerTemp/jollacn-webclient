@@ -76,7 +76,7 @@ export default ({loading, error, result: {headerimg: headerImg, title, descripti
 
           <Box sx={{color: '#666', border: '1px solid #dedede', padding: '0 10px', marginTop: '5px', background: '#f9f9f9', borderRadius: '2px'}}>
             <Typography variant="body2" color="text.secondary" component="div">
-              {parse(description)}
+              {description && parse(description)}
             </Typography>
           </Box>
           <>

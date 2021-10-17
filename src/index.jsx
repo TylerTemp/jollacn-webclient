@@ -29,6 +29,7 @@ import 'typeface-roboto';
 import appTheme from '~/component/Theme';
 import MainLayout from '~/component/main_layout';
 import store from '~/store';
+import PostList from '~/page/post_list';
 import Post from '~/page/post';
 
 import '~/css/index.css';
@@ -42,8 +43,8 @@ const App = () => <>
             <Switch>
               {/*<Route exact path="/" component={Home} />*/}
 
-              {/*<Route exact path="/post" component={PostListWithHeaderPagination} />
-              <Route exact path="/post/page/:page" component={PostListWithHeaderPagination} />*/}
+              <Route exact path="/post" component={props => <PostList key={1} page={1} />} />
+              <Route exact path="/post/page/:page" component={props => <PostList key={parseInt(props.match.params.page)} page={parseInt(props.match.params.page)} />} />
               <Route exact path="/post/:slug" component={props => <Post key={props.match.params.slug} {...props}/>} />
 
               {/*<Route path="/tie" component={TieModalSwitch} />

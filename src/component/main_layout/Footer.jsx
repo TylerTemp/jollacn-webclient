@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 
 
 export default () => <footer>
-  <Box sx={{display: 'flex', justifyContent: 'center', width: '100%', color: 'white'}}>
+  <Box sx={{display: 'flex', justifyContent: 'center', width: '100%', color: 'white', padding: '30px 0'}}>
     <Typography variant="body2" gutterBottom>
       <a href="https://beian.miit.gov.cn/" target="_blank" style={{textDecoration: 'none', color: 'white'}}>京ICP备18007798号</a>
     </Typography>
