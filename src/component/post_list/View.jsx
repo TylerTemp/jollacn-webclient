@@ -89,6 +89,18 @@ export default ({
     {loading && <Box sx={{height: '100px', display: 'flex', justifyContent: 'center'}}>
       <CircularProgress color="secondary" />
     </Box>}
+    {error && <Paper>
+      <Alert
+        severity="error"
+        action={
+          <Button color="inherit" size="small" onClick={onRetry}>
+            重试
+          </Button>
+        }
+      >
+        {error}
+      </Alert>
+    </Paper>}
     <Box sx={{display: 'flex', justifyContent: 'center'}}>
       <Paper>
         <Pagination offset={offset} limit={limit} total={total} onChange={fetchPostList} />

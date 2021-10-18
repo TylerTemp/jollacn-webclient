@@ -31,6 +31,7 @@ import MainLayout from '~/component/main_layout';
 import store from '~/store';
 import PostList from '~/page/post_list';
 import Post from '~/page/post';
+import TieList from '~/page/tie_list';
 
 import '~/css/index.css';
 
@@ -47,8 +48,8 @@ const App = () => <>
               <Route exact path="/post/page/:page" component={props => <PostList key={parseInt(props.match.params.page)} page={parseInt(props.match.params.page)} />} />
               <Route exact path="/post/:slug" component={props => <Post key={props.match.params.slug} {...props}/>} />
 
-              {/*<Route path="/tie" component={TieModalSwitch} />
-              <Route exact path="/:post_slug" component={RedirectPostSlug} />
+              <Route path="/tie" component={TieList} />
+              {/*<Route exact path="/:post_slug" component={RedirectPostSlug} />
               <Route component={NotFound} />*/}
             </Switch>
           </MainLayout>

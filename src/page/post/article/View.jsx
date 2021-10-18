@@ -67,7 +67,7 @@ export default ({loading, error, result: {headerimg: headerImg, title, descripti
     />
     <CardContent>
       <article>
-        <Typography variant="h1" component="div" gutterBottom sx={{textAlign: 'center', padding: '20px 0px'}}>
+        <Typography variant="h1" gutterBottom sx={{textAlign: 'center', padding: '20px 0px'}}>
           {title}
         </Typography>
 
