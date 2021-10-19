@@ -5,7 +5,7 @@ import request from '~/util/Request';
 import View from './View';
 
 
-export default ({page: startPage}) => {
+export default ({page: startPage=1}) => {
   const defaultLimit = 10;
   const [apiState, setApiState] = useState({loading: true, error: null, offset: (startPage-1)*defaultLimit, limit: defaultLimit, total: 0, postList: []});
 

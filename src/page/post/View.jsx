@@ -1,8 +1,9 @@
 import React from 'react';
 import Box from '@mui/system/Box';
 
+import Comment from '~/component/comment';
+
 import Article from './article';
-import Comment from './comment';
 
 export default({slug}) => {
 

@@ -5,6 +5,4 @@ import View from './View';
 import '~/css/post.css';
 
 
-export default({match: {params: {slug}}}) => {
-  return <View slug={slug} />;
-}
+export default({match: {params: {slug}}}) => <View slug={slug} />;

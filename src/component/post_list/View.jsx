@@ -1,9 +1,8 @@
 import React from 'react';
-import Pagination from '~/component/pagination';
-import Box from '@mui/system/Box';
 import {
   Link,
 } from 'react-router-dom';
+import Box from '@mui/system/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
@@ -13,9 +12,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import styled from '@mui/system/styled';
 
+import Pagination from '~/component/pagination';
 
 const SLink = styled(Link)({
   textDecoration: 'none',
@@ -77,7 +78,7 @@ export default ({
   postList,
   fetchPostList
 }) => <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-  <Box sx={{width: '100%', maxWidth: '1100px'}}>
+  <Box sx={{width: '100%', maxWidth: '1100px', margin: '0 20px'}}>
     <Grid container spacing={2}>
       {postList.map(each =>
         <Grid item key={each.slug} sm={12} md={6}>
