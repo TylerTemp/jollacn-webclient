@@ -1,8 +1,7 @@
-import React from 'react';
-// import {
-//   NavLink,
-//   Link,
-// } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import {
+  useLocation,
+} from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Grid from '@mui/material/Grid';
@@ -19,82 +18,83 @@ import { TAB_AT } from '~/actions/ActionTypes';
 
 import { SNavLink, STab } from './Style';
 
-// const styles = theme => ({
-//   root: {
-//     flexGrow: 1,
-//   },
-//   widthLimit: {
-//     width: 'auto',
-//     marginLeft: theme.spacing.unit * 3,
-//     marginRight: theme.spacing.unit * 3,
-//     [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-//       width: 1100,
-//       marginLeft: 'auto',
-//       marginRight: 'auto',
-//     },
-//   },
-// });
+
+const locationChanged = ({pathname}, onTabAt) => {
+  // if (pathname === '/') {
+  //   return onTabAt('home')
+  // }
+
+  if (pathname.startsWith('/post')) {
+    return onTabAt('post');
+  }
+
+  if (pathname.startsWith('/tie')) {
+    return onTabAt('tie');
+  }
+
+  return onTabAt('home');
+}
+
 
 // export default Header
 const Header = ({ tabAt, onTabAt, children}) => {
-    // const atTabIndex = {
-    //   home: 0,
-    //   post: 1,
-    //   tie: 2,
-    // }[tabAt];
 
-    // const onTabChange = tabIndex => tabAt(['home', 'post', 'tie'][tabIndex]);
+  const location = useLocation();
 
-    return <header>
-        <AppBar position="static" sx={{display: 'flex', alignItems: 'center'}}>
-          <Box sx={{width: '100%', maxWidth: '1100px'}}>
-            <Toolbar>
-              <Tabs indicatorColor="secondary" value={tabAt} onChange={(_, newValue) => onTabAt(newValue)}>
-                  <STab
-                    color="white"
-                    label={(
-                      <SNavLink exact to="/" className="nav-link" onClick={() => onTabAt('home')}>
-                        <Typography variant="h6" color="inherit" display="flex" alignItems="center">
-                          <HomeIcon />
-                        首页
-                        </Typography>
-                      </SNavLink>
-                    )}
-                    value="home"
-                  />
+  useEffect(() => {
+    locationChanged(location, onTabAt);
+  }, [location])
 
-
-                  <STab
-                    label={(
-                      <SNavLink exact to="/post" onClick={() => onTabAt('post')}>
-                        <Typography variant="h6" color="inherit" display="flex" alignItems="center">
-                          <BallotIcon />
-                        文章
-                        </Typography>
-                      </SNavLink>
-                    )}
-                    value="post"
-                  />
+  return <header>
+      <AppBar position="static" sx={{display: 'flex', alignItems: 'center'}}>
+        <Box sx={{width: '100%', maxWidth: '1100px'}}>
+          <Toolbar>
+            <Tabs indicatorColor="secondary" value={tabAt}>
+                <STab
+                  color="white"
+                  label={(
+                    <SNavLink exact to="/">
+                      <Typography variant="h6" color="inherit" display="flex" alignItems="center">
+                        <HomeIcon />
+                      首页
+                      </Typography>
+                    </SNavLink>
+                  )}
+                  value="home"
+                />
 
 
-                  <STab
-                    label={(
-                      <SNavLink exact to="/tie" onClick={() => onTabAt('tie')}>
-                        <Typography variant="h6" color="inherit" display="flex" alignItems="center">
-                          <StyleIcon />
-                        快讯
-                        </Typography>
-                      </SNavLink>
-                    )}
-                    value="tie"
-                  />
+                <STab
+                  label={(
+                    <SNavLink exact to="/post">
+                      <Typography variant="h6" color="inherit" display="flex" alignItems="center">
+                        <BallotIcon />
+                      文章
+                      </Typography>
+                    </SNavLink>
+                  )}
+                  value="post"
+                />
 
-              </Tabs>
-            </Toolbar>
-          </Box>
-        </AppBar>
-      { children }
-    </header>;
+
+                <STab
+                  label={(
+                    <SNavLink exact to="/tie">
+                      <Typography variant="h6" color="inherit" display="flex" alignItems="center">
+                        <StyleIcon />
+                      快讯
+                      </Typography>
+                    </SNavLink>
+                  )}
+                  value="tie"
+                />
+
+            </Tabs>
+          </Toolbar>
+        </Box>
+      </AppBar>
+    { children }
+  </header>;
 };
 
 

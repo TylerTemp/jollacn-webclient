@@ -30,15 +30,12 @@ const App = () => <>
             <Switch>
               <Route exact path="/" component={Home} />
 
-              <Route exact path="/post" component={props => <PostList page={1} />} />
-              <Route exact path="/post/page/:page" component={props => {
-                const {match: {params: {page: pageStr='1'}}} = props;
-                const page = parseInt(page);
-                <PostList key={page} page={page} {...props}/>}
-              }/>
+              <Route exact path="/post" component={PostList} />
+              <Route exact path="/post/page/:page" component={PostList}/>
               <Route exact path="/post/:slug" component={props => <Post key={props.match.params.slug} {...props}/>} />
 
               <Route exact path="/tie" component={TieList} />
+              <Route exact path="/tie/page/:page" component={TieList} />
               <Route exact path="/tie/:tieId" component={props => <Tie key={props.match.params.tieId} {...props}/>} />
               {/*<Route exact path="/:post_slug" component={RedirectPostSlug} />
               <Route component={NotFound} />*/}
