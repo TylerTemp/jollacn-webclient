@@ -1,64 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/system/Box';
+import Alert from '@mui/material/Alert';
 
-// import { withStyles } from '@mui/material/styles';
-// import Paper from '@mui/material/Paper';
-// import Divider from '@mui/material/Divider';
-
-import BlogHeaderImg from '~/images/blog_header.png';
-import Header from '~/component/Header';
-
-
-// const styles = theme => ({
-//   // Divider: {
-//   //   'height': 0,
-//   //   'border': 'none',
-//   //   'margin-top': '15px',
-//   //   'margin-bottom': '15px',
-//   // },
-//   pageWidthLimit: {
-//     width: 'auto',
-//     marginLeft: theme.spacing.unit * 3,
-//     marginRight: theme.spacing.unit * 3,
-//     [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-//       width: 1100,
-//       marginLeft: 'auto',
-//       marginRight: 'auto',
-//     },
-//   },
-//   headerImgWrapper: {
-//     'text-align': 'center',
-//     'padding-top': '40px',
-//     'padding-bottom': '25px',
-//   },
-// });
-//
-//
-// @withStyles(styles)
-class NotFound extends Component {
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div>
-
-        <Header at="404">
-          <div className={classes.headerImgWrapper}>
-            <Link to="/">
-              <img src={BlogHeaderImg} alt="Jolla非官方中文博客" />
-            </Link>
-          </div>
-        </Header>
-
-        <div className={classes.pageWidthLimit}>
-          <p>Error: Page not found</p>
-        </div>
-      </div>
-    );
-  }
-}
-
-
-export default NotFound;
+export default () => (
+  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Paper sx={{ margin: '10px' }}>
+      <Alert
+        severity="error"
+        action={(
+          <Link to="/" style={{ textDecoration: 'inherit', color: 'inherit' }}>
+            <Button color="inherit" size="small">
+              返回
+            </Button>
+          </Link>
+)}
+      >
+        页面不存在
+      </Alert>
+    </Paper>
+  </Box>
+);

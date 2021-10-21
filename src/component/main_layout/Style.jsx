@@ -9,13 +9,11 @@ export const HeaderImg = styled('img')({
   maxWidth: '575px',
 });
 
-
 export const SNavLink = styled(NavLink)({
   textDecoration: 'none',
-  color: 'inherit'
+  color: 'inherit',
   // color: 'white',
 });
-
 
 export const STab = styled(Tab)({
   color: 'rgba(255, 255, 255, 0.7)',
@@ -30,5 +28,5 @@ export const STab = styled(Tab)({
 export default {
   HeaderImg,
   SNavLink,
-  STab
+  STab,
 };

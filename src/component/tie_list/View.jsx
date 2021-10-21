@@ -10,28 +10,24 @@ import ImageListItem from '@mui/material/ImageListItem';
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
-import CardActions from '@mui/material/CardActions';
+// import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+// import CardMedia from '@mui/material/CardMedia';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+// import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import parse from 'html-react-parser';
 import { UniversalStyle as Style } from 'react-css-component';
 import Lightbox from 'lightbox-react';
 import 'lightbox-react/style.css';
 
+// const RenderImageItem = ({ src, type }) =>
+// // {type == 'video_poster' && <PlayCircleOutlineIcon />}
+//   <img src={src} />;
 
-const RenderImageItem = ({src, type}) => {
-  // {type == 'video_poster' && <PlayCircleOutlineIcon />}
-  return <img src={src} />
-}
-
-
-
-const MakeMediaPreview = ({previews}) => {
+const MakeMediaPreview = ({ previews }) => {
   if (previews.length === 0) {
     return null;
   }
@@ -39,21 +35,28 @@ const MakeMediaPreview = ({previews}) => {
   const cuttedPreviews = previews.slice(0, 3);
 
   if (cuttedPreviews.length === 1) {
-    return <ImageList variant="quilted" cols={1} rowHeight={200} sx={{margin: 0}}>
-      <ImageListItem key={cuttedPreviews[0].src} cols={1} rows={1}>
-        <img src={cuttedPreviews[0].src} />
-      </ImageListItem>
-    </ImageList>;
+    return (
+      <ImageList variant="quilted" cols={1} rowHeight={200} sx={{ margin: 0 }}>
+        <ImageListItem key={cuttedPreviews[0].src} cols={1} rows={1}>
+          <img src={cuttedPreviews[0].src} />
+        </ImageListItem>
+      </ImageList>
+    );
   }
 
-  return <ImageList variant="quilted" cols={2} rowHeight={200} sx={{margin: 0}}>
-    {cuttedPreviews.map(({src, type}, index) => <ImageListItem
-        key={src}
-        cols={(index===0 || (index===1 && cuttedPreviews.length === 2))? 2: 1}
-        rows={1}>
-      <img src={src} />
-    </ImageListItem>)}
-  </ImageList>;
+  return (
+    <ImageList variant="quilted" cols={2} rowHeight={200} sx={{ margin: 0 }}>
+      {cuttedPreviews.map(({ src }, index) => (
+        <ImageListItem
+          key={src}
+          cols={(index === 0 || (index === 1 && cuttedPreviews.length === 2)) ? 2 : 1}
+          rows={1}
+        >
+          <img src={src} />
+        </ImageListItem>
+      ))}
+    </ImageList>
+  );
 
   // const firstTile = previews[0];
   // const restTile = previews.slice(1);
@@ -69,30 +72,41 @@ const MakeMediaPreview = ({previews}) => {
   // </ImageList>;
 };
 
-
-const MediaViewer = ({state: {isOpen, medias, content, index: mediaIndex}, close, setIndex}) => {
-  if(!isOpen) {
+const MediaViewer = ({
+  state: {
+    isOpen, medias, content, index: mediaIndex,
+  }, close, setIndex,
+}) => {
+  if (!isOpen) {
     return null;
   }
 
-  const mediaSrcs = medias.map(({type, src, poster, sources, subtitles=[]}) => {
-    if (type == 'img') {
+  const mediaSrcs = medias.map(({
+    type, src, poster, sources, subtitles = [],
+  }) => {
+    if (type === 'img') {
       return src;
     }
-    return <Box sx={{display: 'flex', justifyContent: 'center'}}>
-      <video controls crossOrigin="anonymous" poster={poster}>
-        抱歉，你的浏览器不支持<code>video</code>元素
-        {sources.map(({ mime, src }) => <source key={src} src={src} type={mime} />)}
-        {subtitles.map((subtitle, index) => <track
-          key={subtitle.src}
-          default={index == 0}
-          kind="subtitles"
-          label={subtitle.label}
-          src={subtitle.src}
-          srcLang={subtitle.srclang}
-        />)}
-      </video>
-    </Box>;
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <video controls crossOrigin="anonymous" poster={poster}>
+          抱歉，你的浏览器不支持
+          <code>video</code>
+          元素
+          {sources.map(({ mime, src: sourceSrc }) => <source key={sourceSrc} src={sourceSrc} type={mime} />)}
+          {subtitles.map((subtitle, index) => (
+            <track
+              key={subtitle.src}
+              default={index === 0}
+              kind="subtitles"
+              label={subtitle.label}
+              src={subtitle.src}
+              srcLang={subtitle.srclang}
+            />
+          ))}
+        </video>
+      </Box>
+    );
   });
 
   let lightboxCss = `
@@ -100,9 +114,10 @@ const MediaViewer = ({state: {isOpen, medias, content, index: mediaIndex}, close
       top: 0;
     }`;
 
+  /* eslint-disable-next-line no-plusplus */
   for (let index = 0; index < medias.length; index++) {
     const currentMedia = medias[index];
-    if (currentMedia.type == 'video') {
+    if (currentMedia.type === 'video') {
       lightboxCss = `
           .ril-image-current {
             top: unset;
@@ -114,37 +129,37 @@ const MediaViewer = ({state: {isOpen, medias, content, index: mediaIndex}, close
 
   const mediaCount = mediaSrcs.length;
 
-  return <>
-    <Style css={lightboxCss} />
-    <Lightbox
-      reactModalStyle={{
-        overlay: {
-          zIndex: 2000,
-        },
-      }}
-      enableZoom={medias[mediaIndex].type == 'img'}
-      imageCaption={medias[mediaIndex].type == 'img' && <div dangerouslySetInnerHTML={{ __html: content }} />}
-      imageTitle={medias[mediaIndex].title || medias[mediaIndex].alt || false}
-      mainSrc={mediaSrcs[mediaIndex]}
-      nextSrc={mediaSrcs[(mediaIndex + 1) % mediaCount]}
-      prevSrc={mediaSrcs[(mediaIndex + mediaCount - 1) % mediaCount]}
-      onCloseRequest={close}
-      onMovePrevRequest={() => setIndex((mediaIndex + mediaCount - 1) % mediaCount)}
-      onMoveNextRequest={() => setIndex((mediaIndex + 1) % mediaCount)}
-    />
-  </>
-}
-
-
+  return (
+    <>
+      <Style css={lightboxCss} />
+      <Lightbox
+        reactModalStyle={{
+          overlay: {
+            zIndex: 2000,
+          },
+        }}
+        enableZoom={medias[mediaIndex].type === 'img'}
+        imageCaption={medias[mediaIndex].type === 'img' && <div>{parse(content)}</div>}
+        imageTitle={medias[mediaIndex].title || medias[mediaIndex].alt || false}
+        mainSrc={mediaSrcs[mediaIndex]}
+        nextSrc={mediaSrcs[(mediaIndex + 1) % mediaCount]}
+        prevSrc={mediaSrcs[(mediaIndex + mediaCount - 1) % mediaCount]}
+        onCloseRequest={close}
+        onMovePrevRequest={() => setIndex((mediaIndex + mediaCount - 1) % mediaCount)}
+        onMoveNextRequest={() => setIndex((mediaIndex + 1) % mediaCount)}
+      />
+    </>
+  );
+};
 
 export default ({
   loading,
   error,
-  offset,
-  limit,
-  total,
+  // offset,
+  // limit,
+  // total,
   tieList,
-  fetchTieList,
+  // fetchTieList,
   onRetry,
 
   mediaViewerState,
@@ -155,10 +170,15 @@ export default ({
   itemXs,
   itemMd,
   itemLg,
-}) => {
-    return <>
-      <Grid container spacing={2}>
-        {tieList.map(({id, content, medias, media_previews: mediaPreviews}) => <Fragment key={id}>
+
+  page,
+}) => (
+  <>
+    <Grid container spacing={2}>
+      {tieList.map(({
+        id, content, medias, media_previews: mediaPreviews,
+      }) => (
+        <Fragment key={id}>
           <Grid item xs={itemXs || 12 / 1} md={itemMd || 12 / 3} lg={itemLg || 12 / 4}>
             <Card>
               <CardActionArea onClick={() => openMediaViewer(content, medias)}>
@@ -167,9 +187,9 @@ export default ({
               <Link
                 to={{
                   pathname: `/tie/${id}`,
-                  state: { modal: true, return_to: `` },
+                  state: { page },
                 }}
-                style={{textDecoration: 'inherit', color: 'inherit'}}
+                style={{ textDecoration: 'inherit', color: 'inherit' }}
               >
                 <CardActionArea>
                   <CardContent>
@@ -179,29 +199,34 @@ export default ({
               </Link>
             </Card>
           </Grid>
-        </Fragment>)}
-      </Grid>
+        </Fragment>
+      ))}
+    </Grid>
 
-      {loading && <Box sx={{height: '100px', display: 'flex', justifyContent: 'center'}}>
-        <CircularProgress color="secondary" />
-      </Box>}
-      {error && <Paper>
-        <Alert
-          severity="error"
-          action={
-            <Button color="inherit" size="small" onClick={onRetry}>
-              重试
-            </Button>
-          }
-        >
-          {error}
-        </Alert>
-      </Paper>}
+    {loading && (
+    <Box sx={{ height: '100px', display: 'flex', justifyContent: 'center' }}>
+      <CircularProgress color="secondary" />
+    </Box>
+    )}
+    {error && (
+    <Paper>
+      <Alert
+        severity="error"
+        action={(
+          <Button color="inherit" size="small" onClick={onRetry}>
+            重试
+          </Button>
+          )}
+      >
+        {error}
+      </Alert>
+    </Paper>
+    )}
 
-      <MediaViewer
-        state={mediaViewerState}
-        close={closeMediaViewer}
-        setIndex={setMediaViewerIndex}
-      />
-    </>;
-};
+    <MediaViewer
+      state={mediaViewerState}
+      close={closeMediaViewer}
+      setIndex={setMediaViewerIndex}
+    />
+  </>
+);

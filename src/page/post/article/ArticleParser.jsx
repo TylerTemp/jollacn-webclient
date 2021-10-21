@@ -1,4 +1,3 @@
 import parse from 'html-react-parser';
 
-
-export default ({html}) => parse(html);
+export default ({ html }) => parse(html);

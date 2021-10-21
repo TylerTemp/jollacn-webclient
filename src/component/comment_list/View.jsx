@@ -13,41 +13,61 @@ import Alert from '@mui/material/Alert';
 
 import Pagination from '~/component/pagination';
 
-
-const CommentList = ({commentList}) => {
-  if(commentList.length === 0) {
-    return <Typography variant="body2" paragraph display="flex" justifyContent="center" padding="30px 0 0 0">
-      -- 暂无评论 --
-    </Typography>
+const CommentList = ({ commentList }) => {
+  if (commentList.length === 0) {
+    return (
+      <Typography
+          variant="body2"
+          paragraph
+          display="flex"
+          justifyContent="center"
+          padding="30px 0 0 0">
+        -- 暂无评论 --
+      </Typography>
+    );
   }
 
-  return <List sx={{ width: '100%'}}>
-    {commentList.map(({id, nickname, avatar, content, updated_at: updatedAt}) => <Fragment key={id}>
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt={nickname} src={`/api/${avatar}`} />
-        </ListItemAvatar>
-        <ListItemText
-          primary={nickname}
-          secondary={<>
-              <Typography
-                sx={{ display: 'inline'}}
-                component="span"
-                variant="body2"
-                color="text.primary"
-              >
-                {content}
-              </Typography>
+  return (
+    <List sx={{ width: '100%' }}>
+      {commentList.map(({
+        id, nickname, avatar, content, updated_at: updatedAt,
+      }) => (
+        <Fragment key={id}>
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt={nickname} src={`/api/${avatar}`} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={nickname}
+              secondary={(
+                <>
+                  <Typography
+                    sx={{ display: 'inline' }}
+                    component="span"
+                    variant="body2"
+                    color="text.primary"
+                  >
+                    {content}
+                  </Typography>
 
-              {updatedAt && <span style={{paddingLeft: '10px'}}> [{updatedAt}]</span>}
-            </>}
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-    </Fragment>)}
-  </List>;
-}
-
+                  {updatedAt && (
+                  <span style={{ paddingLeft: '10px' }}>
+                    {' '}
+                    [
+                    {updatedAt}
+                    ]
+                  </span>
+                  )}
+                </>
+)}
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+        </Fragment>
+      ))}
+    </List>
+  );
+};
 
 export default ({
   loading,
@@ -56,14 +76,16 @@ export default ({
   limit,
   total,
   comments,
-  fetchComments
-}) => {
-  return <>
+  fetchComments,
+}) => (
+  <>
     <CommentList commentList={comments} />
-    {loading && <Box sx={{ display: 'flex', justifyContent: 'center'}}>
+    {loading && (
+    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <CircularProgress />
-    </Box>}
+    </Box>
+    )}
     {error && <Alert severity="error">{error}</Alert>}
     <Pagination offset={offset} limit={limit} total={total} onChange={fetchComments} />
-  </>;
-}
+  </>
+);

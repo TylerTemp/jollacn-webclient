@@ -1,9 +1,9 @@
 ## jollacn ##
 
 ```bash
-npm install
-sudo npm install webpack-dev-server --g
+yarn install
+yarn add --global npx
 ```
 
-*   to start: `npm start`
-*   to build: `npm build`
+*   to start: `yarn start`
+*   to build: `yarn build`

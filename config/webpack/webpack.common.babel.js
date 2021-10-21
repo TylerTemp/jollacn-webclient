@@ -119,9 +119,9 @@ module.exports = {
                 removeAttributeQuotes: false
             }
         }),
-        // new FaviconsWebpackPlugin({
-        //     logo: path.join(paths.root, 'src/asset/image/favicon.ico'),
-        // }),
+        new FaviconsWebpackPlugin({
+            logo: path.join(paths.root, 'src/asset/image/favicon.png'),
+        }),
         new webpack.ProvidePlugin({
           process: 'process/browser',
         }),

@@ -20,17 +20,21 @@ import Pagination from '~/component/pagination';
 
 const SLink = styled(Link)({
   textDecoration: 'none',
-  color: 'inherit'
+  color: 'inherit',
   // color: 'white',
 });
 
-
-const PostPreview = ({post: {cover, title, description, slug}}) => <Card sx={{width: '100%'}}>
-  { cover && (
+const PostPreview = ({
+  post: {
+    cover, title, description, slug,
+  }, page,
+}) => (
+  <Card sx={{ width: '100%' }}>
+    { cover && (
     <Link
       to={{
         pathname: `/post/${slug}`,
-        state: { backPage: 1 },
+        state: { page },
       }}
     >
       <CardMedia
@@ -39,35 +43,34 @@ const PostPreview = ({post: {cover, title, description, slug}}) => <Card sx={{wi
         title={title}
       />
     </Link>
-  )}
-  <CardContent>
-    <SLink
+    )}
+    <CardContent>
+      <SLink
+        to={{
+          pathname: `/post/${slug}`,
+          state: { backPage: 1 },
+        }}
+      >
+        <Typography gutterBottom variant="h2">
+          { title }
+        </Typography>
+      </SLink>
+      <Typography component="div" dangerouslySetInnerHTML={{ __html: description }} />
+    </CardContent>
+    <Link
       to={{
         pathname: `/post/${slug}`,
         state: { backPage: 1 },
       }}
     >
-      <Typography gutterBottom variant="h2">
-        { title }
-      </Typography>
-    </SLink>
-    <Typography component="div" dangerouslySetInnerHTML={{ __html: description }} />
-  </CardContent>
-  <Link
-    to={{
-      pathname: `/post/${slug}`,
-      state: { backPage: 1 },
-    }}
-  >
-    <CardActions>
-      <Button size="small" color="primary">
-            阅读 &gt;&gt;
-      </Button>
-    </CardActions>
-  </Link>
-</Card>;
-
-
+      <CardActions>
+        <Button size="small" color="primary">
+          阅读 &gt;&gt;
+        </Button>
+      </CardActions>
+    </Link>
+  </Card>
+);
 
 export default ({
   loading,
@@ -76,36 +79,44 @@ export default ({
   limit,
   total,
   postList,
-  fetchPostList
-}) => <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-  <Box sx={{width: '100%', maxWidth: '1100px', margin: '0 20px'}}>
-    <Grid container spacing={2}>
-      {postList.map(each =>
-        <Grid item key={each.slug} sm={12} md={6}>
-          <PostPreview post={each} />
-        </Grid>
+  fetchPostList,
+  onRetry,
+  page,
+}) => (
+  <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+    <Box sx={{ width: '100%', maxWidth: '1100px', margin: '0 20px' }}>
+      <Grid container spacing={2}>
+        {postList.map((each) => (
+          <Grid item key={each.slug} sm={12} md={6}>
+            <PostPreview post={each} page={page} />
+          </Grid>
+        ))}
+      </Grid>
+      <Box sx={{ height: '15px' }} />
+      {loading && (
+      <Box sx={{ height: '100px', display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress color="secondary" />
+      </Box>
       )}
-    </Grid>
-    <Box sx={{height: '15px'}} />
-    {loading && <Box sx={{height: '100px', display: 'flex', justifyContent: 'center'}}>
-      <CircularProgress color="secondary" />
-    </Box>}
-    {error && <Paper>
-      <Alert
-        severity="error"
-        action={
-          <Button color="inherit" size="small" onClick={onRetry}>
-            重试
-          </Button>
-        }
-      >
-        {error}
-      </Alert>
-    </Paper>}
-    <Box sx={{display: 'flex', justifyContent: 'center'}}>
+      {error && (
       <Paper>
-        <Pagination offset={offset} limit={limit} total={total} onChange={fetchPostList} />
+        <Alert
+          severity="error"
+          action={(
+            <Button color="inherit" size="small" onClick={onRetry}>
+              重试
+            </Button>
+        )}
+        >
+          {error}
+        </Alert>
       </Paper>
+      )}
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Paper>
+          <Pagination offset={offset} limit={limit} total={total} onChange={fetchPostList} />
+        </Paper>
+      </Box>
     </Box>
   </Box>
-</Box>;
+);

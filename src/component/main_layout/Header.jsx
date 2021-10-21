@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Grid from '@mui/material/Grid';
+// import Grid from '@mui/material/Grid';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,8 +18,7 @@ import { TAB_AT } from '~/actions/ActionTypes';
 
 import { SNavLink, STab } from './Style';
 
-
-const locationChanged = ({pathname}, onTabAt) => {
+const locationChanged = ({ pathname }, onTabAt) => {
   // if (pathname === '/') {
   //   return onTabAt('home')
   // }
@@ -33,75 +32,72 @@ const locationChanged = ({pathname}, onTabAt) => {
   }
 
   return onTabAt('home');
-}
-
+};
 
 // export default Header
-const Header = ({ tabAt, onTabAt, children}) => {
-
+const Header = ({ tabAt, onTabAt, children }) => {
   const location = useLocation();
 
   useEffect(() => {
     locationChanged(location, onTabAt);
-  }, [location])
+  }, [location]);
 
-  return <header>
-      <AppBar position="static" sx={{display: 'flex', alignItems: 'center'}}>
-        <Box sx={{width: '100%', maxWidth: '1100px'}}>
+  return (
+    <header>
+      <AppBar position="static" sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: '100%', maxWidth: '1100px' }}>
           <Toolbar>
             <Tabs indicatorColor="secondary" value={tabAt}>
-                <STab
-                  color="white"
-                  label={(
-                    <SNavLink exact to="/">
-                      <Typography variant="h6" color="inherit" display="flex" alignItems="center">
-                        <HomeIcon />
+              <STab
+                color="white"
+                label={(
+                  <SNavLink exact to="/">
+                    <Typography variant="h6" color="inherit" display="flex" alignItems="center">
+                      <HomeIcon />
                       首页
-                      </Typography>
-                    </SNavLink>
+                    </Typography>
+                  </SNavLink>
                   )}
-                  value="home"
-                />
+                value="home"
+              />
 
-
-                <STab
-                  label={(
-                    <SNavLink exact to="/post">
-                      <Typography variant="h6" color="inherit" display="flex" alignItems="center">
-                        <BallotIcon />
+              <STab
+                label={(
+                  <SNavLink exact to="/post">
+                    <Typography variant="h6" color="inherit" display="flex" alignItems="center">
+                      <BallotIcon />
                       文章
-                      </Typography>
-                    </SNavLink>
+                    </Typography>
+                  </SNavLink>
                   )}
-                  value="post"
-                />
+                value="post"
+              />
 
-
-                <STab
-                  label={(
-                    <SNavLink exact to="/tie">
-                      <Typography variant="h6" color="inherit" display="flex" alignItems="center">
-                        <StyleIcon />
+              <STab
+                label={(
+                  <SNavLink exact to="/tie">
+                    <Typography variant="h6" color="inherit" display="flex" alignItems="center">
+                      <StyleIcon />
                       快讯
-                      </Typography>
-                    </SNavLink>
+                    </Typography>
+                  </SNavLink>
                   )}
-                  value="tie"
-                />
+                value="tie"
+              />
 
             </Tabs>
           </Toolbar>
         </Box>
       </AppBar>
-    { children }
-  </header>;
+      { children }
+    </header>
+  );
 };
 
-
-const mapStateToProps = ({tabAt}) => ({tabAt});
+const mapStateToProps = ({ tabAt }) => ({ tabAt });
 
 const mapDispatchToProps = (dispatch) => ({
-    onTabAt: tabAt => dispatch({type: TAB_AT, payload: {tabAt}}),
+  onTabAt: (tabAt) => dispatch({ type: TAB_AT, payload: { tabAt } }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

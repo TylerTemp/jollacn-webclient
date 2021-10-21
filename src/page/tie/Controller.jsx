@@ -4,31 +4,34 @@ import request from '~/util/Request';
 
 import View from './View';
 
-
-export default({tieId}) => {
-  const [apiState, setApiState] = useState({loading: true, error: null, result: {}});
+export default ({ tieId, page }) => {
+  const [apiState, setApiState] = useState({ loading: true, error: null, result: {} });
 
   const fetchTie = () => {
-    setApiState({...apiState, loading: true, error: null});
+    setApiState({ ...apiState, loading: true, error: null });
     request(`/api/tie/${tieId}`)
-      .then(resp => resp.json())
-      .then(result => {
+      .then((resp) => resp.json())
+      .then((result) => {
         console.log(result);
-        setApiState({...apiState, loading: false, error: null, result});
+        setApiState({
+          ...apiState, loading: false, error: null, result,
+        });
       })
-      .catch(({message}) => setApiState({...apiState, loading: false, error: message}));
-  }
+      .catch(({ message }) => setApiState({ ...apiState, loading: false, error: message }));
+  };
 
   useEffect(() => {
     fetchTie();
   }, []);
 
-  return <View
-    loading={apiState.loading}
-    error={apiState.error}
-    result={apiState.result}
-    onRetry={fetchTie}
-
-    tieId={tieId}
-  />;
-}
+  return (
+    <View
+      loading={apiState.loading}
+      error={apiState.error}
+      result={apiState.result}
+      onRetry={fetchTie}
+      tieId={tieId}
+      page={page}
+    />
+  );
+};

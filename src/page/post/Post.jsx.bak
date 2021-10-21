@@ -17,7 +17,6 @@ import assert from 'assert';
 import LightWrapper, { lightWrapperOpen } from './LightWrapper';
 // import Author from './Author';
 
-
 import '~/css/post.css';
 
 // const postResource = slug => (

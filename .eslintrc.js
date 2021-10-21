@@ -1,27 +1,36 @@
 module.exports = {
-  parser: 'babel-eslint',
-  extends: 'airbnb',
-  rules: {
-    'react/prefer-stateless-function': 'off',
+  env: {
+    browser: true,
+    es2021: true,
   },
-  // "settings": {
-  //   'import/resolver': {
-  //     'alias': [
-  //       ['~', './src']
-  //      ]
-  //    }
-  // }
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+  ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 13,
+    sourceType: 'module',
+  },
+  plugins: [
+    'react',
+  ],
+  rules: {
+    'no-console': 'off',
+    'react/prop-types': 'off',
+    'jsx-a11y/media-has-caption': 'off',
+    'jsx-a11y/alt-text': 'off',
+  },
   settings: {
     'import/resolver': {
       alias: {
         map: [
-          ['~', './src'],
+          ['~', 'src'],
         ],
         extensions: ['.ts', '.js', '.jsx', '.json'],
       },
     },
-  },
-  env: {
-    browser: true,
   },
 };
