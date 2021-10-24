@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import parse from 'html-react-parser';
-
+import parse from 'html-react-parser';
 import request from '~/util/Request';
 import View from './View';
 
@@ -35,7 +35,7 @@ export default ({ authorId }) => {
       result={apiState.result}
       onRetry={fetchAuthor}
     >
-      {!apiState.loading && !apiState.error && apiState.result.description}
+      {!apiState.loading && !apiState.error && parse(apiState.result.description)}
     </View>
   );
 };

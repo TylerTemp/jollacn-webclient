@@ -104,7 +104,7 @@ module.exports = {
     },
     resolve: {
         modules: ['src', 'node_modules'],
-        extensions: ['*', '.js', '.jsx', '.scss', '.css']
+        extensions: ['*', '.js', '.jsx', '.scss', '.css'],
     },
     plugins: [
         new webpack.ProgressPlugin(),
@@ -125,5 +125,5 @@ module.exports = {
         new webpack.ProvidePlugin({
           process: 'process/browser',
         }),
-    ]
+    ],
 };

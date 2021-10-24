@@ -17,11 +17,12 @@ const CommentList = ({ commentList }) => {
   if (commentList.length === 0) {
     return (
       <Typography
-          variant="body2"
-          paragraph
-          display="flex"
-          justifyContent="center"
-          padding="30px 0 0 0">
+        variant="body2"
+        paragraph
+        display="flex"
+        justifyContent="center"
+        padding="30px 0 0 0"
+      >
         -- 暂无评论 --
       </Typography>
     );

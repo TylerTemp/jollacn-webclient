@@ -21,7 +21,8 @@ export default ({
         offset={offset}
         limit={limit}
         onResult={onTieListResult}
-        page={page} />
+        page={page}
+      />
     </Box>
 
     <Box sx={{ display: 'flex', justifyContent: 'center', padding: '20px 0 0 0' }}>

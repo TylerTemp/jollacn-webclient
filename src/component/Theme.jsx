@@ -8,5 +8,8 @@ export default createTheme({
     h2: {
       fontSize: ['1.8rem', '!important'],
     },
+    h6: {
+      fontSize: ['1rem', '!important'],
+    },
   },
 });

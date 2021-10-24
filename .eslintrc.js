@@ -32,5 +32,16 @@ module.exports = {
         extensions: ['.ts', '.js', '.jsx', '.json'],
       },
     },
+    // 'import/resolver': {
+    //   'babel-plugin-root-import': {
+    //     rootPathSuffix: 'src',
+    //   },
+    // },
+    // 'import/resolver': {
+    //   'babel-plugin-root-import': {
+    //     rootPathPrefix: '~',
+    //     rootPathSuffix: 'src',
+    //   },
+    // },
   },
 };

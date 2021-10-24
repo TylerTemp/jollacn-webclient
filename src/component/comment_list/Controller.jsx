@@ -38,13 +38,15 @@ export default ({ uri, preList = [] }) => {
     fetchComments(0);
   }, []);
 
-  return <View
-    loading={apiState.loading}
-    error={apiState.error}
-    offset={apiState.offset}
-    limit={apiState.limit}
-    total={apiState.total}
-    comments={[...preList, ...apiState.comments]}
-    fetchComments={fetchComments}
-  />;
+  return (
+    <View
+      loading={apiState.loading}
+      error={apiState.error}
+      offset={apiState.offset}
+      limit={apiState.limit}
+      total={apiState.total}
+      comments={[...preList, ...apiState.comments]}
+      fetchComments={fetchComments}
+    />
+  );
 };

@@ -44,11 +44,11 @@ module.exports = {
         port: 8081,  // change this
         proxy: {
             '/api': {
-                target: 'https://notexists.top',
+                // target: 'https://notexists.top',
+                target: 'http://localhost:8082',  // change this
+                pathRewrite: {'^/api' : ''},
                 secure: false,
-                changeOrigin: true
-                // target: 'http://localhost:8082',  // change this
-                // pathRewrite: {'^/api' : ''}
+                changeOrigin: true,
             },
             // '/static': {
             //     target: 'http://localhost:8082',

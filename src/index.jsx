@@ -33,12 +33,12 @@ const App = () => (
 
               <Route exact path="/post" component={PostList} />
               <Route exact path="/post/page/:page" component={PostList} />
-              {/*eslint-disable-next-line react/jsx-props-no-spreading*/}
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <Route exact path="/post/:slug" component={(props) => <Post key={props.match.params.slug} {...props} />} />
 
               <Route exact path="/tie" component={TieList} />
               <Route exact path="/tie/page/:page" component={TieList} />
-              {/*eslint-disable-next-line react/jsx-props-no-spreading*/}
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <Route exact path="/tie/:tieId" component={(props) => <Tie key={props.match.params.tieId} {...props} />} />
               <Route component={NotFound} />
             </Switch>

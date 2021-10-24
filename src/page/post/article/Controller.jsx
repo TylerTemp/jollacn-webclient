@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 import request from '~/util/Request';
 import View from './View';
-import ArticleParser from './ArticleParser';
 
 export default ({ slug }) => {
   const [apiState, setApiState] = useState({ loading: true, error: null, result: {} });
+  const [lightboxIndex, setLightboxIndex] = useState(-1);
 
   const fetchPost = () => {
     setApiState({ ...apiState, loading: true, error: null });
@@ -24,14 +26,21 @@ export default ({ slug }) => {
     fetchPost();
   }, []);
 
+  const theme = useTheme();
+  const breakpoints = {
+    lg: useMediaQuery(theme.breakpoints.up('lg')),
+    md: useMediaQuery(theme.breakpoints.up('md')),
+  }
+
   return (
     <View
       loading={apiState.loading}
       error={apiState.error}
       result={apiState.result}
       onRetry={fetchPost}
-    >
-      {!apiState.loading && !apiState.error && <ArticleParser html={apiState.result.content} />}
-    </View>
+      lightboxIndex={lightboxIndex}
+      lightboxOpenAt={setLightboxIndex}
+      breakpoints={breakpoints}
+    />
   );
 };
