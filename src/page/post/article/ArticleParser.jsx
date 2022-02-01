@@ -5,6 +5,8 @@ import Divider from '@mui/material/Divider';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 import {
   Link,
@@ -15,17 +17,19 @@ import {
 //   : children;
 
 const EnlargeClick = ({ enlargeUrl, children, onImageClick }) => (enlargeUrl
-  ? <>
-    <a
-      href={enlargeUrl}
-      target="_blank"
-      onClick={(evt) => { evt.preventDefault(); onImageClick(); }}
-      style={{ textDecoration: 'inherit', color: 'inherit' }}
-      rel="noreferrer"
-    >
-      {children}
-    </a>
-  </>
+  ? (
+    <>
+      <a
+        href={enlargeUrl}
+        target="_blank"
+        onClick={(evt) => { evt.preventDefault(); onImageClick(); }}
+        style={{ textDecoration: 'inherit', color: 'inherit' }}
+        rel="noreferrer"
+      >
+        {children}
+      </a>
+    </>
+  )
   : children);
 
 const retriveFigure = (children) => {
@@ -53,7 +57,7 @@ const retriveFigure = (children) => {
     }
   });
   return figureConfig;
-}
+};
 
 const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
   // console.log(type, name, attribs, children);
@@ -61,6 +65,7 @@ const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
   const {
     type, name, attribs, children,
   } = node;
+
   if (name === 'figure') {
     const figureConfig = retriveFigure(children);
 
@@ -68,7 +73,7 @@ const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
     // console.log(`figure imgInfo:`, domToReact(figureConfigs.imgInfo, {}));
     const mediaCount = mediaList.length;
     const result = (
-      <figure style={{textAlign: 'center'}}>
+      <figure style={{ textAlign: 'center' }}>
         <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)}>
           {domToReact([figureConfig.imgInfo])}
           {figureConfig.figCaptionInfo && (
@@ -85,8 +90,8 @@ const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
     mediaList.push(figureConfig);
     return result;
   }
-  else if (name === 'div' && attribs.class && attribs.class.includes('plugin-image-list')) {
-    const {sm, md, lg} = JSON.parse(attribs['data-config']);
+  if (name === 'div' && attribs.class && attribs.class.includes('plugin-image-list')) {
+    const { sm, md, lg } = JSON.parse(attribs['data-config']);
 
     let cols = sm;
     if (breakpoints.lg && lg) {
@@ -95,33 +100,52 @@ const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
       cols = md;
     }
 
-    if(children.length < cols) {
+    if (children.length < cols) {
       cols = children.length;
     }
     // console.log(`imageListConfig=`, imageListConfig);
-    return <ImageList cols={cols}>
-      {children.map(({children: eachChild}) => {
-        const figureConfig = retriveFigure(eachChild);
-        console.log(`imageItemConfig=`, figureConfig);
-        const mediaCount = mediaList.length;
-        mediaList.push(figureConfig);
-        return <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)} key={figureConfig.imgInfo.attribs.src}>
-          <ImageListItem>
+    return (
+      <ImageList cols={cols}>
+        {children.map(({ children: eachChild }) => {
+          const figureConfig = retriveFigure(eachChild);
+          console.log('imageItemConfig=', figureConfig);
+          const mediaCount = mediaList.length;
+          mediaList.push(figureConfig);
+          return (
+            <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)} key={figureConfig.imgInfo.attribs.src}>
+              <ImageListItem>
 
-              {domToReact([figureConfig.imgInfo])}
-              <ImageListItemBar
+          {domToReact([figureConfig.imgInfo])}
+          <ImageListItemBar
                 title={domToReact([figureConfig.figCaptionInfo])}
               />
 
-          </ImageListItem>
-        </EnlargeClick>
-      })}
-    </ImageList>;
+        </ImageListItem>
+            </EnlargeClick>
+          );
+        })}
+      </ImageList>
+    );
   }
-  else if (name === 'hr') {
+  if (name === 'hr') {
     return <Divider />;
   }
-  else if (name === 'a') {
+  if (attribs && attribs.class && attribs.class.includes('plugin-button')) {
+    const hasCenter = name === 'center';
+    const linkNode = hasCenter ? children[0] : node;
+    // console.log(linkNode);
+
+    const { attribs: { href: linkHref } } = linkNode;
+    const buttonNode = linkNode.children[0];
+    const buttonText = buttonNode.children[0].data;
+
+    const buttonDom = <Button variant="contained" href={linkHref} target="_blank">{buttonText}</Button>;
+
+    return hasCenter
+      ? <Box sx={{ display: 'flex', justifyContent: 'center' }}>{buttonDom}</Box>
+      : buttonDom;
+  }
+  if (name === 'a') {
     const { href: linkHref = '#' } = attribs;
     if (linkHref.startsWith('#')) {
       return null;

@@ -30,7 +30,7 @@ export default ({ slug }) => {
   const breakpoints = {
     lg: useMediaQuery(theme.breakpoints.up('lg')),
     md: useMediaQuery(theme.breakpoints.up('md')),
-  }
+  };
 
   return (
     <View

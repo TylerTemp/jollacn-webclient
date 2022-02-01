@@ -90,7 +90,7 @@ export default ({
   const { parseResult, mediaList } = articleParser({
     html: htmlRawContent,
     onImageClick: lightboxOpenAt,
-    breakpoints
+    breakpoints,
   });
 
   // console.log(`mediaList=`, mediaList);
