@@ -50,6 +50,9 @@ module.exports = env => ({
                 // pathRewrite: {'^/api' : ''},
                 secure: false,
                 changeOrigin: true,
+                proxyTimeout: 1000 * 60 * 60 * 2,
+                timeout: 1000 * 60 * 60 * 2,
+                onProxyReq: (proxyReq, req) => req.setTimeout(1000 * 60 * 60 * 2),
             },
             // '/static': {
             //     target: 'http://localhost:8082',
