@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const ManifestPlugin = require('webpack-manifest-plugin');
 
-module.exports = {
+module.exports = env => ({
     mode: 'production',
     output: {
         filename: `${paths.jsFolder}/[name].[hash].js`,
@@ -43,4 +43,4 @@ module.exports = {
             },
         },
     },
-};
+});

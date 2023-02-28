@@ -5,7 +5,7 @@ import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 
 import paths from './paths';
 
-module.exports = {
+module.exports = env => ({
     entry: paths.entryPath,
     output: {
         publicPath: '/',
@@ -13,19 +13,19 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.js|jsx$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader'
                 }
             },
-            {
-                test: /\.jsx$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader'
-                }
-            },
+            // {
+            //     test: /\.jsx$/,
+            //     exclude: /node_modules/,
+            //     use: {
+            //         loader: 'babel-loader'
+            //     }
+            // },
             {
                 test: /\.css/,
                 use: ['style-loader', 'css-loader'],
@@ -126,4 +126,4 @@ module.exports = {
           process: 'process/browser',
         }),
     ],
-};
+});

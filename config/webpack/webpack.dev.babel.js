@@ -2,7 +2,7 @@ import webpack from 'webpack';
 
 import paths from './paths';
 
-module.exports = {
+module.exports = env => ({
     mode: 'development',
     devtool: 'source-map',
     output: {
@@ -31,6 +31,7 @@ module.exports = {
                 warnings: false,
                 errors: true
             },
+            logging: 'verbose',
         },
         static: paths.outputPath,
         allowedHosts: 'all',
@@ -44,9 +45,9 @@ module.exports = {
         port: 8081,  // change this
         proxy: {
             '/api': {
-                // target: 'https://notexists.top',
-                target: 'http://localhost:8082',  // change this
-                pathRewrite: {'^/api' : ''},
+                target: (env['API'] || 'https://notexists.top'),
+                // target: 'http://localhost:8082',  // change this
+                // pathRewrite: {'^/api' : ''},
                 secure: false,
                 changeOrigin: true,
             },
@@ -63,4 +64,4 @@ module.exports = {
             // multiStep: true
         })
     ],
-};
+});
