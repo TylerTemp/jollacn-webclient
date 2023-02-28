@@ -36,7 +36,7 @@ module.exports = env => ({
         static: paths.outputPath,
         allowedHosts: 'all',
         compress: true,
-        hot: true,
+        // hot: true,  // 默认就是true
         historyApiFallback: {
             rewrites: [
                 {from: /.*/, to: '/index.html'},

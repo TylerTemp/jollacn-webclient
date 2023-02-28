@@ -20,7 +20,7 @@ module.exports = env => ({
                 }
             },
             {
-                test: /\.ts?$/,            
+                test: /\.ts|tsx?$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'ts-loader',
@@ -111,7 +111,10 @@ module.exports = env => ({
     },
     resolve: {
         modules: ['src', 'node_modules'],
-        extensions: ['*', '.js', '.jsx', '.ts', '.scss', '.css'],
+        extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.scss', '.css'],
+        alias: {
+            '~': path.resolve(paths.root, 'src/') // added this: ts alias import
+        },
     },
     plugins: [
         new webpack.ProgressPlugin(),
