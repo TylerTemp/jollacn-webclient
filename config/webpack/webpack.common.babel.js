@@ -19,6 +19,13 @@ module.exports = env => ({
                     loader: 'babel-loader'
                 }
             },
+            {
+                test: /\.ts?$/,            
+                exclude: /node_modules/,
+                use: {
+                    loader: 'ts-loader',
+                },
+            },
             // {
             //     test: /\.jsx$/,
             //     exclude: /node_modules/,
@@ -104,7 +111,7 @@ module.exports = env => ({
     },
     resolve: {
         modules: ['src', 'node_modules'],
-        extensions: ['*', '.js', '.jsx', '.scss', '.css'],
+        extensions: ['*', '.js', '.jsx', '.ts', '.scss', '.css'],
     },
     plugins: [
         new webpack.ProgressPlugin(),
