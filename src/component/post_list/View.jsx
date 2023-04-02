@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import Box from '@mui/system/Box';
 import Card from '@mui/material/Card';
+import { Routes, Route } from 'react-router-dom';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -29,47 +30,33 @@ const PostPreview = ({
     cover, title, description, slug,
   }, page,
 }) => (
+<Link
+    to={`/post/${slug}`}
+    state={{ page }}
+  >
   <Card sx={{ width: '100%' }}>
     { cover && (
-    <Link
-      to={{
-        pathname: `/post/${slug}`,
-        state: { page },
-      }}
-    >
+    <>
       <CardMedia
         component="img"
         image={cover}
         title={title}
       />
-    </Link>
+    </>
     )}
     <CardContent>
-      <SLink
-        to={{
-          pathname: `/post/${slug}`,
-          state: { backPage: 1 },
-        }}
-      >
-        <Typography gutterBottom variant="h2">
-          { title }
-        </Typography>
-      </SLink>
+      <Typography gutterBottom variant="h2">
+        { title }
+      </Typography>
       <Typography component="div" dangerouslySetInnerHTML={{ __html: description }} />
     </CardContent>
-    <Link
-      to={{
-        pathname: `/post/${slug}`,
-        state: { backPage: 1 },
-      }}
-    >
-      <CardActions>
-        <Button size="small" color="primary">
-          阅读 &gt;&gt;
-        </Button>
-      </CardActions>
-    </Link>
+    <CardActions>
+      <Button size="small" color="primary">
+        阅读 &gt;&gt;
+      </Button>
+    </CardActions>
   </Card>
+</Link>
 );
 
 export default ({

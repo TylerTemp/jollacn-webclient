@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import {
-  useHistory,
+  useNavigate,
 } from 'react-router-dom';
 
 import request from '~/util/Request';
 import calcPage from '~/util/CalcPage';
 import View from './View';
 
-export default ({ page: startPage = 1 }) => {
-  const history = useHistory();
+export default ({page: startPage}) => {
+
+  // const {page: pageStr='1'} = useParams();
+  // const startPage = parseInt(pageStr, 10);
+
+  const navigate = useNavigate();
   const defaultLimit = 10;
   const [lastPage, setLastPage] = useState(startPage);
   const [apiState, setApiState] = useState({
@@ -38,7 +42,7 @@ export default ({ page: startPage = 1 }) => {
         const { currentPage } = calcPage(offset, serverLimit, nowTotal);
         if (currentPage !== lastPage) {
           setLastPage(currentPage);
-          history.push(currentPage === 1 ? '/post' : `/post/page/${currentPage}`);
+          navigate(currentPage === 1 ? '/post' : `/post/page/${currentPage}`);
         }
       })
       .catch(({ message }) => setApiState({ ...apiState, loading: false, error: message }));

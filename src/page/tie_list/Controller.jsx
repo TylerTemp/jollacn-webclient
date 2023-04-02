@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  useHistory,
+  useNavigate,
 } from 'react-router-dom';
 
 import calcPage from '~/util/CalcPage';
 import View from './View';
 
 export default ({ page = 1 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const limit = 12;
 
@@ -22,7 +22,7 @@ export default ({ page = 1 }) => {
     });
 
     const { currentPage } = calcPage(offset, resultLimit, total);
-    history.push(currentPage === 1 ? '/tie' : `/tie/page/${currentPage}`);
+    navigate(currentPage === 1 ? '/tie' : `/tie/page/${currentPage}`);
   };
 
   return (

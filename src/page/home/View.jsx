@@ -29,6 +29,6 @@ export default () => (
 
     <Box height={30} />
 
-    <PostList />
+    <PostList page={1}/>
   </>
 );

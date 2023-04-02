@@ -9,7 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = env => ({
     mode: 'production',
     output: {
-        filename: `${paths.jsFolder}/[name].[hash].js`,
+        filename: `${paths.jsFolder}/[name].[fullhash].js`,
         path: paths.outputPath,
         chunkFilename: '[name].[contenthash].js'
     },
@@ -20,7 +20,7 @@ module.exports = env => ({
             root: paths.root
         }),
         // new ManifestPlugin(),
-        new webpack.HashedModuleIdsPlugin(),
+        new webpack.ids.HashedModuleIdsPlugin({}),
     ],
     optimization: {
         runtimeChunk: 'single',

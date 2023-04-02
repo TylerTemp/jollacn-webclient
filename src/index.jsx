@@ -1,12 +1,6 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-import {
-  BrowserRouter as Router,
-  Route,
-  // NavLink,
-  Switch,
-  // Link,
-} from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material/styles';
 
@@ -28,20 +22,20 @@ const App = () => (
       <Provider store={store}>
         <ThemeProvider theme={appTheme}>
           <MainLayout>
-            <Switch>
-              <Route exact path="/" component={Home} />
+            <Routes>
+              <Route path="/" element={<Home />} />
 
-              <Route exact path="/post" component={PostList} />
-              <Route exact path="/post/page/:page" component={PostList} />
-              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-              <Route exact path="/post/:slug" component={(props) => <Post key={props.match.params.slug} {...props} />} />
+              <Route path="/post" element={<PostList />} />
+              <Route path="/post/page/:page" element={<PostList />} />
+              {/* <Route path="/post/:slug" component={(props) => <Post key={props.match.params.slug} {...props} />} /> */}
+              <Route path="/post/:slug" element={<Post />} />
 
-              <Route exact path="/tie" component={TieList} />
-              <Route exact path="/tie/page/:page" component={TieList} />
-              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-              <Route exact path="/tie/:tieId" component={(props) => <Tie key={props.match.params.tieId} {...props} />} />
-              <Route component={NotFound} />
-            </Switch>
+              <Route path="/tie" element={<TieList />} />
+              <Route path="/tie/page/:page" element={<TieList />} />
+              {/* <Route path="/tie/:tieId" component={(props) => <Tie key={props.match.params.tieId} {...props} />} /> */}
+              <Route path="/tie/:tieId" element={<Tie />} />
+              <Route path="*" element={NotFound} />
+            </Routes>
           </MainLayout>
         </ThemeProvider>
       </Provider>
@@ -49,7 +43,14 @@ const App = () => (
   </>
 );
 
-ReactDom.render(
-  <App />,
-  document.getElementById('root'),
+// ReactDom.render(
+//   <App />,
+//   document.getElementById('root'),
+// );
+
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(
+  <App />
 );

@@ -18,6 +18,8 @@ import { TAB_AT } from '~/actions/ActionTypes';
 
 import { SNavLink, STab } from './Style';
 
+import Post from '~/page/post';
+
 const locationChanged = ({ pathname }, onTabAt) => {
   // if (pathname === '/') {
   //   return onTabAt('home')
@@ -51,7 +53,7 @@ const Header = ({ tabAt, onTabAt, children }) => {
               <STab
                 color="white"
                 label={(
-                  <SNavLink exact to="/">
+                  <SNavLink to="/">
                     <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                       <HomeIcon />
                       首页
@@ -63,7 +65,7 @@ const Header = ({ tabAt, onTabAt, children }) => {
 
               <STab
                 label={(
-                  <SNavLink exact to="/post">
+                  <SNavLink to="/post">
                     <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                       <BallotIcon />
                       文章
@@ -75,7 +77,7 @@ const Header = ({ tabAt, onTabAt, children }) => {
 
               <STab
                 label={(
-                  <SNavLink exact to="/tie">
+                  <SNavLink to="/tie">
                     <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                       <StyleIcon />
                       快讯

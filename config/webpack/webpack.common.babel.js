@@ -2,6 +2,7 @@ import webpack from 'webpack';
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 import paths from './paths';
 
@@ -88,17 +89,19 @@ module.exports = env => ({
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 10000,
-                        },
-                    },
-                    {
-                        loader: 'img-loader',
-                    },
-                ],
+                type: 'asset/resource',
+                // use: [
+                //     {
+                //         loader: 'url-loader',
+                //         options: {
+                //             limit: 10000,
+                //             esModule: false,
+                //         },
+                //     },
+                //     {
+                //         loader: 'img-loader',
+                //     },
+                // ],
             }
         ],
     },
@@ -128,5 +131,6 @@ module.exports = env => ({
         new webpack.ProvidePlugin({
           process: 'process/browser',
         }),
+        new WebpackManifestPlugin({}),
     ],
 });
