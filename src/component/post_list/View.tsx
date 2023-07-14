@@ -16,20 +16,16 @@ import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import styled from '@mui/system/styled';
+import { type PostInfo } from "~/util/Types";
 
 import Pagination from '~/component/pagination';
-
-const SLink = styled(Link)({
-  textDecoration: 'none',
-  color: 'inherit',
-  // color: 'white',
-});
+import Style from "./index.css";
 
 const PostPreview = ({
   post: {
     cover, title, description, slug,
   }, page,
-}) => (
+}: {post: PostInfo, page: number}) => (
 <Link
     to={`/post/${slug}`}
     state={{ page }}
@@ -59,6 +55,18 @@ const PostPreview = ({
 </Link>
 );
 
+interface Props {
+  loading: boolean,
+  error: string | null,
+  offset: number,
+  limit: number,
+  total: number,
+  postList: PostInfo[],
+  fetchPostList: (offset: number) => void,
+  onRetry: () => void,
+  page: number,
+}
+
 export default ({
   loading,
   error,
@@ -69,9 +77,10 @@ export default ({
   fetchPostList,
   onRetry,
   page,
-}) => (
-  <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-    <Box sx={{ width: '100%', maxWidth: '1100px', margin: '0 20px' }}>
+}: Props) => (
+  <div className={Style.container}>
+    <div className={Style.widthLimit}>
+
       <Grid container spacing={2}>
         {postList.map((each) => (
           <Grid item key={each.slug} sm={12} md={6}>
@@ -79,31 +88,36 @@ export default ({
           </Grid>
         ))}
       </Grid>
+
       <Box sx={{ height: '15px' }} />
+
       {loading && (
       <Box sx={{ height: '100px', display: 'flex', justifyContent: 'center' }}>
         <CircularProgress color="secondary" />
       </Box>
       )}
+
       {error && (
-      <Paper>
-        <Alert
-          severity="error"
-          action={(
-            <Button color="inherit" size="small" onClick={onRetry}>
-              重试
-            </Button>
-        )}
-        >
-          {error}
-        </Alert>
-      </Paper>
+        <Paper>
+          <Alert
+            severity="error"
+            action={(
+              <Button color="inherit" size="small" onClick={onRetry}>
+                重试
+              </Button>
+          )}
+          >
+            {error}
+          </Alert>
+        </Paper>
       )}
+
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Paper>
           <Pagination offset={offset} limit={limit} total={total} onChange={fetchPostList} />
         </Paper>
       </Box>
-    </Box>
-  </Box>
+      
+    </div>
+  </div>
 );

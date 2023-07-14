@@ -15,5 +15,6 @@
         }
     },
 
-    "include": ["./**/*.ts", "./**/*.tsx", "./**/*.js", "./**/*.jsx"]
+    "include": ["./**/*.ts", "./**/*.tsx", "./**/*.js", "./**/*.jsx"],
+    "exclude": ["./config/**/*.js", "./build/*", "./webpack.config.js"]
 }

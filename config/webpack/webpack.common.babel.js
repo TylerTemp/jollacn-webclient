@@ -29,7 +29,29 @@ module.exports = env => ({
             },
             {
                 test: /\.css/,
-                use: ['style-loader', 'css-loader'],
+                exclude: /node_modules/,
+                use: [
+                    { loader: 'style-loader' },
+                    {
+                      loader: 'css-loader',
+                      options: {
+                        modules: {
+                            localIdentName:'[name]__[local]--[hash:base64:5]',
+                        },
+                        sourceMap: true,
+                      },
+                    },
+                ],
+            },
+            {
+                test: /\.css/,
+                include: /node_modules/,
+                use: [
+                    { loader: 'style-loader' },
+                    {
+                      loader: 'css-loader',
+                    },
+                ],
             },
             {
                 test: /\.less$/,
