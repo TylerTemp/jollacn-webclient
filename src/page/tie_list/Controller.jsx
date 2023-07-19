@@ -3,7 +3,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
-import calcPage from '~/util/CalcPage';
+import calcPage from '~/Utils/CalcPage';
 import View from './View';
 
 export default ({ page = 1 }) => {

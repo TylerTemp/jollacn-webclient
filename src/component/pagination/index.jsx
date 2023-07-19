@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Pagination from '@mui/material/Pagination';
-import CalcPage from '~/util/CalcPage';
+import CalcPage from '~/Utils/CalcPage';
 
 export default ({
   offset, limit, total, onChange,

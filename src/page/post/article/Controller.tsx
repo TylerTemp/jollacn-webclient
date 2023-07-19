@@ -3,7 +3,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
 // import request from '../../../util/Request';
-import request from '~/util/Request';
+import request from '~/Utils/Request';
 import View from './View';
 
 interface ArticleInfo {

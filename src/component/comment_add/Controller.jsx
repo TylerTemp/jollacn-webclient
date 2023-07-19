@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import request from '~/util/Request';
+import request from '~/Utils/Request';
 
 import View from './View';
 

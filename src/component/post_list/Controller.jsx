@@ -3,8 +3,8 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
-import request from '~/util/Request';
-import calcPage from '~/util/CalcPage';
+import request from '~/Utils/Request';
+import calcPage from '~/Utils/CalcPage';
 import View from './View';
 
 export default ({page: startPage}) => {

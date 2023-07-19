@@ -16,7 +16,7 @@ import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import styled from '@mui/system/styled';
-import { type PostInfo } from "~/util/Types";
+import { type PostInfo } from "~/Utils/Types";
 
 import Pagination from '~/component/pagination';
 import Style from "./index.css";

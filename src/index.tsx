@@ -13,30 +13,33 @@ import TieList from '~/page/tie_list';
 import Tie from '~/page/tie';
 import Home from '~/page/home';
 import NotFound from '~/page/NotFound';
+import ErrorBoundary from "~/component/ErrorBoundary";
 
 
 const App = () => (
   <StrictMode>
-    <ThemeProvider theme={appTheme}>
-      <Router>
-        <Routes>
-            <Route path="/" element={<MainLayout />}>
-                <Route index element={<Home />} />
+    <ErrorBoundary>
+      <ThemeProvider theme={appTheme}>
+        <Router>
+          <Routes>
+              <Route path="/" element={<MainLayout />}>
+                  <Route index element={<Home />} />
 
-                <Route path="/post" element={<PostList />} />
-                <Route path="/post/page/:page" element={<PostList />} />
-                {/* <Route path="/post/:slug" component={(props) => <Post key={props.match.params.slug} {...props} />} /> */}
-                <Route path="/post/:slug" element={<Post />} />
+                  <Route path="/post" element={<PostList />} />
+                  <Route path="/post/page/:page" element={<PostList />} />
+                  {/* <Route path="/post/:slug" component={(props) => <Post key={props.match.params.slug} {...props} />} /> */}
+                  <Route path="/post/:slug" element={<Post />} />
 
-                <Route path="/tie" element={<TieList />} />
-                <Route path="/tie/page/:page" element={<TieList />} />
-                {/* <Route path="/tie/:tieId" component={(props) => <Tie key={props.match.params.tieId} {...props} />} /> */}
-                <Route path="/tie/:tieId" element={<Tie />} />
-                <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-      </Router>
-    </ThemeProvider>
+                  <Route path="/tie" element={<TieList />} />
+                  <Route path="/tie/page/:page" element={<TieList />} />
+                  {/* <Route path="/tie/:tieId" component={(props) => <Tie key={props.match.params.tieId} {...props} />} /> */}
+                  <Route path="/tie/:tieId" element={<Tie />} />
+                  <Route path="*" element={<NotFound />} />
+              </Route>
+            </Routes>
+        </Router>
+      </ThemeProvider>
+    </ErrorBoundary>
   </StrictMode>
 );
 

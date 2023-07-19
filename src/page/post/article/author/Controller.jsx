@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import parse from 'html-react-parser';
 import parse from 'html-react-parser';
-import request from '~/util/Request';
+import request from '~/Utils/Request';
 import View from './View';
 
 const getAuthor = (authorId) => new Promise((resolve, reject) => request(`/api/author/${encodeURIComponent(authorId)}`)
