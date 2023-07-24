@@ -1,10 +1,11 @@
-import React from 'react';
+// import React from 'react';
 
 import { useParams, useLocation } from 'react-router-dom';
 
 // import View from './View';
 
 // import '~/css/post.css';
+import PostContent from './PostContent';
 
 interface State {
   page: number,
@@ -19,5 +20,5 @@ export default () => {
     ? 1
     : state.page;
 
-  return <View slug={slug} page={page} />;
+  return <PostContent slug={slug} backUrl={`/post/page/${page}`} />;
 };

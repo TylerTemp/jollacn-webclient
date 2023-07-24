@@ -93,19 +93,19 @@ const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
   if (name === 'div' && attribs.class && attribs.class.includes('plugin-image-list')) {
     const { sm, md, lg } = JSON.parse(attribs['data-config']);
 
-    let cols = sm;
-    if (breakpoints.lg && lg) {
-      cols = lg;
-    } else if (breakpoints.md && md) {
-      cols = md;
-    }
+    // let cols = sm;
+    // if (breakpoints.lg && lg) {
+    //   cols = lg;
+    // } else if (breakpoints.md && md) {
+    //   cols = md;
+    // }
 
-    if (children.length < cols) {
-      cols = children.length;
-    }
+    // if (children.length < cols) {
+    //   cols = children.length;
+    // }
     // console.log(`imageListConfig=`, imageListConfig);
     return (
-      <ImageList cols={cols}>
+      <Gird container sm={Math.floor(12 / sm)} md={Math.floor(12 / md)} lg={Math.floor(12 / lg)}>
         {children.map(({ children: eachChild }) => {
           const figureConfig = retriveFigure(eachChild);
           console.log('imageItemConfig=', figureConfig);
@@ -120,11 +120,11 @@ const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
                 title={domToReact([figureConfig.figCaptionInfo])}
               />
 
-        </ImageListItem>
+          </ImageListItem>
             </EnlargeClick>
           );
         })}
-      </ImageList>
+      </Gird>
     );
   }
   if (name === 'hr') {
@@ -159,7 +159,7 @@ const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
   return null;
 };
 
-export default ({ html, onImageClick, breakpoints }) => {
+export default ({ html, onImageClick }) => {
   const mediaList = [];
   const parseResult = parse(html, {
     replace: (each) => nodeReplace(each, mediaList, onImageClick, breakpoints),

@@ -19,14 +19,8 @@ interface ErrorBoundaryStates {
     };
 }
 
-
 export default class RetryErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryStates> {
-    state: ErrorBoundaryStates = {
-        error: undefined,
-        info: {
-            componentStack: '',
-        },
-    };
+    state = {} as ErrorBoundaryStates;
 
     componentDidCatch(error: Error | null, info: object) {
         this.setState({ error, info });
