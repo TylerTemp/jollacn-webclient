@@ -1,0 +1,11 @@
+.container {
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+}
+
+.widthLimit {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 20px;
+}
