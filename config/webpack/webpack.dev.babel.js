@@ -4,7 +4,7 @@ import paths from './paths';
 
 module.exports = env => ({
     mode: 'development',
-    devtool: 'source-map',
+    devtool: 'eval-source-map',
     output: {
         filename: '[name].js',
         path: paths.outputPath,

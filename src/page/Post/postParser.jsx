@@ -59,7 +59,7 @@ const retriveFigure = (children) => {
   return figureConfig;
 };
 
-const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
+const nodeReplace = (node, mediaList, onImageClick) => {
   // console.log(type, name, attribs, children);
   // return null;
   const {
@@ -162,7 +162,7 @@ const nodeReplace = (node, mediaList, onImageClick, breakpoints) => {
 export default ({ html, onImageClick }) => {
   const mediaList = [];
   const parseResult = parse(html, {
-    replace: (each) => nodeReplace(each, mediaList, onImageClick, breakpoints),
+    replace: (each) => nodeReplace(each, mediaList, onImageClick),
   });
 
   return { parseResult, mediaList };

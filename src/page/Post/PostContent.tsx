@@ -1,4 +1,4 @@
-import { Suspense, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
 import Suspendable from "~/Utils/Suspendable";
 import { type Post } from "~/Utils/Types";
@@ -12,6 +12,7 @@ import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import parse, { domToReact } from 'html-react-parser';
 import Author from "./Author";
+import useRetry from "~/Utils/useRetry";
 
 interface RendererProps {
     getPost: () => Post
@@ -79,9 +80,8 @@ export default ({slug, backUrl}: Props) => {
         ),
         [retryKey]);
 
-
     return <RetryErrorBoundary onRetry={doRetry}>
-        <Suspense fallback={<p>Loading</p>}>
+        <Suspense fallback={<p>Loading</p>} key={retryKey}>
             <Renderer
                 key={retryKey}
                 getPost={getPost} />

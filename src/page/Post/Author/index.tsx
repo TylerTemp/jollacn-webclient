@@ -55,7 +55,7 @@ const Renderer = ({getAuthor}: RendererProps) => {
             <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
                 {displayName}
             </Typography>
-            <Typography variant="body" sx={{ padding: '20px 0px' }}>
+            <Typography variant="body1" sx={{ padding: '20px 0px' }}>
                 {parse(description)}
             </Typography>
             </>

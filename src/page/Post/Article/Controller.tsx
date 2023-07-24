@@ -41,7 +41,7 @@ export default (articleInfo: ArticleInfo) => {
 
   const fetchPost = () => {
     setApiState({ ...apiState, loading: true, error: null });
-    ReqJsonToType(`/api/post/${articleInfo.slug}`)
+    request(`/api/post/${articleInfo.slug}`)
       .then(resp => resp.json())
       .then(result => {
         console.log(result);

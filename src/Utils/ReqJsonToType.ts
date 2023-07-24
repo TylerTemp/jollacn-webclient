@@ -4,6 +4,7 @@ const Req = (uri: string, config: RequestInit={}): Promise<Response> => (
     new Promise<Response>((resolve, reject) => {
         fetch(`${ENDPOINT}${uri}`, config)
             .then(resp => {
+                console.log(`fetched ${uri}`);
                 const {status, statusText} = resp;
                 if(status < 200 || status >= 300) {
                     let message = `[${status}] ${statusText}`;
@@ -25,7 +26,16 @@ const Req = (uri: string, config: RequestInit={}): Promise<Response> => (
                     resolve(resp);  // let caller decide what to do, may not be json
                 }
             })
-            .catch(e => reject(e));
+            .catch(reject);
+            // .catch(e => {
+            //     if(e instanceof DOMException && e.name === 'AbortError') {
+            //         console.log(`abort ${uri}`);
+            //     }
+            //     else
+            //     {
+            //         reject(e);
+            //     }
+            // });
     })
 );
 
