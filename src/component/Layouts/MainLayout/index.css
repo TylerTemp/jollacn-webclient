@@ -14,6 +14,11 @@
 }
 
 .sticky {
-  position: sticky;
-  top: 0;
+    position: sticky;
+    top: 0;
+}
+
+.content {
+    position: relative;
+    width: 100%;
 }

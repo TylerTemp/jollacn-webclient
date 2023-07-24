@@ -103,7 +103,9 @@ export default () => {
         </Link>
       </Box>
 
-      <Outlet />
+      <Box className={Style.content}>
+        <Outlet />
+      </Box>
 
       <footer>
         <Box sx={{

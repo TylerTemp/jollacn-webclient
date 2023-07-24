@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useParams, useLocation } from 'react-router-dom';
 
-import View from './View';
+// import View from './View';
 
-import '~/css/post.css';
+// import '~/css/post.css';
 
 interface State {
   page: number,
@@ -18,6 +18,6 @@ export default () => {
   const page = state === null
     ? 1
     : state.page;
-    
+
   return <View slug={slug} page={page} />;
 };

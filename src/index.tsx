@@ -8,7 +8,7 @@ import 'typeface-roboto';
 import appTheme from '~/component/Theme';
 import MainLayout from '~/component/Layouts/MainLayout';
 import PostList from '~/page/PostList';
-import Post from '~/page/post';
+import Post from '~/page/Post';
 import TieList from '~/page/tie_list';
 import Tie from '~/page/tie';
 import Home from '~/page/home';

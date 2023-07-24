@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles';
 // import request from '../../../util/Request';
 import request from '~/Utils/Request';
 import View from './View';
+import ReqJsonToType from '~/Utils/ReqJsonToType';
 
 interface ArticleInfo {
   slug: string;
@@ -40,7 +41,7 @@ export default (articleInfo: ArticleInfo) => {
 
   const fetchPost = () => {
     setApiState({ ...apiState, loading: true, error: null });
-    request(`/api/post/${articleInfo.slug}`)
+    ReqJsonToType(`/api/post/${articleInfo.slug}`)
       .then(resp => resp.json())
       .then(result => {
         console.log(result);

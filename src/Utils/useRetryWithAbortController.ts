@@ -17,7 +17,7 @@ export default() => {
                 old.abort();
                 return newAbortController;
             });
-            return newAbortController;
+            return newAbortController.signal;
         }
     }
 }

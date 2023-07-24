@@ -14,7 +14,7 @@ import Lightbox from 'lightbox-react';
 import 'lightbox-react/style.css';
 import articleParser from './ArticleParser';
 
-import Author from './author';
+import Author from './Author';
 
 const CardLayout = ({ children }) => <Card sx={{ margin: '0px 5px' }}>{children}</Card>;
 
