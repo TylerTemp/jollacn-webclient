@@ -6,12 +6,11 @@ import Box from '@mui/system/Box';
 import Style from "./index.css";
 
 
-export default ({children}: PropsWithChildren) => <Box className={Style.container}>
+export const WidthLimit = ({children}: PropsWithChildren) => <Box className={Style.container}>
     <Box className={Style.widthLimit}>
-
-      {children}
-      <Outlet />
-
+        {children}
     </Box>
-  </Box>
-;
+</Box>;
+
+
+export default () => <WidthLimit><Outlet /></WidthLimit>;

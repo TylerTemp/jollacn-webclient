@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import {
   Link, Outlet, useLocation,
 } from 'react-router-dom';
@@ -20,9 +19,8 @@ import Tab from '@mui/material/Tab';
 import Style from './index.css';
 import MainBottomProvider from './MainBottomProvider';
 import MountPoint from './MountPoint';
+import { WidthLimit } from '../WidthLimitLayout';
 // import MainBottomContext from './MainBottomContext';
-
-
 
 
 export default () => {
@@ -38,9 +36,9 @@ export default () => {
     }
 
     return <MainBottomProvider>
-      <div className={Style.sticky}>
+      <Box className={Style.sticky}>
         <AppBar position="relative" sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ width: '100%', maxWidth: '1100px' }}>
+          <WidthLimit>
             <Toolbar>
               <Tabs indicatorColor="secondary" value={tabAt}>
                 <Tab
@@ -85,10 +83,10 @@ export default () => {
 
               </Tabs>
             </Toolbar>
-          </Box>
+          </WidthLimit>
         </AppBar>
         <MountPoint />
-      </div>
+      </Box>
 
       <Box
         sx={{
