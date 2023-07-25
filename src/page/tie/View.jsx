@@ -14,7 +14,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import parse from 'html-react-parser';
 
-import Comment from '~/component/comment';
+import Comment from '~/component/Comment';
 
 const RenderLoading = () => (
   <>

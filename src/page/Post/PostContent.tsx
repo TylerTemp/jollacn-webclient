@@ -18,6 +18,9 @@ import Button from "@mui/material/Button";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import styled from "@emotion/styled";
 import MuiLink from '@mui/material/Link';
+import Comment from "~/component/Comment";
+import { WidthLimit } from "~/component/Layouts/WidthLimitLayout";
+import Stack from "@mui/material/Stack";
 
 const Article = styled.article`
     img.plugin-figure-img {
@@ -49,7 +52,7 @@ const Renderer = ({getPost}: RendererProps) => {
 
     return <Paper>
         <Article className={Style.article}>
-            <img src={headerImg} title={title} alt={title} />
+            <img src={headerImg} className={Style.headerImg} title={title} alt={title} />
 
             <Typography variant="h1" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
                 {title}
@@ -79,10 +82,7 @@ const Renderer = ({getPost}: RendererProps) => {
                 </Box>
             </Box>
         </Article>
-
-        <Divider />
-
-    </Paper>
+    </Paper>;
 }
 
 interface Props {
@@ -101,8 +101,8 @@ export default ({slug, backUrl}: Props) => {
         ),
         [retryKey]);
 
-    return <>
-        <Box sx={{ padding: '15px 0' }}>
+    return <Stack gap={2}>
+        <Box >
             <Link to={backUrl}>
             <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
                 返回
@@ -117,5 +117,17 @@ export default ({slug, backUrl}: Props) => {
                     getPost={getPost} />
             </Suspense>
         </RetryErrorBoundary>
-    </>;
+
+        <Paper>
+
+            <Box className={Style.articleContentWrapper}>
+                <Box className={Style.articleContent}>
+                    <Comment uri={`/post/${slug}/comment`} />
+                </Box>
+            </Box>
+
+            <Divider />
+
+        </Paper>
+    </Stack>;
 }

@@ -30,7 +30,7 @@ export default ({ uri, preList = [] }: Props) => {
         limit: `${limit}`,
     }).toString();
 
-    const {loading, error, data: apiResult, reloadCallback} = useFetch<ApiResult>(`/post?${qs}`, {
+    const {loading, error, data: apiResult, reloadCallback} = useFetch<ApiResult>(`${uri}?${qs}`, {
         limit,
         total: 0,
         comments: []
