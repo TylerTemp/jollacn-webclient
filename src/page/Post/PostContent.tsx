@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
 import Suspendable from "~/Utils/Suspendable";
 import { type Post } from "~/Utils/Types";
@@ -10,9 +10,20 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
-import parse, { domToReact } from 'html-react-parser';
+import parse from 'html-react-parser';
 import Author from "./Author";
-import useRetry from "~/Utils/useRetry";
+import Style from "./PostContent.css";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import styled from "@emotion/styled";
+import MuiLink from '@mui/material/Link';
+
+const Article = styled.article`
+    img.plugin-figure-img {
+        max-width: 100%;
+    }
+`;
 
 interface RendererProps {
     getPost: () => Post
@@ -28,41 +39,49 @@ const Renderer = ({getPost}: RendererProps) => {
         source_title: sourceTitle,
         content,
     } = getPost();
+
+    // console.log(`getPost`, title);
+
     const { parseResult, mediaList } = postParser({
         html: content,
         onImageClick: (index: number) => console.log(`click on image ${index}`)
       });
 
+    return <Paper>
+        <Article className={Style.article}>
+            <img src={headerImg} title={title} alt={title} />
 
-    return <Paper component="article">
             <Typography variant="h1" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
-              {title}
+                {title}
             </Typography>
 
-              <Divider />
+            <Divider />
 
-              {description && <Box sx={{
-                color: '#666', border: '1px solid #dedede', padding: '0 10px', marginTop: '5px', background: '#f9f9f9', borderRadius: '2px',
-              }}
-              >
-                <Typography variant="body2" color="text.secondary" component="div">
-                   {parse(description)}
-                </Typography>
-              </Box>}
+            <Box className={Style.articleContentWrapper}>
+                <Box className={Style.articleContent}>
+                {description && <Box className={Style.description}>
+                    <Typography variant="body2" color="text.secondary" component="div">
+                        {parse(description)}
+                    </Typography>
+                </Box>}
 
-              <>
                 {parseResult}
-                <Divider />
-                {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
-              </>
 
-              {sourceUrl && (
-              <Typography variant="body2" paragraph gutterBottom paddingTop="20px">
-                原文：
-                {' '}
-                <a target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</a>
-              </Typography>
-              )}
+                <Divider />
+
+                {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
+
+                {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px">
+                    原文：
+                    {' '}
+                    <MuiLink target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</MuiLink>
+                </Typography>}
+                </Box>
+            </Box>
+        </Article>
+
+        <Divider />
+
     </Paper>
 }
 
@@ -74,17 +93,29 @@ interface Props {
 export default ({slug, backUrl}: Props) => {
     const {retryKey, doRetry, doAbort} = useRetryWithAbortController();
 
+    // console.log(`retryKey`, retryKey);
+
     const getPost = useMemo(
         () => Suspendable(
             ReqJsonToType<Post>(`/post/${slug}`, {signal: doAbort()})
         ),
         [retryKey]);
 
-    return <RetryErrorBoundary onRetry={doRetry}>
-        <Suspense fallback={<p>Loading</p>} key={retryKey}>
-            <Renderer
-                key={retryKey}
-                getPost={getPost} />
-        </Suspense>
-    </RetryErrorBoundary>;
+    return <>
+        <Box sx={{ padding: '15px 0' }}>
+            <Link to={backUrl}>
+            <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
+                返回
+            </Button>
+            </Link>
+        </Box>
+
+        <RetryErrorBoundary onRetry={doRetry}>
+            <Suspense fallback={<p>Loading</p>} key={retryKey}>
+                <Renderer
+                    key={retryKey}
+                    getPost={getPost} />
+            </Suspense>
+        </RetryErrorBoundary>
+    </>;
 }

@@ -18,7 +18,7 @@ import WidthLimitLayout from "./component/Layouts/WidthLimitLayout";
 
 
 const App = () => (
-  <StrictMode>
+  <>
     <ErrorBoundary>
       <ThemeProvider theme={appTheme}>
         <Router>
@@ -43,7 +43,7 @@ const App = () => (
         </Router>
       </ThemeProvider>
     </ErrorBoundary>
-  </StrictMode>
+  </>
 );
 
 // ReactDom.render(

@@ -27,3 +27,12 @@ export interface Author {
         [key: string]: string,
     }
 }
+
+export interface Comment {
+    id: number,
+    nickname: string,
+    email: string,
+    content: string,
+    avatar: string,
+    updated_at: string,
+}

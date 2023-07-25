@@ -1,0 +1,26 @@
+.articleContentWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.articleContent {
+    max-width: 900px;
+    width: 100%;
+}
+
+.description {
+    color: #666;
+    border: 1px solid #dedede;
+    padding: 0 10px;
+    margin-top: 5px;
+    background: #f9f9f9;
+    border-radius: 2px;
+}
+
+.headerImg {
+    width: 100%;
+    height: auto;
+    border-radius: 4px 4px 0 0;
+}

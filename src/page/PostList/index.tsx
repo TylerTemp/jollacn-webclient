@@ -21,7 +21,7 @@ export default () => {
 
     return <>
         {refInfo.refValue && <Portal container={refInfo.refValue.current} key={refInfo.key}>
-            <LinearProgress sx={{visibility: 'hidden'}}/>
+            <LinearProgress sx={{visibility: (loading? 'visible': 'hidden')}}/>
         </Portal>}
 
         <PostListPage

@@ -29,6 +29,10 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
         this.setState({ error, info });
     }
 
+    componentWillUnmount() {
+        this.state = {}
+    }
+
     render() {
         const { message, description, children } = this.props;
         const { error, info } = this.state;

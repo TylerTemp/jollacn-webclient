@@ -17,6 +17,7 @@ import Paging from "~/component/Paging";
 import Box from "@mui/material/Box";
 import Style from "./PostListPage.css";
 import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
 
 
 const PostPreview = ({
@@ -29,15 +30,13 @@ const PostPreview = ({
       state={{ page }}
     >
     <Card sx={{ width: '100%' }}>
-      { cover && (
-      <>
+      {cover && <>
         <CardMedia
           component="img"
           image={cover}
           title={title}
         />
-      </>
-      )}
+      </>}
       <CardContent>
         <Typography gutterBottom variant="h2">
           { title }
@@ -52,6 +51,21 @@ const PostPreview = ({
     </Card>
   </Link>
   );
+
+const PostSkeleton = () => <Card sx={{ width: '100%' }}>
+    <Skeleton variant="rectangular" width={210} height={60} />
+    <CardContent>
+        <Typography gutterBottom variant="h2">
+            <Skeleton />
+        </Typography>
+        <Typography component="div"><Skeleton /></Typography>
+    </CardContent>
+    <CardActions>
+        <Button size="small" color="primary">
+            <Skeleton />
+        </Button>
+    </CardActions>
+</Card>;
 
 interface ApiResult {
     total: number,
@@ -90,7 +104,9 @@ export default ({page, onPageChange, loading, setLoading}: Props) => {
     }, [apiResult]);
     useEffect(() => {
         setLoading(innerLoading);
-    }, [loading]);
+        // console.log(`loading: ${innerLoading}`)
+    }, [innerLoading]);
+    // console.log(`loading out: ${innerLoading}`)
     useEffectNoFirstRender(() => reloadCallback(), [page]);
 
     // console.log(`offset`, offset, `limit`, limit, `total`, apiResult.total);
@@ -104,10 +120,12 @@ export default ({page, onPageChange, loading, setLoading}: Props) => {
 
             <Grid container spacing={2}>
                 {apiResult.post_infos.map((each) => <Grid key={each.slug} sm={12} md={6}>
-                        <PostPreview post={each} page={page} />
-                    </Grid>
-                )}
+                    <PostPreview post={each} page={page} />
+                </Grid>)}
             </Grid>
+            {loading && apiResult.post_infos.length === 0 && <Grid container spacing={2}>
+                {Array.from(Array(limit).keys()).map(index => <PostSkeleton key={index} />)}
+            </Grid>}
 
             <Box className={Style.pagingContainer}>
                 <Paper>
@@ -115,11 +133,10 @@ export default ({page, onPageChange, loading, setLoading}: Props) => {
                         offset={offset}
                         limit={limit}
                         total={apiResult.total}
-                        onOffsetChange={newOffset => onPageChange(Math.floor(newOffset / limit))}
+                        onOffsetChange={newOffset => onPageChange(Math.floor(newOffset / limit) + 1)}
                     />
                 </Paper>
             </Box>
         </Stack>
     </>
 }
-
