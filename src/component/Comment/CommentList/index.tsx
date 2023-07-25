@@ -1,17 +1,21 @@
 import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
+import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ReqJsonToType from "~/Utils/ReqJsonToType";
 import { type Comment } from "~/Utils/Types";
 import useFetch from "~/Utils/useFetch";
 import AlertSimple from "~/component/AlertSimple";
+import Paging from "~/component/Paging";
 
 interface Props {
     uri: string,
-    preList: Comment[],
+    // preList: Comment[],
 }
 
 interface ApiResult {
@@ -20,28 +24,62 @@ interface ApiResult {
     comments: Comment[],
 }
 
-export default ({ uri, preList = [] }: Props) => {
+interface ApiState {
+    loading: boolean,
+    error: Error | null,
+}
 
-    const [limit, setLimit] = useState<number>(10);
+export default ({ uri }: Props) => {
+
+    // const [limit, setLimit] = useState<number>(10);
     const [offset, setOffset] = useState<number>(0);
-
-    const qs = new URLSearchParams({
-        offset: `${offset}`,
-        limit: `${limit}`,
-    }).toString();
-
-    const {loading, error, data: apiResult, reloadCallback} = useFetch<ApiResult>(`${uri}?${qs}`, {
-        limit,
+    const [apiResult, setApiResult] = useState<ApiResult>({
         total: 0,
-        comments: []
+        limit: 10,
+        comments: [],
     });
 
+    const [apiState, setApiState] = useState<ApiState>({
+        loading: false,
+        error: null,
+    });
+
+    const fetchComment = (offset: number, limit: number) => {
+        setApiState({
+            loading: true,
+            error: null,
+        });
+
+        const qs = new URLSearchParams({
+            offset: `${offset}`,
+            limit: `${limit}`,
+        }).toString();
+
+        ReqJsonToType<ApiResult>(`${uri}?${qs}`)
+            .then((apiResult) => {
+                setApiState({
+                    loading: false,
+                    error: null,
+                });
+                // setLimit(apiResult.limit);
+                setApiResult(apiResult);
+            })
+            .catch((error) => setApiState({
+                loading: false,
+                error,
+            }));
+    }
+
+    useEffect(() => {
+        fetchComment(offset, apiResult.limit);
+    }, []);
+
     return <>
-        {error && <AlertSimple
+        {apiState.error && <AlertSimple
             severity="error"
-            onReload={reloadCallback}
+            onReload={() => fetchComment(offset, apiResult.limit)}
         >
-            {error.message}
+            {apiState.error.message}
         </AlertSimple>}
         <List sx={{ width: '100%' }}>
             {apiResult.comments.map(({
@@ -72,5 +110,22 @@ export default ({ uri, preList = [] }: Props) => {
                 </ListItem>
             )}
         </List>
+
+        {!apiState.loading && !apiState.error && apiResult.comments.length === 0 && <Divider>
+            暂无评论
+        </Divider>}
+
+        {apiState.loading && apiResult.comments.length === 0 && Array.from(Array(apiResult.limit).keys()).map(index => <Skeleton key={index} />)}
+
+        <Paging
+            total={apiResult.total}
+            offset={offset}
+            limit={apiResult.limit}
+            onOffsetChange={offset => {
+                setOffset(offset);
+                fetchComment(offset, apiResult.limit);
+            }}
+            onLimitChange={limit => fetchComment(offset, limit)}
+        />
     </>;
 }

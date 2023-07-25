@@ -14,7 +14,7 @@ import Tie from '~/page/tie';
 import Home from '~/page/home';
 import NotFound from '~/page/NotFound';
 import ErrorBoundary from "~/component/ErrorBoundary";
-import WidthLimitLayout from "./component/Layouts/WidthLimitLayout";
+import WidthLimitLayout, { WidthLimit } from "./component/Layouts/WidthLimitLayout";
 
 
 const App = () => (
@@ -24,7 +24,7 @@ const App = () => (
         <Router>
           <Routes>
               <Route path="/" element={<MainLayout />}>
-                  <Route index element={<Home />} />
+                  <Route index element={<WidthLimit><Home /></WidthLimit>} />
 
                   <Route path="/post" element={<WidthLimitLayout />}>
                       <Route index element={<PostList />} />

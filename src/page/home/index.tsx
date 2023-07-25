@@ -6,7 +6,8 @@ import Box from '@mui/system/Box';
 import Fab from '@mui/material/Fab';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 
-import PostList from '~/component/post_list';
+// import PostList from '~/page/PostList';
+import PostListWrapper from '~/page/PostList/PostListWrapper';
 import TieList from '~/component/tie_list';
 
 export default () => (
@@ -16,7 +17,7 @@ export default () => (
         width: '100%', maxWidth: '1100px', margin: '0 20px', position: 'relative',
       }}
       >
-        <TieList offset={0} limit={3} itemXs={12 / 1} itemMd={12 / 3} itemLg={12 / 3} page={null} />
+        <TieList offset={0} limit={3} itemXs={12 / 1} itemMd={12 / 3} itemLg={12 / 3} page={null} onResult={() => {}}/>
         <Box sx={{ position: 'absolute', bottom: 0, right: 0 }}>
           <Link to="/tie">
             <Fab color="primary" aria-label="add">
@@ -29,6 +30,6 @@ export default () => (
 
     <Box height={30} />
 
-    <PostList page={1}/>
+    <PostListWrapper page={1} />
   </>
 );

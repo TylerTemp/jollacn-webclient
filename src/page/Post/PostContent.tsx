@@ -119,8 +119,7 @@ export default ({slug, backUrl}: Props) => {
         </RetryErrorBoundary>
 
         <Paper>
-
-            <Box className={Style.articleContentWrapper}>
+            <Box className={`${Style.articleContentWrapper} ${Style.commentSection}`}>
                 <Box className={Style.articleContent}>
                     <Comment uri={`/post/${slug}/comment`} />
                 </Box>

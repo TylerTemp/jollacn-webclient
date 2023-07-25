@@ -1,0 +1,19 @@
+/* .fullWidth {
+    width: 100%;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+} */
+
+input.inputNoArrow::-webkit-outer-spin-button,
+input.inputNoArrow::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input.inputNoArrow[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}

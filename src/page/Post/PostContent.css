@@ -24,3 +24,7 @@
     height: auto;
     border-radius: 4px 4px 0 0;
 }
+
+.commentSection {
+    padding: 40px 0;
+}

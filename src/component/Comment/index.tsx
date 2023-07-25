@@ -13,8 +13,8 @@ export default ({uri}: Props) => {
 
     const [preListComments, setPreListComments] = useState<Comment[]>([]);
 
-    return <Stack gap={1} divider={<Divider />}>
+    return <Stack gap={1}>
         <CommentAdd uri={uri} onAdd={comment => setPreListComments(old => [comment, ...old])} />
-        <CommentList uri={uri} preList={preListComments} />
+        <CommentList uri={uri} key={preListComments.length}/>
     </Stack>;
 }
