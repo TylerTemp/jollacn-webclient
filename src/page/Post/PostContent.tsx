@@ -1,4 +1,4 @@
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
 import Suspendable from "~/Utils/Suspendable";
 import { type Post } from "~/Utils/Types";
@@ -50,18 +50,21 @@ const Renderer = ({getPost}: RendererProps) => {
         onImageClick: (index: number) => console.log(`click on image ${index}`)
       });
 
-    return <Paper>
-        <article className={Style.article}>
-            <img src={headerImg} className={Style.headerImg} title={title} alt={title} />
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+    }, []);
 
-            <Typography variant="h1" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
-                {title}
-            </Typography>
+    return <article className={Style.article}>
+        <img src={headerImg} className={Style.headerImg} title={title} alt={title} />
 
-            {!description && <Divider />}
+        <Typography variant="h1" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
+            {title}
+        </Typography>
 
-            <Box className={Style.articleContentWrapper}>
-                <Box className={Style.articleContent}>
+        {!description && <Divider />}
+
+        <Box className={Style.articleContentWrapper}>
+            <Box className={`${Style.articleContent} ${Style.paperPadding}`}>
                 {description && <Paper className={Style.description} variant="outlined" elevation={2}>
                     <Typography variant="body2" color="text.secondary" component="div">
                         {parse(description)}
@@ -79,10 +82,9 @@ const Renderer = ({getPost}: RendererProps) => {
                     {' '}
                     <MuiLink target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</MuiLink>
                 </Typography>}
-                </Box>
             </Box>
-        </article>
-    </Paper>;
+        </Box>
+    </article>;
 }
 
 interface Props {
@@ -102,7 +104,7 @@ export default ({slug, backUrl}: Props) => {
         [retryKey]);
 
     return <Stack gap={2}>
-        <Box >
+        <Box>
             <Link to={backUrl}>
             <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
                 返回
@@ -110,23 +112,22 @@ export default ({slug, backUrl}: Props) => {
             </Link>
         </Box>
 
-        <RetryErrorBoundary onRetry={doRetry}>
-            <Suspense fallback={<p>Loading</p>} key={retryKey}>
-                <Renderer
-                    key={retryKey}
-                    getPost={getPost} />
-            </Suspense>
-        </RetryErrorBoundary>
+        <Paper className={Style.spaceBottom}>
+            <RetryErrorBoundary onRetry={doRetry}>
+                <Suspense fallback={<p>Loading</p>} key={retryKey}>
+                    <Renderer
+                        key={retryKey}
+                        getPost={getPost} />
+                </Suspense>
+            </RetryErrorBoundary>
+        </Paper>
 
-        <Paper>
+        <Paper className={`${Style.spaceBottom} ${Style.paperPadding}`}>
             <Box className={`${Style.articleContentWrapper} ${Style.commentSection}`}>
                 <Box className={Style.articleContent}>
                     <Comment uri={`/post/${slug}/comment`} />
                 </Box>
             </Box>
-
-            <Divider />
-
         </Paper>
     </Stack>;
 }

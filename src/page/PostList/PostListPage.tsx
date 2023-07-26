@@ -6,7 +6,7 @@ import useEffectNoFirstRender from "~/Utils/useEffectNoFirstRender";
 import useFetch from "~/Utils/useFetch";
 import AlertSimple from "~/component/AlertSimple";
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -26,33 +26,37 @@ const PostPreview = ({
     post: {
       cover, title, description, slug,
     }, page,
-  }: {post: PostInfo, page: number}) => (
-  <Link
-      to={`/post/${slug}`}
-      state={{ page }}
+  }: {post: PostInfo, page: number}) => {
+
+    const { pathname } = useLocation();
+    const isPostPath = pathname.startsWith('/post');
+
+    return <Link
+        to={isPostPath? slug :`/post/${slug}`}
+        state={{ page }}
+        id={slug}
     >
-    <Card sx={{ width: '100%' }}>
-      {cover && <>
-        <CardMedia
-          component="img"
-          image={cover}
-          title={title}
-        />
-      </>}
-      <CardContent>
-        <Typography gutterBottom variant="h2">
-          { title }
-        </Typography>
-        <Typography component="div" dangerouslySetInnerHTML={{ __html: description }} />
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary">
-          阅读 &gt;&gt;
-        </Button>
-      </CardActions>
-    </Card>
-  </Link>
-  );
+        <Card sx={{ width: '100%' }}>
+            {cover && <>
+                <CardMedia
+                    component="img"
+                    image={cover}
+                    title={title} />
+            </>}
+            <CardContent>
+                <Typography gutterBottom variant="h2">
+                    {title}
+                </Typography>
+                <Typography component="div" dangerouslySetInnerHTML={{ __html: description }} />
+            </CardContent>
+            <CardActions>
+                <Button size="small" color="primary">
+                    阅读 &gt;&gt;
+                </Button>
+            </CardActions>
+        </Card>
+    </Link>;
+};
 
 const PostSkeleton = () => <Card sx={{ width: '100%' }}>
     <Skeleton variant="rectangular" width={210} height={60} />

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
@@ -10,26 +9,24 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PostListWrapper from '~/page/PostList/PostListWrapper';
 import TieList from '~/component/tie_list';
 
-export default () => (
-  <>
+export default () => <>
     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-      <Box sx={{
-        width: '100%', maxWidth: '1100px', margin: '0 20px', position: 'relative',
-      }}
-      >
+        <Box sx={{
+            width: '100%', maxWidth: '1100px', margin: '0 20px', position: 'relative',
+        }}
+        >
         <TieList offset={0} limit={3} itemXs={12 / 1} itemMd={12 / 3} itemLg={12 / 3} page={null} onResult={() => {}}/>
         <Box sx={{ position: 'absolute', bottom: 0, right: 0 }}>
-          <Link to="/tie">
-            <Fab color="primary" aria-label="add">
-              <ReadMoreIcon />
-            </Fab>
-          </Link>
+            <Link to="/tie">
+                <Fab color="primary" aria-label="add">
+                    <ReadMoreIcon />
+                </Fab>
+            </Link>
         </Box>
-      </Box>
+        </Box>
     </Box>
 
     <Box height={30} />
 
     <PostListWrapper page={1} />
-  </>
-);
+</>;
