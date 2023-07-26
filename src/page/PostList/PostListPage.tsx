@@ -1,6 +1,6 @@
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
-import { useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { PostInfo } from "~/Utils/Types";
 import useEffectNoFirstRender from "~/Utils/useEffectNoFirstRender";
 import useFetch from "~/Utils/useFetch";
@@ -18,6 +18,8 @@ import Box from "@mui/material/Box";
 import Style from "./PostListPage.css";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
+import { WidthLimit } from "~/component/Layouts/WidthLimitLayout";
+import useTheme from "@mui/material/styles/useTheme";
 
 
 const PostPreview = ({
@@ -81,7 +83,7 @@ interface Props {
 }
 
 
-export default ({page, onPageChange, loading, setLoading}: Props) => {
+export default ({page, onPageChange, loading, setLoading, children}: PropsWithChildren<Props>) => {
 
     const [limit, setLimit] = useState<number>(10);
     const offset = (page - 1) * limit;
@@ -111,6 +113,9 @@ export default ({page, onPageChange, loading, setLoading}: Props) => {
 
     // console.log(`offset`, offset, `limit`, limit, `total`, apiResult.total);
 
+    const theme = useTheme();
+    const bgColor = theme.palette.background.default;
+
     return <>
         <Stack direction="column" gap={2}>
             {error && <AlertSimple
@@ -138,5 +143,11 @@ export default ({page, onPageChange, loading, setLoading}: Props) => {
                 </Paper>
             </Box>
         </Stack>
+
+        {children && <Box className={Style.overlay} style={{backgroundColor: bgColor}}>
+            <WidthLimit>
+                {children}
+            </WidthLimit>
+        </Box>}
     </>
 }

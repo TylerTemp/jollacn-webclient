@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // import PostList from '~/component/post_list';
@@ -7,7 +7,7 @@ import { useMountRef } from '~/component/Layouts/MainLayout/MainBottomProvider';
 import Portal from '@mui/base/Portal';
 import LinearProgress from '@mui/material/LinearProgress';
 
-export default ({page}: {page: number}) => {
+export default ({page, children}: PropsWithChildren<{page: number}>) => {
 
     const navigate = useNavigate();
     // const mainButtomRef = useContext(MainBottomContext);
@@ -26,6 +26,6 @@ export default ({page}: {page: number}) => {
             onPageChange={page => page <= 1? navigate(`/post`): navigate(`/post/page/${page}`)}
             loading={loading}
             setLoading={setLoading}
-        />
+        >{children}</PostListPage>
     </>;
 }

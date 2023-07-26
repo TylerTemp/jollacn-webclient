@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 
 // import PostList from '~/component/post_list';
 import PostListWrapper from './PostListWrapper';
@@ -9,5 +9,5 @@ export default () => {
 
     return <PostListWrapper
         page={parseInt(pageStr, 10) as number}
-    />;
+    ><Outlet /></PostListWrapper>;
 }
