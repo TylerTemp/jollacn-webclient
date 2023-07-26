@@ -10,8 +10,10 @@ export default createTheme({
 
     palette: {
         mode: 'dark',
-        background: {
-            default: "#222222"
-        },
+        // background: {
+        //     default: "#222222"
+        // },
     },
+
+    themeBubble: grey[300],
 });

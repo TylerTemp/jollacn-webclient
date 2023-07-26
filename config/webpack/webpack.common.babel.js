@@ -54,6 +54,29 @@ module.exports = env => ({
                 ],
             },
             {
+                test: /\.scss$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                          modules: {
+                              localIdentName:'[name]__[local]--[hash:base64:5]',
+                          },
+                          sourceMap: true,
+                          esModule: true,
+                        },
+                    },
+                    'postcss-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                        implementation: require('node-sass'),
+                        },
+                    },
+                ],
+            },
+            {
                 test: /\.less$/,
                 include: /node_modules/,
                 use: [

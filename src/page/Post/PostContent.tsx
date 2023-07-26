@@ -12,21 +12,21 @@ import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import parse from 'html-react-parser';
 import Author from "./Author";
-import Style from "./PostContent.css";
+import Style from "./PostContent.scss";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import styled from "@emotion/styled";
+// import styled from "@emotion/styled";
 import MuiLink from '@mui/material/Link';
 import Comment from "~/component/Comment";
 import { WidthLimit } from "~/component/Layouts/WidthLimitLayout";
 import Stack from "@mui/material/Stack";
 
-const Article = styled.article`
-    img.plugin-figure-img {
-        max-width: 100%;
-    }
-`;
+// const Article = styled.article`
+//     img.plugin-figure-img {
+//         max-width: 100%;
+//     }
+// `;
 
 interface RendererProps {
     getPost: () => Post
@@ -51,22 +51,22 @@ const Renderer = ({getPost}: RendererProps) => {
       });
 
     return <Paper>
-        <Article className={Style.article}>
+        <article className={Style.article}>
             <img src={headerImg} className={Style.headerImg} title={title} alt={title} />
 
             <Typography variant="h1" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
                 {title}
             </Typography>
 
-            <Divider />
+            {!description && <Divider />}
 
             <Box className={Style.articleContentWrapper}>
                 <Box className={Style.articleContent}>
-                {description && <Box className={Style.description}>
+                {description && <Paper className={Style.description} variant="outlined" elevation={2}>
                     <Typography variant="body2" color="text.secondary" component="div">
                         {parse(description)}
                     </Typography>
-                </Box>}
+                </Paper>}
 
                 {parseResult}
 
@@ -74,14 +74,14 @@ const Renderer = ({getPost}: RendererProps) => {
 
                 {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
 
-                {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px">
+                {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px" component="div">
                     原文：
                     {' '}
                     <MuiLink target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</MuiLink>
                 </Typography>}
                 </Box>
             </Box>
-        </Article>
+        </article>
     </Paper>;
 }
 

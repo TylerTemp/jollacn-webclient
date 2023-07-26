@@ -29,10 +29,10 @@ const App = () => (
                         <Route index element={<WidthLimit><Home /></WidthLimit>} />
 
                         <Route path="/post" element={<WidthLimitLayout />}>
+                            <Route path="page/:page" element={<PostList />} />
                             <Route path="" element={<PostList />}>
                               <Route path=":slug" element={<Post />} />
                             </Route>
-                            <Route path="page/:page" element={<PostList />} />
 
                         </Route>
 

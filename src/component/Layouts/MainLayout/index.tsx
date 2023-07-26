@@ -16,14 +16,24 @@ import StyleIcon from '@mui/icons-material/Style';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 import Divider from '@mui/material/Divider';
 import Tab from '@mui/material/Tab';
-import Style from './index.css';
+// import * as Style from './index.scss';
+import Style from './index.scss';
 import MainBottomProvider from './MainBottomProvider';
 import MountPoint from './MountPoint';
 import { WidthLimit } from '../WidthLimitLayout';
+import Button from '@mui/material/Button';
+import { Context, ThemeType } from "~/component/Theme/ThemeProvider";
+import { useContext } from 'react';
+import useTheme from '@mui/material/styles/useTheme';
 // import MainBottomContext from './MainBottomContext';
+import LightbulbTwoToneIcon from '@mui/icons-material/LightbulbTwoTone';
 
 
 export default () => {
+
+    const {theme, setTheme} = useContext(Context);
+
+    const curTheme = useTheme();
 
     const {pathname} = useLocation();
 
@@ -39,50 +49,57 @@ export default () => {
       <Box className={Style.sticky}>
         <AppBar position="relative" sx={{ display: 'flex', alignItems: 'center' }}>
           <WidthLimit>
-            <Toolbar>
-              <Tabs indicatorColor="secondary" value={tabAt}>
-                <Tab
-                  className={Style.tab}
-                  color="white"
-                  label={(
-                    <Link to="/">
-                      <Typography variant="h6" color="inherit" display="flex" alignItems="center">
-                        <HomeIcon />
-                        首页
-                      </Typography>
-                    </Link>
-                    )}
-                  value="home"
-                />
+                <Toolbar disableGutters>
+                    <Box
+                        sx={{ flexGrow: 1,
+                        // display: { xs: 'none', md: 'flex' }
+                        }}
+                    >
+                        <Tabs value={tabAt} textColor="secondary" indicatorColor="secondary">
+                            <Tab
+                                // className={Style.tab}
+                                // color="white"
+                                label={<Link to="/">
+                                    <Typography variant="h6" color="inherit" display="flex" alignItems="center">
+                                        <HomeIcon />
+                                        首页
+                                    </Typography>
+                                </Link>}
+                                value="home"
+                            />
 
-                <Tab
-                  className={Style.tab}
-                  label={(
-                    <Link to="/post">
-                      <Typography variant="h6" color="inherit" display="flex" alignItems="center">
-                        <BallotIcon />
-                        文章
-                      </Typography>
-                    </Link>
-                    )}
-                  value="post"
-                />
+                            <Tab
+                                // className={Style.tab}
+                                label={<Link to="/post">
+                                    <Typography variant="h6" color="inherit" display="flex" alignItems="center">
+                                        <BallotIcon />
+                                        文章
+                                    </Typography>
+                                </Link>}
+                                value="post"
+                            />
 
-                <Tab
-                  className={Style.tab}
-                  label={(
-                    <Link to="/tie">
-                      <Typography variant="h6" color="inherit" display="flex" alignItems="center">
-                        <StyleIcon />
-                        快讯
-                      </Typography>
-                    </Link>
-                    )}
-                  value="tie"
-                />
+                            <Tab
+                                // className={Style.tab}
+                                label={<Link to="/tie">
+                                    <Typography variant="h6" color="inherit" display="flex" alignItems="center">
+                                        <StyleIcon />
+                                        快讯
+                                    </Typography>
+                                </Link>}
+                                value="tie"
+                            />
 
-              </Tabs>
-            </Toolbar>
+                        </Tabs>
+                    </Box>
+
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Button onClick={() => setTheme(theme === ThemeType.Dark? ThemeType.Light: ThemeType.Dark)}>
+                            <LightbulbTwoToneIcon style={{color: curTheme.themeBubble}} />
+                        </Button>
+                    </Box>
+
+              </Toolbar>
           </WidthLimit>
         </AppBar>
         <MountPoint />
