@@ -65,7 +65,7 @@ const Renderer = ({getPost}: RendererProps) => {
 
         <Box className={Style.articleContentWrapper}>
             <Box className={`${Style.articleContent} ${Style.paperPadding}`}>
-                {description && <Paper className={Style.description} variant="outlined" elevation={2}>
+                {description && <Paper className={Style.description} variant="outlined">
                     <Typography variant="body2" color="text.secondary" component="div">
                         {parse(description)}
                     </Typography>

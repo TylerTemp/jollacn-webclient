@@ -88,7 +88,6 @@ interface Props {
 
 
 export default ({page, onPageChange, loading, setLoading, children}: PropsWithChildren<Props>) => {
-
     const [limit, setLimit] = useState<number>(10);
     const offset = (page - 1) * limit;
 
