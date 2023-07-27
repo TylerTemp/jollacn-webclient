@@ -1,5 +1,5 @@
 import { createTheme } from "./Basic";
-import { grey, blue, yellow } from "@mui/material/colors";
+import { yellow } from "@mui/material/colors";
 
 export default createTheme({
     typography: {
@@ -16,4 +16,5 @@ export default createTheme({
     },
 
     themeBubble: yellow[400],
+    dim: '#24242482',
 });

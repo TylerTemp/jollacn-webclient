@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
 import Suspendable from "~/Utils/Suspendable";
 import { type Post } from "~/Utils/Types";
@@ -19,8 +19,12 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 // import styled from "@emotion/styled";
 import MuiLink from '@mui/material/Link';
 import Comment from "~/component/Comment";
-import { WidthLimit } from "~/component/Layouts/WidthLimitLayout";
 import Stack from "@mui/material/Stack";
+import AbsCarousel from "~/component/AbsCarousel";
+
+import {
+    Text
+  } from 'domhandler';
 
 // const Article = styled.article`
 //     img.plugin-figure-img {
@@ -54,37 +58,45 @@ const Renderer = ({getPost}: RendererProps) => {
         window.scrollTo({ top: 0, behavior: "instant" });
     }, []);
 
-    return <article className={Style.article}>
-        <img src={headerImg} className={Style.headerImg} title={title} alt={title} />
+    return <>
+        <article className={Style.article}>
+            <img src={headerImg} className={Style.headerImg} title={title} alt={title} />
 
-        <Typography variant="h1" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
-            {title}
-        </Typography>
+            <Typography variant="h1" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
+                {title}
+            </Typography>
 
-        {!description && <Divider />}
+            {!description && <Divider />}
 
-        <Box className={Style.articleContentWrapper}>
-            <Box className={`${Style.articleContent} ${Style.paperPadding}`}>
-                {description && <Paper className={Style.description} variant="outlined">
-                    <Typography variant="body2" color="text.secondary" component="div">
-                        {parse(description)}
-                    </Typography>
-                </Paper>}
+            <Box className={Style.articleContentWrapper}>
+                <Box className={`${Style.articleContent} ${Style.paperPadding}`}>
+                    {description && <Paper className={Style.description} variant="outlined">
+                        <Typography variant="body2" color="text.secondary" component="div">
+                            {parse(description)}
+                        </Typography>
+                    </Paper>}
 
-                {parseResult}
+                    {parseResult}
 
-                <Divider />
+                    <Divider />
 
-                {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
+                    {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
 
-                {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px" component="div">
-                    原文：
-                    {' '}
-                    <MuiLink target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</MuiLink>
-                </Typography>}
+                    {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px" component="div">
+                        原文：
+                        {' '}
+                        <MuiLink target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</MuiLink>
+                    </Typography>}
+                </Box>
             </Box>
-        </Box>
-    </article>;
+        </article>
+
+        <AbsCarousel
+            displays={mediaList.map(({enlargeUrl, figCaptionInfo, imgInfo}, index) => ({type: 'image', src: enlargeUrl ?? imgInfo.attribs.src, key: index, label: (figCaptionInfo?.firstChild as Text)?.data}))}
+            onClick={() => console.log(`dim clicked`)}
+            stepper={() => <></>}
+        />
+    </>;
 }
 
 interface Props {

@@ -1,3 +1,9 @@
+
+import {
+    Element,
+    ChildNode
+  } from 'domhandler';
+
 export interface PostInfo {
     slug: string,
     title: string,
@@ -35,4 +41,15 @@ export interface Comment {
     content: string,
     avatar: string,
     updated_at: string,
+}
+
+export interface DisplayableMedia {
+    type: "image" | "video",
+    src: string,
+}
+
+export interface FigureConfig {
+    enlargeUrl: string | null,
+    imgInfo: Element | null,
+    figCaptionInfo: Element | null,
 }

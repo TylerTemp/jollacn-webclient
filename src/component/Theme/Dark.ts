@@ -1,5 +1,5 @@
 import { createTheme } from "./Basic";
-import { grey, blue } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 
 export default createTheme({
     typography: {
@@ -16,4 +16,5 @@ export default createTheme({
     },
 
     themeBubble: grey[300],
+    dim: 'rgba(255, 255, 255, 0.2)',
 });
