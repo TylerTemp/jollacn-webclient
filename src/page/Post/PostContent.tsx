@@ -26,6 +26,7 @@ import {
     Text
 } from 'domhandler';
 import Portal from "@mui/material/Portal";
+import { type StepperProps } from "~/component/Carousel";
 
 // const Article = styled.article`
 //     img.plugin-figure-img {
@@ -35,6 +36,23 @@ import Portal from "@mui/material/Portal";
 
 interface RendererProps {
     getPost: () => Post
+}
+
+interface ForceStepperProps extends StepperProps {
+    forceStep: number,
+}
+
+const Stepper = ({forceStep, setActiveStep}: ForceStepperProps) => {
+    const [curForceStep, setCurForceStep] = useState<number>(forceStep);
+    useEffect(() => {
+        console.log(curForceStep, forceStep);
+        if(curForceStep != forceStep) {
+            setCurForceStep(forceStep);
+            setActiveStep(_oldStep => forceStep);
+        }
+    }, [forceStep]);
+
+    return <></>;
 }
 
 const Renderer = ({getPost}: RendererProps) => {
@@ -50,13 +68,13 @@ const Renderer = ({getPost}: RendererProps) => {
 
     // console.log(`getPost`, title);
 
-    const [displayCarousel, setDisplayCarousel] = useState<boolean>(false);
+    const [displayCarousel, setDisplayCarousel] = useState<number>(-1);
 
     const { parseResult, mediaList } = postParser({
         html: content,
         onImageClick: (index: number) => {
             console.log(`click on image ${index}`);
-            setDisplayCarousel(true);
+            setDisplayCarousel(index);
         }
     });
 
@@ -97,14 +115,14 @@ const Renderer = ({getPost}: RendererProps) => {
             </Box>
         </article>
 
-        <Portal container={null}>
+        {/* <Portal container={null}> */}
             <AbsCarousel
-                display={displayCarousel}
+                display={displayCarousel !== -1}
                 displays={mediaList.map(({enlargeUrl, figCaptionInfo, imgInfo}, index) => ({type: 'image', src: enlargeUrl ?? imgInfo.attribs.src, key: index, label: (figCaptionInfo?.firstChild as Text)?.data}))}
-                onClick={() => setDisplayCarousel(false)}
-                stepper={() => <></>}
+                onClick={() => setDisplayCarousel(-1)}
+                stepper={params => <Stepper {...params} forceStep={displayCarousel === -1? 0: displayCarousel} />}
             />
-        </Portal>
+        {/* </Portal> */}
     </>;
 }
 

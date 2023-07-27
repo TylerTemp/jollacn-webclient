@@ -76,6 +76,7 @@ export type Props = PropsWithChildren<{
     noStepperSetter?: boolean,
     autoHeight?: boolean,
     defaultAutoPlay?: boolean,
+    index?: number | undefined,
     // isAutoPlay?: boolean,
     displays: Displayable[],
     stepper: (props: StepperProps) => JSX.Element,

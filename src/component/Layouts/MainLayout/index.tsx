@@ -28,6 +28,7 @@ import useTheme from '@mui/material/styles/useTheme';
 // import MainBottomContext from './MainBottomContext';
 import LightbulbTwoToneIcon from '@mui/icons-material/LightbulbTwoTone';
 
+export const menuBarHeight = 64;
 
 export default () => {
 
@@ -45,8 +46,10 @@ export default () => {
       tabAt = 'tie';
     }
 
+
+
     return <MainBottomProvider>
-      <Box className={Style.sticky}>
+      <Box className={Style.menuBar} style={{height: `${menuBarHeight}px`}}>
         <AppBar position="relative" sx={{ display: 'flex', alignItems: 'center' }}>
           <WidthLimit>
                 <Toolbar disableGutters>
@@ -103,6 +106,9 @@ export default () => {
           </WidthLimit>
         </AppBar>
         <MountPoint />
+      </Box>
+
+      <Box style={{height: `${menuBarHeight}px`}}>
       </Box>
 
       <Box

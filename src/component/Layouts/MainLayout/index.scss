@@ -3,19 +3,21 @@
     max-width: 575px;
 }
 
-.tab {
-    // color: rgba(255, 255, 255, 0.7);
-    // &.Mui-selected {
-    //   color: #fff;
-    // }
-    // &.Mui-focusVisible {
-    //   background-color: rgba(100, 95, 228, 0.32);
-    // }
-}
+// .tab {
+//     color: rgba(255, 255, 255, 0.7);
+//     &.Mui-selected {
+//       color: #fff;
+//     }
+//     &.Mui-focusVisible {
+//       background-color: rgba(100, 95, 228, 0.32);
+//     }
+// }
 
-.sticky {
-    position: sticky;
+.menuBar {
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
 }
 

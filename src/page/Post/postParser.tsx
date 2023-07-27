@@ -108,7 +108,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
     if (name === 'figure') {
         const figureConfig = retriveFigure(elementChildren);
 
-        console.log('figure:', figureConfig);
+        // console.log('figure:', figureConfig);
         if(figureConfig === null) {
             return domNode;
         }
