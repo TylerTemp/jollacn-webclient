@@ -16,5 +16,5 @@ export default createTheme({
     },
 
     themeBubble: grey[300],
-    dim: 'rgba(255, 255, 255, 0.2)',
+    dim: 'rgba(0, 0, 0, 0.66)',
 });

@@ -153,39 +153,39 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
             })}
         </Grid>;
     }
-  if (name === 'hr') {
-    return <Divider />;
-  }
-  if (attribs && attribs.class && attribs.class.includes('plugin-button')) {
-    const hasCenter = name === 'center';
-    const linkNode = hasCenter ? children[0] : domNode ;
-    if(!(linkNode instanceof Element)) {
-        return null;
+    if (name === 'hr') {
+        return <Divider />;
     }
-    // console.log(linkNode);
+    if (attribs && attribs.class && attribs.class.includes('plugin-button')) {
+        const hasCenter = name === 'center';
+        const linkNode = hasCenter ? children[0] : domNode ;
+        if(!(linkNode instanceof Element)) {
+            return null;
+        }
+        // console.log(linkNode);
 
-    const { attribs: { href: linkHref } } = linkNode;
-    const buttonNode = linkNode.children[0] as Element;
-    const buttonText = (buttonNode.children[0] as Text).data;
+        const { attribs: { href: linkHref } } = linkNode;
+        const buttonNode = linkNode.children[0] as Element;
+        const buttonText = (buttonNode.children[0] as Text).data;
 
-    const buttonDom = <Button variant="contained" href={linkHref} target="_blank">{buttonText}</Button>;
+        const buttonDom = <Button variant="contained" href={linkHref} target="_blank">{buttonText}</Button>;
 
-    return hasCenter
-      ? <Box sx={{ display: 'flex', justifyContent: 'center' }}>{buttonDom}</Box>
-      : buttonDom;
-  }
-  if (name === 'a') {
-    const { href: linkHref = '#' } = attribs;
-    if (linkHref.startsWith('#')) {
-      return null;
+        return hasCenter
+            ? <Box sx={{ display: 'flex', justifyContent: 'center' }}>{buttonDom}</Box>
+            : buttonDom;
     }
-    if (linkHref.startsWith('/')) {
-      return <Link to={linkHref}>{domToReact(children)}</Link>;
+    if (name === 'a') {
+        const { href: linkHref = '#' } = attribs;
+        if (linkHref.startsWith('#')) {
+            return null;
+        }
+        if (linkHref.startsWith('/')) {
+            return <Link to={linkHref}>{domToReact(children)}</Link>;
+        }
+        // return domToReact([{ ...domNode , attribs: { ...attribs, target: '_blank' } }]);
+        domNode.attribs.target = '_blank';
+        return <>{domToReact([domNode])}</>;
     }
-    // return domToReact([{ ...domNode , attribs: { ...attribs, target: '_blank' } }]);
-    domNode.attribs.target = '_blank';
-    return <>{domToReact([domNode])}</>;
-  }
 
   return null;
 };

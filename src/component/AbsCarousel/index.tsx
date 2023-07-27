@@ -5,14 +5,15 @@ import useTheme from "@mui/material/styles/useTheme";
 
 interface Props extends CarouselProps {
     onClick: () => void,
+    display: boolean,
 }
 
-export default ({onClick, ...params}: Props) => {
+export default ({onClick, display, ...params}: Props) => {
 
     const theme = useTheme();
     const backgroundColor = theme.dim;
 
-    return <Box className={Style.dimOverlay} style={{backgroundColor}} onClick={onClick}>
+    return <Box className={Style.dimOverlay} style={{backgroundColor, display: display? 'block': 'none'}} onClick={onClick}>
         <Carousel {...params}/>
     </Box>
 }

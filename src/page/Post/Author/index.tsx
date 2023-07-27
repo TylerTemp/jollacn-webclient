@@ -11,7 +11,7 @@ import RetryErrorBoundary from "~/component/RetryErrorBoundary";
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import parse, { domToReact } from 'html-react-parser';
+import parse from 'html-react-parser';
 
 const ContentLayout = ({ children }: PropsWithChildren) => (
     <Box sx={{
@@ -55,7 +55,7 @@ const Renderer = ({getAuthor}: RendererProps) => {
             <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
                 {displayName}
             </Typography>
-            <Typography variant="body1" sx={{ padding: '20px 0px' }}>
+            <Typography variant="body1" sx={{ padding: '20px 0px' }} component="div">
                 {parse(description)}
             </Typography>
             </>

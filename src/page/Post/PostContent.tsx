@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
 import Suspendable from "~/Utils/Suspendable";
 import { type Post } from "~/Utils/Types";
@@ -24,7 +24,8 @@ import AbsCarousel from "~/component/AbsCarousel";
 
 import {
     Text
-  } from 'domhandler';
+} from 'domhandler';
+import Portal from "@mui/material/Portal";
 
 // const Article = styled.article`
 //     img.plugin-figure-img {
@@ -49,10 +50,15 @@ const Renderer = ({getPost}: RendererProps) => {
 
     // console.log(`getPost`, title);
 
+    const [displayCarousel, setDisplayCarousel] = useState<boolean>(false);
+
     const { parseResult, mediaList } = postParser({
         html: content,
-        onImageClick: (index: number) => console.log(`click on image ${index}`)
-      });
+        onImageClick: (index: number) => {
+            console.log(`click on image ${index}`);
+            setDisplayCarousel(true);
+        }
+    });
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "instant" });
@@ -91,11 +97,14 @@ const Renderer = ({getPost}: RendererProps) => {
             </Box>
         </article>
 
-        <AbsCarousel
-            displays={mediaList.map(({enlargeUrl, figCaptionInfo, imgInfo}, index) => ({type: 'image', src: enlargeUrl ?? imgInfo.attribs.src, key: index, label: (figCaptionInfo?.firstChild as Text)?.data}))}
-            onClick={() => console.log(`dim clicked`)}
-            stepper={() => <></>}
-        />
+        <Portal container={null}>
+            <AbsCarousel
+                display={displayCarousel}
+                displays={mediaList.map(({enlargeUrl, figCaptionInfo, imgInfo}, index) => ({type: 'image', src: enlargeUrl ?? imgInfo.attribs.src, key: index, label: (figCaptionInfo?.firstChild as Text)?.data}))}
+                onClick={() => setDisplayCarousel(false)}
+                stepper={() => <></>}
+            />
+        </Portal>
     </>;
 }
 

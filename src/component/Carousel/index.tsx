@@ -165,7 +165,7 @@ const Carusel = ({withLabel=false, autoHeight=false, defaultAutoPlay=false,
                 bgcolor: 'background.default',
             }}
         >
-            <Typography variant="body1" component="span">{displays[activeStep]?.label || ''}</Typography>
+            <Typography variant="body1" component="div">{displays[activeStep]?.label || ''}</Typography>
         </Paper>}
 
         <Stepper
