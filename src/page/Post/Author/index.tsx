@@ -31,8 +31,8 @@ interface RendererProps {
 const Renderer = ({getAuthor}: RendererProps) => {
     const {display_name: displayName, description, avatar} = getAuthor();
 
-    const avatarSet = { ...avatar };
-    delete avatarSet.default;
+    const {default: _, ...avatarSet} = avatar;
+
     const avatarSets = Object.entries(avatarSet).map(([key, value]) => `${value} ${key}`);
     const avatarSetAttr = avatarSets.length === 0
       ? undefined

@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import {
     Element,
+    Node,
     Text
     // ChildNode
 } from 'domhandler';
@@ -41,55 +42,68 @@ const EnlargeClick = ({ enlargeUrl, onImageClick, children }: PropsWithChildren<
   : children);
 
 const retriveFigure = (children: Element[]) => {
-  const figureConfig: FigureConfig = {
-    enlargeUrl: null,
-    imgInfo: null,
-    figCaptionInfo: null,
-  };
+    const figureConfig: FigureConfig = {
+        enlargeUrl: null,
+        imgInfo: null,
+        figCaptionInfo: null,
+    };
 
-  children.forEach((nodeInfo) => {
-    const { name: childName, attribs: childAttribs, children: childChildren } = nodeInfo;
-    switch (childName) {
-      case 'a':
-        const imgInfo: Element = childChildren
-            .filter(each => each instanceof Element)
-            .map(each => each as Element)
-            .find(({ name: eachChildInA }) => eachChildInA === 'img');
-        figureConfig.enlargeUrl = childAttribs.href;
-        // figureConfigs.imgSrc = imgInfo.attribs.src;
-        figureConfig.imgInfo = imgInfo;
-        break;
-      case 'img': // this disables the enlarge, e.g. an image button
-        figureConfig.enlargeUrl = null;
-        // figureConfigs.imgSrc = childAttribs.src;
-        figureConfig.imgInfo = nodeInfo;
-        break;
-      case 'figcaption':
-        figureConfig.figCaptionInfo = nodeInfo;
-        break;
-      default:
-        console.error(nodeInfo);
-        return null;
-    }
-  });
-  return figureConfig;
-};
+    children.forEach((nodeInfo) => {
+        const { name: childName, attribs: childAttribs, children: childChildren } = nodeInfo;
+        switch (childName) {
+            case 'a':
+                const imgInfo: Element = childChildren
+                    .map(each => each as Element)
+                    .filter(({attribs}) => attribs)
+                    .find(({ name: eachChildInA }) => eachChildInA === 'img');
+                figureConfig.enlargeUrl = childAttribs.href;
+                // figureConfigs.imgSrc = imgInfo.attribs.src;
+                figureConfig.imgInfo = imgInfo;
+                break;
+            case 'img': // this disables the enlarge, e.g. an image button
+                figureConfig.enlargeUrl = null;
+                // figureConfigs.imgSrc = childAttribs.src;
+                figureConfig.imgInfo = nodeInfo;
+                break;
+            case 'figcaption':
+                figureConfig.figCaptionInfo = nodeInfo;
+                break;
+            default:
+                console.error(nodeInfo);
+                return null;
+        }
+    });
+    return figureConfig;
+}
 
 
 const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: (index: number) => void): false | void | object | Element => {
     // console.log(type, name, attribs, children);
     // return null;
-    if(!(domNode instanceof Element && domNode.attributes)) {
-        return null;
-    }
+    // console.log(typeof domNode);
+    // if(!(domNode instanceof Element && domNode.attributes)) {
+    //     return null;
+    // }
+    // console.log(domNode);
+    // if(!domNode.attributes) {
+    //     return null;
+    // }
+
+    // console.log(domNode);
+    // console.log(domNode instanceof Element);
+    // console.log(domNode instanceof Node);
 
     const {
         type: _, name, attribs, children,
     } = domNode as Element;
 
+    if(!attribs) {
+        return;
+    }
+
     const elementChildren = children
-        .filter(each => each instanceof Element)
-        .map(each => each as Element);
+        .map(each => each as Element)
+        .filter(({attribs}) => attribs);
 
     if (name === 'figure') {
         const figureConfig = retriveFigure(elementChildren);
@@ -102,14 +116,14 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         const mediaCount = mediaList.length;
         const result = <figure style={{ textAlign: 'center' }}>
             <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)}>
-            {domToReact([figureConfig.imgInfo])}
-            {figureConfig.figCaptionInfo && (
-            <figcaption>
-                <Typography variant="h6" sx={{ textAlign: 'center' }}>
-                {domToReact(figureConfig.figCaptionInfo.children, {})}
-                </Typography>
-            </figcaption>
-            )}
+                {domToReact([figureConfig.imgInfo])}
+                {figureConfig.figCaptionInfo && (
+                <figcaption>
+                    <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                    {domToReact(figureConfig.figCaptionInfo.children, {})}
+                    </Typography>
+                </figcaption>
+                )}
             </EnlargeClick>
         </figure>;
         // console.log(`figure result:`, result);
@@ -133,14 +147,13 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         return <Grid container sm={Math.floor(12 / sm)} md={Math.floor(12 / md)} lg={Math.floor(12 / lg)}>
             {elementChildren.map(({ children: eachChild }: Element) => {
                 const eachElementChildren = eachChild
-                    .filter(each => each instanceof Element)
-                    .map(each => each as Element);
+                    .map(each => each as Element)
+                    .filter(({attribs}) => attribs);
                 const figureConfig = retriveFigure(eachElementChildren);
                 console.log('imageItemConfig=', figureConfig);
                 const mediaCount = mediaList.length;
                 mediaList.push(figureConfig);
-                return (
-                    <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)} key={figureConfig.imgInfo.attribs.src}>
+                return <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)} key={figureConfig.imgInfo.attribs.src}>
                     <ImageListItem>
                     {domToReact([figureConfig.imgInfo])}
                     <ImageListItemBar
@@ -148,8 +161,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
                         />
 
                     </ImageListItem>
-                        </EnlargeClick>
-                );
+                </EnlargeClick>;
             })}
         </Grid>;
     }
@@ -183,7 +195,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
             return <Link to={linkHref}>{domToReact(children)}</Link>;
         }
         // return domToReact([{ ...domNode , attribs: { ...attribs, target: '_blank' } }]);
-        domNode.attribs.target = '_blank';
+        (domNode as Element).attribs.target = '_blank';
         return <>{domToReact([domNode])}</>;
     }
 
