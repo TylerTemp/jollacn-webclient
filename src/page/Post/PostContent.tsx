@@ -20,13 +20,16 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import MuiLink from '@mui/material/Link';
 import Comment from "~/component/Comment";
 import Stack from "@mui/material/Stack";
-import AbsCarousel from "~/component/AbsCarousel";
+// import AbsCarousel from "~/component/AbsCarousel";
+import Carousel from "~/component/Carousel";
+import Fixed from "~/component/Fixed";
 
 import {
     Text
 } from 'domhandler';
-import Portal from "@mui/material/Portal";
+// import Portal from "@mui/material/Portal";
 import { type StepperProps } from "~/component/Carousel";
+import useTheme from "@mui/material/styles/useTheme";
 
 // const Article = styled.article`
 //     img.plugin-figure-img {
@@ -38,19 +41,19 @@ interface RendererProps {
     getPost: () => Post
 }
 
-interface ForceStepperProps extends StepperProps {
-    forceStep: number,
-}
+// interface ForceStepperProps extends StepperProps {
+//     forceStep: number,
+// }
 
-const Stepper = ({forceStep, setActiveStep}: ForceStepperProps) => {
-    const [curForceStep, setCurForceStep] = useState<number>(forceStep);
-    useEffect(() => {
-        console.log(curForceStep, forceStep);
-        if(curForceStep != forceStep) {
-            setCurForceStep(forceStep);
-            setActiveStep(_oldStep => forceStep);
-        }
-    }, [forceStep]);
+const Stepper = ({setActiveStep}: StepperProps) => {
+    // const [curForceStep, setCurForceStep] = useState<number>(forceStep);
+    // useEffect(() => {
+    //     console.log(curForceStep, forceStep);
+    //     if(curForceStep != forceStep) {
+    //         setCurForceStep(forceStep);
+    //         setActiveStep(_oldStep => forceStep);
+    //     }
+    // }, [forceStep]);
 
     return <></>;
 }
@@ -81,6 +84,8 @@ const Renderer = ({getPost}: RendererProps) => {
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "instant" });
     }, []);
+
+    const {dim} = useTheme();
 
     return <>
         <article className={Style.article}>
@@ -115,14 +120,13 @@ const Renderer = ({getPost}: RendererProps) => {
             </Box>
         </article>
 
-        {/* <Portal container={null}> */}
-            <AbsCarousel
-                display={displayCarousel !== -1}
+        {displayCarousel !== -1 && <Fixed style={{backgroundColor: dim}} onClick={() => setDisplayCarousel(-1)}>
+            <Carousel
+                index={displayCarousel}
                 displays={mediaList.map(({enlargeUrl, figCaptionInfo, imgInfo}, index) => ({type: 'image', src: enlargeUrl ?? imgInfo.attribs.src, key: index, label: (figCaptionInfo?.firstChild as Text)?.data}))}
-                onClick={() => setDisplayCarousel(-1)}
-                stepper={params => <Stepper {...params} forceStep={displayCarousel === -1? 0: displayCarousel} />}
+                stepper={params => <Stepper {...params}/>}
             />
-        {/* </Portal> */}
+        </Fixed>}
     </>;
 }
 
