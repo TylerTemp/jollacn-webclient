@@ -1,8 +1,5 @@
 
-import {
-    Element,
-    ChildNode
-  } from 'domhandler';
+import { Element  } from 'domhandler';
 
 export interface PostInfo {
     slug: string,
@@ -21,6 +18,14 @@ export interface Post {
     source_url: string | null,
     source_title: string | null,
     source_authors: string[],
+    author: string,
+}
+
+export interface Tie {
+    id: number,
+    medias: DisplayableMedia[],
+    media_previews: DisplayableMedia[],
+    content: string,  // html
     author: string,
 }
 
@@ -44,7 +49,7 @@ export interface Comment {
 }
 
 export interface DisplayableMedia {
-    type: "image" | "video",
+    type: "img" | "video",
     src: string,
 }
 

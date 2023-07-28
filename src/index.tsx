@@ -10,7 +10,7 @@ import ThemeProvider from "~/component/Theme/ThemeProvider";
 import MainLayout from '~/component/Layouts/MainLayout';
 import PostList from '~/page/PostList';
 import Post from '~/page/Post';
-import TieList from '~/page/tie_list';
+import TieList from '~/page/TieList';
 import Tie from '~/page/tie';
 import Home from '~/page/Home';
 import NotFound from '~/page/NotFound';
@@ -57,9 +57,6 @@ const App = () => (
 //   document.getElementById('root'),
 // );
 
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-root.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <App />
 );
