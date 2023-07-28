@@ -11,7 +11,7 @@ import MainLayout from '~/component/Layouts/MainLayout';
 import PostList from '~/page/PostList';
 import Post from '~/page/Post';
 import TieList from '~/page/TieList';
-import Tie from '~/page/tie';
+import Tie from '~/page/Tie';
 import Home from '~/page/Home';
 import NotFound from '~/page/NotFound';
 import ErrorBoundary from "~/component/ErrorBoundary";

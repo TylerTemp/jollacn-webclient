@@ -23,8 +23,8 @@ export interface Post {
 
 export interface Tie {
     id: number,
-    medias: DisplayableMedia[],
-    media_previews: DisplayableMedia[],
+    media_previews: TieImg[],
+    medias: (TieImg | TieVideo)[],
     content: string,  // html
     author: string,
 }
@@ -51,6 +51,19 @@ export interface Comment {
 export interface DisplayableMedia {
     type: "img" | "video",
     src: string,
+}
+
+export interface TieImg {
+    src: string,
+}
+
+export interface TieVideo {
+    subtitles: string[],
+    sources: {
+        src: string,
+        mine: string,
+        subtitled: boolean,
+    }[],
 }
 
 export interface FigureConfig {
