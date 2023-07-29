@@ -1,18 +1,11 @@
-import { createTheme } from "./Basic";
+import { createTheme, themeCommon } from "./Basic";
 import { grey } from "@mui/material/colors";
 
 export default createTheme({
-    typography: {
-        button: {
-            textTransform: 'none',
-        },
-    },
+    ...themeCommon,
 
     palette: {
         mode: 'dark',
-        // background: {
-        //     default: "#222222"
-        // },
     },
 
     themeBubble: grey[300],

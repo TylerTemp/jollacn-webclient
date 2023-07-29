@@ -40,7 +40,6 @@ const App = () => (
 
                         <Route path="/tie" element={<TieList />} />
                         <Route path="/tie/page/:page" element={<TieList />} />
-                        {/* <Route path="/tie/:tieId" component={(props) => <Tie key={props.match.params.tieId} {...props} />} /> */}
                         <Route path="/tie/:tieId" element={<Tie />} />
                         <Route path="*" element={<NotFound />} />
                     </Route>

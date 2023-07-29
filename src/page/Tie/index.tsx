@@ -13,7 +13,7 @@ interface State {
 
 export default () => {
     // const { state: { page = 1 } = {} } = useLocation();
-    const { slug } = useParams();
+    const { tieId } = useParams();
     // const { state: { page=1 } }: {state: {page: number}} = useLocation();
     const { state }: {state: State | null} = useLocation();
     const page = state === null
@@ -21,8 +21,8 @@ export default () => {
         : state.page;
 
     const backUrl = page <= 1
-        ? `/tie#${slug}`
-        : `/tie/page/${page}#${slug}`;
+        ? `/tie#${tieId}`
+        : `/tie/page/${page}#${tieId}`;
 
-    return <TieContent slug={slug} backUrl={backUrl} />;
+    return <TieContent tieId={tieId} backUrl={backUrl} />;
 };

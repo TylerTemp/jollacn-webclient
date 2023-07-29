@@ -53,16 +53,27 @@ export interface DisplayableMedia {
     src: string,
 }
 
+export interface TieMediaGuess {
+    type: "img" | "video",
+}
+
 export interface TieImg {
+    type: "img",
     src: string,
 }
 
 export interface TieVideo {
-    subtitles: string[],
+    type: "video",
+    poster: string,  // url
     sources: {
         src: string,
-        mine: string,
-        subtitled: boolean,
+        mime: string,
+        // subtitled: boolean,  // what is this?
+    }[],
+    subtitles: {
+        src: string,
+        label: string,
+        srclang: string,
     }[],
 }
 

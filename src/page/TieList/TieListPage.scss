@@ -15,3 +15,17 @@
     z-index: 50;
     height: 100%;
 }
+
+.flow {
+    width: 100%;
+    margin: 0 auto;
+    // columnCount: 4
+    padding: 0 10px;
+    // max-width: 2100px;
+}
+
+.flowItem {
+    box-sizing: border-box;
+    margin: 0 auto 5px;
+    break-inside: avoid;
+}

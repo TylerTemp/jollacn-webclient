@@ -15,7 +15,7 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Paging from "~/component/Paging";
 import Box from "@mui/material/Box";
-import Style from "./TietListPage.scss";
+import Style from "./TieListPage.scss";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import { WidthLimit } from "~/component/Layouts/WidthLimitLayout";
@@ -23,6 +23,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import CardActionArea from "@mui/material/CardActionArea";
+import styled from "@mui/material/styles/styled";
 
 interface MakeMediaPreviewProps {
     previews: DisplayableMedia[],
@@ -54,11 +55,23 @@ const MakeMediaPreview = ({ previews }: MakeMediaPreviewProps) => {
     </ImageList>;
 }
 
-const TieContainer = ({children}: PropsWithChildren) => <Grid xs={12 / 1} md={12 / 3} lg={12 / 4}>
+const TieContainer = ({children}: PropsWithChildren) => <Box className={Style.flowItem}>
     <Card>
         {children}
     </Card>
-</Grid>;
+</Box>;
+
+const FlowBox = styled(Box)(({theme}) => ({
+    [theme.breakpoints.down('md')]: {
+        columnCount: 1,
+    },
+    [theme.breakpoints.up('md')]: {
+        columnCount: 4,
+    },
+    [theme.breakpoints.up('lg')]: {
+        columnCount: 5,
+    },
+}));
 
 interface ApiResult {
     total: number,
@@ -102,7 +115,7 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
     const theme = useTheme();
     const bgColor = theme.palette.background.default;
 
-    return <>
+    return <WidthLimit maxWidth="xl">
         <Stack direction="column" gap={2}>
 
             {error && <AlertSimple
@@ -110,7 +123,8 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
                 onReload={reloadCallback}
             />}
 
-            <Grid container spacing={2}>
+            {/* <Grid container spacing={2}> */}
+            <FlowBox className={Style.flow}>
                 {apiResult.ties.map(({
                     id, content, medias: _, media_previews: mediaPreviews,
                 }) => <TieContainer key={id}>
@@ -127,13 +141,14 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
                         </CardActionArea>
                     </Link>
                 </TieContainer>)}
-            </Grid>
+            </FlowBox>
+            {/* </Grid> */}
 
-            {loading && apiResult.ties.length === 0 && <Grid container spacing={2}>
+            {loading && apiResult.ties.length === 0 && <FlowBox className={Style.flow}>
                 {Array.from(Array(limit).keys()).map(index => <TieContainer key={index}>
                     <Skeleton />
                 </TieContainer>)}
-            </Grid>}
+            </FlowBox>}
 
             <Box className={Style.pagingContainer}>
                 <Paper>
@@ -153,5 +168,5 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
                 {children}
             </WidthLimit>
         </Box>}
-    </>;
+    </WidthLimit>;
 }

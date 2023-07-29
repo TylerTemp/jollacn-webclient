@@ -91,7 +91,7 @@ const Renderer = ({getPost}: RendererProps) => {
         <article className={Style.article}>
             <img src={headerImg} className={Style.headerImg} title={title} alt={title} />
 
-            <Typography variant="h1" gutterBottom sx={{ textAlign: 'center', padding: '20px 0px' }}>
+            <Typography variant="h1" gutterBottom className={Style.title}>
                 {title}
             </Typography>
 
@@ -125,6 +125,7 @@ const Renderer = ({getPost}: RendererProps) => {
                 index={displayCarousel}
                 displays={mediaList.map(({enlargeUrl, figCaptionInfo, imgInfo}, index) => ({type: 'img', src: enlargeUrl ?? imgInfo.attribs.src, key: index, label: (figCaptionInfo?.firstChild as Text)?.data}))}
                 stepper={params => <Stepper {...params}/>}
+                onBgClick={() => setDisplayCarousel(-1)}
             />
         </Fixed>}
     </>;

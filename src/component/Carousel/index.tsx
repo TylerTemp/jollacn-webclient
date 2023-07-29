@@ -80,12 +80,14 @@ export type Props = {
     index?: number,
     // isAutoPlay?: boolean,
     displays: Displayable[],
+    onBgClick?: () => void,
     stepper: (props: StepperProps) => JSX.Element,
 };
 
 export default ({withLabel=false,
     // children,
     index=0,
+    onBgClick,
     // noStepperSetter=false,
     displays, stepper: Stepper}: Props) => {
     // export default ({withLabel=false, noStepperSetter=false, displays}: Params) => {
@@ -166,7 +168,7 @@ export default ({withLabel=false,
                     ? <RenderDisplay {...displayFile}/>
                     : null}
             </div>)} */}
-            {displays.map((displayFile) => <RenderDisplay key={displayFile.key} {...displayFile}/>)}
+            {displays.map((displayFile) => <RenderDisplay key={displayFile.key} {...displayFile} />)}
         </SwipeableViews>
 
         {withLabel && <Paper
