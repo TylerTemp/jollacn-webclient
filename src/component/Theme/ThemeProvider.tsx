@@ -41,7 +41,7 @@ export const Context = createContext<ContextInfo>({
 // export const Context = createContext(getTheme(ThemeType.Dark));
 
 export default ({children}: PropsWithChildren) => {
-    const [theme, setTheme] = useState<ThemeType>(localStorage.getItem("theme") === null? ThemeType.Light: ThemeType[localStorage.getItem("theme") as keyof typeof ThemeType]);
+    const [theme, setTheme] = useState<ThemeType>(localStorage.getItem("theme") === null? ThemeType.Dark: ThemeType[localStorage.getItem("theme") as keyof typeof ThemeType]);
 
     const themeResult = useMemo(() => getTheme(theme), [theme]);
     useEffect(() => {
