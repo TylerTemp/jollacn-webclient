@@ -30,12 +30,34 @@ import {
 // import Portal from "@mui/material/Portal";
 import { type StepperProps } from "~/component/Carousel";
 import useTheme from "@mui/material/styles/useTheme";
+import Container from "@mui/material/Container";
+import { WidthLimit } from "~/component/Layouts/WidthLimitLayout";
+import Skeleton from "@mui/material/Skeleton";
 
 // const Article = styled.article`
 //     img.plugin-figure-img {
 //         max-width: 100%;
 //     }
 // `;
+
+const PostSkeleton =() => <>
+    <Skeleton height={350} variant="rectangular" />
+
+    <Typography variant="h1" gutterBottom className={Style.title}>
+        <Skeleton />
+    </Typography>
+
+    <WidthLimit className={Style.spaceBottom} maxWidth="md">
+        <Skeleton variant="text" />
+        <Skeleton variant="text" />
+        <Skeleton variant="text" />
+        <Skeleton variant="text" />
+        <Skeleton variant="text" />
+        <Skeleton variant="text" />
+        <Skeleton variant="text" />
+        <Skeleton variant="text" width="70%" />
+    </WidthLimit>
+</>;
 
 interface RendererProps {
     getPost: () => Post
@@ -81,10 +103,6 @@ const Renderer = ({getPost}: RendererProps) => {
         }
     });
 
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "instant" });
-    }, []);
-
     const {dim} = useTheme();
 
     return <>
@@ -97,35 +115,33 @@ const Renderer = ({getPost}: RendererProps) => {
 
             {!description && <Divider />}
 
-            <Box className={Style.articleContentWrapper}>
-                <Box className={`${Style.articleContent} ${Style.paperPadding}`}>
-                    {description && <Paper className={Style.description} variant="outlined">
-                        <Typography variant="body2" color="text.secondary" component="div">
-                            {parse(description)}
-                        </Typography>
-                    </Paper>}
+            <WidthLimit className={Style.paperPadding} maxWidth="md">
+                {description && <Paper className={Style.description} variant="outlined">
+                    <Typography variant="body2" color="text.secondary" component="div">
+                        {parse(description)}
+                    </Typography>
+                </Paper>}
 
-                    {parseResult}
+                {parseResult}
 
-                    <Divider />
+                <Divider />
 
-                    {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
+                {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
 
-                    {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px" component="div">
-                        原文：
-                        {' '}
-                        <MuiLink target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</MuiLink>
-                    </Typography>}
-                </Box>
-            </Box>
+                {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px" component="div">
+                    原文：
+                    {' '}
+                    <MuiLink target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</MuiLink>
+                </Typography>}
+            </WidthLimit>
         </article>
 
-        {displayCarousel !== -1 && <Fixed style={{backgroundColor: dim}} onClick={() => setDisplayCarousel(-1)}>
+        {displayCarousel !== -1 && <Fixed style={{backgroundColor: dim}}>
             <Carousel
                 index={displayCarousel}
+                onClose={() => setDisplayCarousel(-1)}
                 displays={mediaList.map(({enlargeUrl, figCaptionInfo, imgInfo}, index) => ({type: 'img', src: enlargeUrl ?? imgInfo.attribs.src, key: index, label: (figCaptionInfo?.firstChild as Text)?.data}))}
-                stepper={params => <Stepper {...params}/>}
-                onBgClick={() => setDisplayCarousel(-1)}
+                // stepper={params => <Stepper {...params}/>}
             />
         </Fixed>}
     </>;
@@ -137,6 +153,10 @@ interface Props {
 }
 
 export default ({slug, backUrl}: Props) => {
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+    }, []);
+
     const {retryKey, doRetry, doAbort} = useRetryWithAbortController();
 
     // console.log(`retryKey`, retryKey);
@@ -158,20 +178,20 @@ export default ({slug, backUrl}: Props) => {
 
         <Paper className={Style.spaceBottom}>
             <RetryErrorBoundary onRetry={doRetry}>
-                <Suspense fallback={<p>Loading</p>} key={retryKey}>
+                <Suspense fallback={<PostSkeleton />} key={retryKey}>
                     <Renderer
                         key={retryKey}
                         getPost={getPost} />
+
+
                 </Suspense>
             </RetryErrorBoundary>
         </Paper>
 
-        <Paper className={`${Style.spaceBottom} ${Style.paperPadding}`}>
-            <Box className={`${Style.articleContentWrapper} ${Style.commentSection}`}>
-                <Box className={Style.articleContent}>
-                    <Comment uri={`/post/${slug}/comment`} />
-                </Box>
-            </Box>
+        <Paper className={`${Style.spaceBottom} ${Style.verticalPadding}`}>
+            <WidthLimit maxWidth="md">
+                <Comment uri={`/post/${slug}/comment`} />
+            </WidthLimit>
         </Paper>
     </Stack>;
 }

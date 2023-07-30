@@ -1,5 +1,5 @@
 import {
-  Link, Outlet, useLocation,
+  Link, Outlet, useLocation, useNavigate,
 } from 'react-router-dom';
 import Box from '@mui/material/Box';
 
@@ -32,6 +32,8 @@ export const menuBarHeight = 64;
 
 export default () => {
 
+    const navigate = useNavigate();
+
     const {theme, setTheme} = useContext(Context);
 
     const curTheme = useTheme();
@@ -45,7 +47,6 @@ export default () => {
     else if (pathname.startsWith('/tie')) {
       tabAt = 'tie';
     }
-
 
 
     return <MainBottomProvider>
@@ -62,6 +63,7 @@ export default () => {
                             <Tab
                                 // className={Style.tab}
                                 // color="white"
+                                onClick={() => navigate('/')}
                                 label={<Link to="/">
                                     <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                                         <HomeIcon />
@@ -73,6 +75,7 @@ export default () => {
 
                             <Tab
                                 // className={Style.tab}
+                                onClick={() => navigate('/post')}
                                 label={<Link to="/post">
                                     <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                                         <BallotIcon />
@@ -84,6 +87,7 @@ export default () => {
 
                             <Tab
                                 // className={Style.tab}
+                                onClick={() => navigate('/tie')}
                                 label={<Link to="/tie">
                                     <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                                         <StyleIcon />

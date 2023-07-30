@@ -59,17 +59,21 @@ const PostPreview = ({
 };
 
 const PostSkeleton = () => <Card sx={{ width: '100%' }}>
-    <Skeleton variant="rectangular" width={210} height={60} />
+    <CardMedia>
+        <Skeleton variant="rectangular" height={300} />
+    </CardMedia>
     <CardContent>
         <Typography gutterBottom variant="h2">
-            <Skeleton />
+            <Skeleton variant="text"/>
         </Typography>
-        <Typography component="div"><Skeleton /></Typography>
+        <Typography component="div">
+            <Skeleton variant="text"/>
+            <Skeleton variant="text"/>
+            <Skeleton variant="text"/>
+        </Typography>
     </CardContent>
     <CardActions>
-        <Button size="small" color="primary">
-            <Skeleton />
-        </Button>
+        <Skeleton width={50} height={30}/>
     </CardActions>
 </Card>;
 
@@ -119,6 +123,9 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
     const theme = useTheme();
     const bgColor = theme.palette.background.default;
 
+    // loading = true;
+    // apiResult.post_infos = [];
+
     return <>
         <Stack direction="column" gap={2}>
             {error && <AlertSimple
@@ -132,7 +139,9 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
                 </Grid>)}
             </Grid>
             {loading && apiResult.post_infos.length === 0 && <Grid container spacing={2}>
-                {Array.from(Array(limit).keys()).map(index => <PostSkeleton key={index} />)}
+                {Array.from(Array(limit).keys()).map(index => <Grid key={index} sm={12} md={6}>
+                    <PostSkeleton key={index} />
+                </Grid>)}
             </Grid>}
 
             <Box className={Style.pagingContainer}>

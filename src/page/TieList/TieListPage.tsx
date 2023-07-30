@@ -55,11 +55,6 @@ const MakeMediaPreview = ({ previews }: MakeMediaPreviewProps) => {
     </ImageList>;
 }
 
-const TieContainer = ({children}: PropsWithChildren) => <Box className={Style.flowItem}>
-    <Card>
-        {children}
-    </Card>
-</Box>;
 
 const FlowBox = styled(Box)(({theme}) => ({
     [theme.breakpoints.down('md')]: {
@@ -73,6 +68,11 @@ const FlowBox = styled(Box)(({theme}) => ({
     },
 }));
 
+const TieContainer = ({children}: PropsWithChildren) => <FlowBox className={Style.flow}>
+    {children}
+</FlowBox>;
+
+
 interface ApiResult {
     total: number,
     limit: number,
@@ -84,10 +84,13 @@ interface Props {
     onPageChange: (page: number) => void,
     loading: boolean,
     setLoading: (value: boolean) => void,
+    Container?: (props: PropsWithChildren) => JSX.Element,
+    disablePaging? : boolean,
+    defaultLimit?: number,
 }
 
-export default ({page, onPageChange, loading, setLoading, children}: PropsWithChildren<Props>) => {
-    const [limit, setLimit] = useState<number>(10);
+export default ({page, onPageChange, loading, setLoading, Container=TieContainer, disablePaging=false, defaultLimit=15, children}: PropsWithChildren<Props>) => {
+    const [limit, setLimit] = useState<number>(defaultLimit);
     const offset = (page - 1) * limit;
 
     const qs = new URLSearchParams({
@@ -115,7 +118,10 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
     const theme = useTheme();
     const bgColor = theme.palette.background.default;
 
-    return <WidthLimit maxWidth="xl">
+    // loading = true;
+    // apiResult.ties = [];
+
+    return <>
         <Stack direction="column" gap={2}>
 
             {error && <AlertSimple
@@ -123,34 +129,36 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
                 onReload={reloadCallback}
             />}
 
-            {/* <Grid container spacing={2}> */}
-            <FlowBox className={Style.flow}>
+            <Container>
                 {apiResult.ties.map(({
                     id, content, medias: _, media_previews: mediaPreviews,
-                }) => <TieContainer key={id}>
-                    <CardActionArea onClick={() => console.log(`card clicked`)}>
-                        <MakeMediaPreview previews={mediaPreviews} />
-                    </CardActionArea>
+                }) => <Box key={id} className={Style.flowItem} style={{margin: `0 auto ${theme.spacing(2)}`}}>
                     <Link
                         to={`/tie/${id}`}
                     >
-                        <CardActionArea>
+                        <Card>
+                            <MakeMediaPreview previews={mediaPreviews} />
                             <CardContent>
                                 <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: content }} />
                             </CardContent>
-                        </CardActionArea>
+                        </Card>
                     </Link>
-                </TieContainer>)}
-            </FlowBox>
-            {/* </Grid> */}
+                </Box>)}
+            </Container>
+            <Container>
+                {loading && Array.from(Array(limit).keys()).map(index => <Box key={index} className={Style.flowItem} style={{margin: `0 auto ${theme.spacing(2)}`}}>
+                    <Card>
+                        <CardMedia sx={{ height: 140 }}>
+                            <Skeleton variant="rectangular" sx={{ height: 140 }} className={Style.skeletonMedia} />
+                        </CardMedia>
+                        <Skeleton variant="text" />
+                        <Skeleton variant="text" />
+                        <Skeleton />
+                    </Card>
+                </Box>)}
+            </Container>
 
-            {loading && apiResult.ties.length === 0 && <FlowBox className={Style.flow}>
-                {Array.from(Array(limit).keys()).map(index => <TieContainer key={index}>
-                    <Skeleton />
-                </TieContainer>)}
-            </FlowBox>}
-
-            <Box className={Style.pagingContainer}>
+            {!disablePaging && <Box className={Style.pagingContainer}>
                 <Paper>
                     <Paging
                         offset={offset}
@@ -159,7 +167,7 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
                         onOffsetChange={newOffset => onPageChange(Math.floor(newOffset / limit) + 1)}
                     />
                 </Paper>
-            </Box>
+            </Box>}
 
         </Stack>
 
@@ -168,5 +176,5 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
                 {children}
             </WidthLimit>
         </Box>}
-    </WidthLimit>;
+    </>;
 }

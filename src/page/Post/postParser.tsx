@@ -19,6 +19,7 @@ import {
   Link,
 } from 'react-router-dom';
 import type { FigureConfig } from '~/Utils/Types';
+import MuiLink from '@mui/material/Link';
 
 // const EnlargeClick = ({enlargeUrl, children}) => enlargeUrl
 //   ? <a href={enlargeUrl} target="_blank">{children}</a>
@@ -195,8 +196,9 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
             return <Link to={linkHref}>{domToReact(children)}</Link>;
         }
         // return domToReact([{ ...domNode , attribs: { ...attribs, target: '_blank' } }]);
-        (domNode as Element).attribs.target = '_blank';
-        return <>{domToReact([domNode])}</>;
+        // (domNode as Element).attribs.target = '_blank';
+        // return <>{domToReact([domNode])}</>;
+        return <MuiLink {...(domNode as Element).attribs} target="_blank" />
     }
 
   return null;

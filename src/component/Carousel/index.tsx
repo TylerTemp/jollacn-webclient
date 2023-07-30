@@ -12,6 +12,8 @@ import { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import ModuloNoNegative from '~/Utils/ModuloNoNegative';
 import { DisplayableMedia } from '~/Utils/Types';
 import Style from './index.scss';
+import HighlightOffTwoToneIcon from '@mui/icons-material/HighlightOffTwoTone';
+import CarouselStepperScrollDisplay from './CarouselStepperScrollDisplay';
 // import OnErrorReloadVideo from './OnErrorReloadVideo';
 // import OnErrorReloadImage from './OnErrorReloadImage';
 
@@ -80,16 +82,19 @@ export type Props = {
     index?: number,
     // isAutoPlay?: boolean,
     displays: Displayable[],
-    onBgClick?: () => void,
-    stepper: (props: StepperProps) => JSX.Element,
+    onClose: () => void,
+    // stepper: (props: StepperProps) => JSX.Element,
 };
 
 export default ({withLabel=false,
     // children,
     index=0,
-    onBgClick,
+    onClose,
+    // onBgClick,
     // noStepperSetter=false,
-    displays, stepper: Stepper}: Props) => {
+    displays,
+    // stepper: Stepper
+}: Props) => {
     // export default ({withLabel=false, noStepperSetter=false, displays}: Params) => {
     const [activeStep, setActiveStep] = useState<number>(index);
     // console.log(`isAutoPlay=${isAutoPlay}`);
@@ -125,7 +130,7 @@ export default ({withLabel=false,
 
     // console.log(`activeStep=${activeStep}`);
 
-    return <>
+    return <Box className={Style.container}>
         {/* <Box
             sx={{ width: '100%', height: '100%' }}
             onMouseEnter={() => setMouseHover(true)}
@@ -133,6 +138,11 @@ export default ({withLabel=false,
         >
 
         </Box> */}
+        <Box className={Style.closeButtonBlock}>
+            <Button onClick={onClose}>
+                <HighlightOffTwoToneIcon color="error" />
+            </Button>
+        </Box>
 
         <SwipeableViews
             // autoPlay
@@ -171,22 +181,30 @@ export default ({withLabel=false,
             {displays.map((displayFile) => <RenderDisplay key={displayFile.key} {...displayFile} />)}
         </SwipeableViews>
 
-        {withLabel && <Paper
-            square
-            elevation={0}
+        {displays[activeStep]?.label && <Box
             sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: 50,
                 pl: 2,
-                bgcolor: 'background.default',
+                // bgcolor: 'background.default',
             }}
-        >
-            <Typography variant="body1" component="div">{displays[activeStep]?.label || ''}</Typography>
-        </Paper>}
 
-        <Stepper
+            // className={Style.backgroundColor}
+        >
+            <Typography variant="body1" component="div" color={"white"}>{displays[activeStep]?.label || ''}</Typography>
+        </Box>}
+
+        {displays.length > 1 && <CarouselStepperScrollDisplay
+            // maxSteps={maxSteps}
+            height={50}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            displays={displays}
+        />}
+
+        {/* <Stepper
             // children={children}
             maxSteps={maxSteps}
             activeStep={activeStep}
@@ -194,8 +212,8 @@ export default ({withLabel=false,
             displays={displays}
             // isAutoPlaying={isAutoPlaying && !mouseHover}
             // setIsAutoPlaying={setIsAutoPlaying}
-        />
-    </>;
+        /> */}
+    </Box>;
 }
 
 

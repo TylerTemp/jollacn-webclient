@@ -5,10 +5,10 @@
     align-items: center;
 }
 
-.articleContent {
-    max-width: 900px;
-    width: 100%;
-}
+// .articleContent {
+//     max-width: 900px;
+//     width: 100%;
+// }
 
 .title {
     text-align: center;
@@ -36,10 +36,11 @@
     padding: 40px 0;
 }
 
-.paperPadding {
+.verticalPadding {
+    padding-top: 20px;
     padding-bottom: 20px;
-    padding-left: 5px;
-    padding-right: 5px;
+    // padding-left: 5px;
+    // padding-right: 5px;
 }
 
 .spaceBottom {

@@ -34,44 +34,45 @@ import ImageList from "@mui/material/ImageList";
 import { WidthLimit } from "~/component/Layouts/WidthLimitLayout";
 
 const TieSkeleton =() => <>
-    <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
-    <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
-    <Skeleton animation="wave" height={40} width="80%" />
-    <Skeleton sx={{ height: 160 }} animation="wave" variant="rectangular" />
+    <Skeleton height={40} />
+    <Skeleton height={40} />
+    <Skeleton height={40} />
+    <Skeleton height={40} width="80%"/>
+    <Skeleton sx={{ height: 350 }} variant="rectangular" />
 </>;
 
 // function RendererMedia({media}: {media: TieVideo}): JSX.Element;
 // function RendererMedia({media}: {media: TieImg}): JSX.Element;
-function RendererMedia({media}: {media: TieMediaGuess}): JSX.Element {
-    const { type } = media;
-    if (type === 'video') {
-      const { sources, subtitles, poster } = media as TieVideo;
-      return <ImageListItem>
-        <video controls crossOrigin="anonymous" poster={poster}>
-            抱歉，你的浏览器不支持
-            <code>video</code>
-            元素
-            {sources.map(({ mime, src }) => <source key={src} src={src} type={mime} />)}
-            {subtitles.map((subtitle, index) => (
-                <track
-                key={subtitle.src}
-                default={index === 0}
-                kind="subtitles"
-                label={subtitle.label}
-                src={subtitle.src}
-                srcLang={subtitle.srclang}
-                />
-            ))}
-        </video>
-      </ImageListItem>;
-    }
+// function RendererMedia({media}: {media: TieMediaGuess}): JSX.Element {
+//     const { type } = media;
+//     if (type === 'video') {
+//       const { sources, subtitles, poster } = media as TieVideo;
+//       return <ImageListItem>
+//         <video controls crossOrigin="anonymous" poster={poster}>
+//             抱歉，你的浏览器不支持
+//             <code>video</code>
+//             元素
+//             {sources.map(({ mime, src }) => <source key={src} src={src} type={mime} />)}
+//             {subtitles.map((subtitle, index) => (
+//                 <track
+//                 key={subtitle.src}
+//                 default={index === 0}
+//                 kind="subtitles"
+//                 label={subtitle.label}
+//                 src={subtitle.src}
+//                 srcLang={subtitle.srclang}
+//                 />
+//             ))}
+//         </video>
+//       </ImageListItem>;
+//     }
 
-    const { src } = media as TieImg;
+//     const { src } = media as TieImg;
 
-    return <ImageListItem>
-        <img src={src} />
-    </ImageListItem>;
-}
+//     return <ImageListItem>
+//         <img src={src} />
+//     </ImageListItem>;
+// }
 
 // const RenderImageItem = (tieMedia: TieMediaGuess) => {
 //     const { type } = tieMedia;
@@ -112,24 +113,38 @@ interface RendererProps {
 }
 
 
-const Stepper = ({setActiveStep}: StepperProps) => {
-    // const [curForceStep, setCurForceStep] = useState<number>(forceStep);
-    // useEffect(() => {
-    //     console.log(curForceStep, forceStep);
-    //     if(curForceStep != forceStep) {
-    //         setCurForceStep(forceStep);
-    //         setActiveStep(_oldStep => forceStep);
-    //     }
-    // }, [forceStep]);
+// const Stepper = ({setActiveStep}: StepperProps) => {
+//     // const [curForceStep, setCurForceStep] = useState<number>(forceStep);
+//     // useEffect(() => {
+//     //     console.log(curForceStep, forceStep);
+//     //     if(curForceStep != forceStep) {
+//     //         setCurForceStep(forceStep);
+//     //         setActiveStep(_oldStep => forceStep);
+//     //     }
+//     // }, [forceStep]);
 
-    return <></>;
-}
+//     return <></>;
+// }
 
 const Renderer = ({getTie}: RendererProps) => {
     const {
         medias,
         content,
     } = getTie();
+
+    const [tieVideos, tieImgs] = useMemo(() => {
+        const tieVideos: TieVideo[] = [];
+        const tieImgs: TieImg[] = [];
+        medias.forEach((each) => {
+            if(each.type === 'video') {
+                tieVideos.push(each as TieVideo);
+
+            } else if(each.type === 'img') {
+                tieImgs.push(each as TieImg);
+            }
+        });
+        return [tieVideos, tieImgs];
+    }, [medias]);
 
     const [displayCarousel, setDisplayCarousel] = useState<number>(-1);
 
@@ -148,18 +163,36 @@ const Renderer = ({getTie}: RendererProps) => {
             {medias.length > 0 && <>
                 <Divider />
                 <ImageList cols={1}>
-                    {medias.map((item) => <RendererMedia key={item.type === 'video' ? item.sources[0].src : item.src} media={item} />)}
+                    {tieVideos.map(({sources, subtitles, poster}) => <ImageListItem key={sources[0].src}>
+                        <video controls crossOrigin="anonymous" poster={poster}>
+                            抱歉，你的浏览器不支持<code>video</code>元素
+                            {sources.map(({ mime, src }) => <source key={src} src={src} type={mime} />)}
+                            {subtitles.map((subtitle, index) => <track
+                                key={subtitle.src}
+                                default={index === 0}
+                                kind="subtitles"
+                                label={subtitle.label}
+                                src={subtitle.src}
+                                srcLang={subtitle.srclang}
+                            />)}
+                        </video>
+                    </ImageListItem>)}
+                    {tieImgs.map(({src}, index) => <ImageListItem key={src}>
+                        <Button onClick={() => setDisplayCarousel(index)}>
+                            <img src={src} />
+                        </Button>
+                    </ImageListItem>)}
                 </ImageList>
             </>}
         </article>
-{/*
-        {displayCarousel !== -1 && <Fixed style={{backgroundColor: dim}} onClick={() => setDisplayCarousel(-1)}>
+
+        {displayCarousel !== -1 && <Fixed style={{backgroundColor: dim}}>
             <Carousel
                 index={displayCarousel}
-                displays={mediaList.map(({enlargeUrl, figCaptionInfo, imgInfo}, index) => ({type: 'img', src: enlargeUrl ?? imgInfo.attribs.src, key: index, label: (figCaptionInfo?.firstChild as Text)?.data}))}
-                stepper={params => <Stepper {...params}/>}
+                displays={tieImgs.map(({src}) => ({type: 'img', src, key: src, label: undefined}))}
+                onClose={() => setDisplayCarousel(-1)}
             />
-        </Fixed>} */}
+        </Fixed>}
     </>;
 }
 
@@ -213,6 +246,7 @@ export default ({tieId, backUrl}: Props) => {
                                 <Renderer
                                     key={retryKey}
                                     getTie={getPost} />
+                                {/* <TieSkeleton /> */}
                             </Suspense>
                         </RetryErrorBoundary>
                     </Box>
