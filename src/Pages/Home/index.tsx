@@ -42,7 +42,7 @@ export default () => {
                 disablePaging
                 loading={tieLoading}
                 setLoading={setTieLoading}
-                onPageChange={page => page <= 1? navigate(`/tie`): navigate(`/tie/Pages/${page}`)}
+                onPageChange={page => page <= 1? navigate(`/tie`): navigate(`/tie/page/${page}`)}
                 Container={({children}: PropsWithChildren) => <TieBox>{children}</TieBox>}
             />
             <Box sx={{ position: 'absolute', bottom: 0, right: 0 }}>

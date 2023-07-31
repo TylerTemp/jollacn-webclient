@@ -157,6 +157,7 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
             {!disablePaging && <Box className={Style.pagingContainer}>
                 <Paper>
                     <Paging
+                        lessThan2Page={null}
                         offset={offset}
                         limit={limit}
                         total={apiResult.total}

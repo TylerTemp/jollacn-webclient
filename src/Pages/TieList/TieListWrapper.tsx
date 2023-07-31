@@ -23,7 +23,7 @@ export default ({page, children}: PropsWithChildren<{page: number}>) => {
 
         <TieListPage
             page={page}
-            onPageChange={page => page <= 1? navigate(`/tie`): navigate(`/tie/Pages/${page}`)}
+            onPageChange={page => page <= 1? navigate(`/tie`): navigate(`/tie/page/${page}`)}
             loading={loading}
             setLoading={setLoading}
         >

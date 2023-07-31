@@ -23,7 +23,7 @@ export default ({page, children}: PropsWithChildren<{page: number}>) => {
 
         <PostListPage
             page={page}
-            onPageChange={page => page <= 1? navigate(`/post`): navigate(`/post/Pages/${page}`)}
+            onPageChange={page => page <= 1? navigate(`/post`): navigate(`/post/page/${page}`)}
             loading={loading}
             setLoading={setLoading}
         >{children}</PostListPage>

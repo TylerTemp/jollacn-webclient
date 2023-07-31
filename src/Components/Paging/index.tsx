@@ -162,7 +162,7 @@ export default({
 
     const totalPage = Math.ceil(total / limit);
 
-    if(lessThan2Page && totalPage <= 2) {
+    if(lessThan2Page && totalPage < 2) {
         return lessThan2Page;
     }
 
