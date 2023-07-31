@@ -1,4 +1,4 @@
-import { Outlet, useOutlet, useParams } from 'react-router-dom';
+import { useOutlet, useParams } from 'react-router-dom';
 
 import TieListWrapper from './TieListWrapper';
 

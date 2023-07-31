@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Link,
+    Link,
 } from 'react-router-dom';
 import Box from '@mui/system/Box';
 import Paper from '@mui/material/Paper';
@@ -16,129 +16,133 @@ import parse from 'html-react-parser';
 
 import Comment from '~/Components/Comment';
 
-const RenderLoading = () => (
-  <>
-    <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
-    <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
-    <Skeleton animation="wave" height={40} width="80%" />
-    <Skeleton sx={{ height: 160 }} animation="wave" variant="rectangular" />
-  </>
-);
-
-const RenderError = ({ error, onRetry }) => (
-  <Alert
-    severity="error"
-    action={(
-      <Button color="inherit" size="small" onClick={onRetry}>
-        重试
-      </Button>
-)}
-  >
-    {error}
-  </Alert>
-);
-
-const RenderImageItem = ({ item }) => {
-  const { type } = item;
-  if (type === 'video') {
-    const { sources, subtitles, poster } = item;
+function RenderLoading() {
     return (
-      <ImageListItem>
-        <video controls crossOrigin="anonymous" poster={poster}>
-          抱歉，你的浏览器不支持
-          <code>video</code>
-          元素
-          {sources.map(({ mime, src }) => <source key={src} src={src} type={mime} />)}
-          {subtitles.map((subtitle, index) => (
-            <track
-              key={subtitle.src}
-              default={index === 0}
-              kind="subtitles"
-              label={subtitle.label}
-              src={subtitle.src}
-              srcLang={subtitle.srclang}
-            />
-          ))}
-        </video>
-      </ImageListItem>
+        <>
+            <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
+            <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
+            <Skeleton animation="wave" height={40} width="80%" />
+            <Skeleton sx={{ height: 160 }} animation="wave" variant="rectangular" />
+        </>
     );
-  }
+}
 
-  const { src } = item;
+function RenderError({ error, onRetry }) {
+    return (
+        <Alert
+            severity="error"
+            action={(
+                <Button color="inherit" size="small" onClick={onRetry}>
+          重试
+                </Button>
+            )}
+        >
+            {error}
+        </Alert>
+    );
+}
 
-  return (
-    <ImageListItem>
-      <img
-        src={src}
-      />
-    </ImageListItem>
-  );
-};
+function RenderImageItem({ item }) {
+    const { type } = item;
+    if (type === 'video') {
+        const { sources, subtitles, poster } = item;
+        return (
+            <ImageListItem>
+                <video controls crossOrigin="anonymous" poster={poster}>
+          抱歉，你的浏览器不支持
+                    <code>video</code>
+          元素
+                    {sources.map(({ mime, src }) => <source key={src} src={src} type={mime} />)}
+                    {subtitles.map((subtitle, index) => (
+                        <track
+                            key={subtitle.src}
+                            default={index === 0}
+                            kind="subtitles"
+                            label={subtitle.label}
+                            src={subtitle.src}
+                            srcLang={subtitle.srclang}
+                        />
+                    ))}
+                </video>
+            </ImageListItem>
+        );
+    }
+
+    const { src } = item;
+
+    return (
+        <ImageListItem>
+            <img
+                src={src}
+            />
+        </ImageListItem>
+    );
+}
 
 const getReturnUri = (page) => {
-  switch (page) {
+    switch (page) {
     case null:
-      return '/';
+        return '/';
     case 1:
-      return '/tie';
+        return '/tie';
     default:
-      return `/tie/Pages/${page}`;
-  }
+        return `/tie/Pages/${page}`;
+    }
 };
 
-export default ({
-  loading,
-  error,
-  result: {
-    content,
-    medias = [],
-  },
-  onRetry,
-  tieId,
+export default function ({
+    loading,
+    error,
+    result: {
+        content,
+        medias = [],
+    },
+    onRetry,
+    tieId,
 
-  page,
-}) => (
-  <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-    <Box sx={{ width: '100%', maxWidth: '1100px' }}>
+    page,
+}) {
+    return (
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ width: '100%', maxWidth: '1100px' }}>
 
-      <Box sx={{ margin: '15px 5px' }}>
-        <Link to={getReturnUri(page)}>
-          <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
-            返回
-          </Button>
-        </Link>
-      </Box>
+                <Box sx={{ margin: '15px 5px' }}>
+                    <Link to={getReturnUri(page)}>
+                        <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
+              返回
+                        </Button>
+                    </Link>
+                </Box>
 
-      <Paper sx={{
-        margin: '0px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center',
-      }}
-      >
-        <Box sx={{ maxWidth: '900px', width: '100%' }}>
-          <Box sx={{ padding: '10px 10px' }}>
+                <Paper sx={{
+                    margin: '0px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center',
+                }}
+                >
+                    <Box sx={{ maxWidth: '900px', width: '100%' }}>
+                        <Box sx={{ padding: '10px 10px' }}>
 
-            {loading && <RenderLoading />}
-            {error && <RenderError error={error} onRetry={onRetry} />}
-            {!loading && !error && (
-            <>
-              <Typography variant="body1" component="div">
-                {parse(content)}
-              </Typography>
-            </>
-            )}
+                            {loading && <RenderLoading />}
+                            {error && <RenderError error={error} onRetry={onRetry} />}
+                            {!loading && !error && (
+                                <Typography variant="body1" component="div">
+                                    {parse(content)}
+                                </Typography>
+                            )}
 
-            {medias.length > 0 && (
-            <>
-              <Divider />
-              <ImageList cols={1}>
-                {medias.map((item) => <RenderImageItem key={item.type === 'video' ? item.sources[0].src : item.src} item={item} />)}
-              </ImageList>
-            </>
-            )}
-          </Box>
+                            {medias.length > 0 && (
+                                <>
+                                    <Divider />
+                                    <ImageList cols={1}>
+                                        {medias.map((item) => <RenderImageItem key={item.type === 'video' ? item.sources[0].src : item.src} item={item} />)}
+                                    </ImageList>
+                                </>
+                            )}
+                        </Box>
+                    </Box>
+                </Paper>
+                <Box sx={{ height: '15px' }} />
+                <Comment uri={`/api/tie/${tieId}/comment`} />
+            </Box>
         </Box>
-      </Paper>
-      <Box sx={{ height: '15px' }} />
-      <Comment uri={`/api/tie/${tieId}/comment`} />
-    </Box>
-  </Box>
-);
+    );
+}

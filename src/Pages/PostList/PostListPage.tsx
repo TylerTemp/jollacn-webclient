@@ -1,4 +1,3 @@
-import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { PostInfo } from "~/Utils/Types";
@@ -24,9 +23,9 @@ import useTheme from "@mui/material/styles/useTheme";
 
 const PostPreview = ({
     post: {
-      cover, title, description, slug,
+        cover, title, description, slug,
     }, page,
-  }: {post: PostInfo, page: number}) => {
+}: {post: PostInfo, page: number}) => {
 
     const { pathname } = useLocation();
     const isPostPath = pathname.startsWith('/post');

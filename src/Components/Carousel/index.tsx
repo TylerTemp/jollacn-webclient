@@ -1,13 +1,12 @@
 import Box from '@mui/material/Box';
 import MobileStepper from '@mui/material/MobileStepper';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 // import { autoPlay } from 'react-swipeable-views-utils';
-import { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
+import { useState } from 'react';
 // import { ENDPOINT } from '~/Utils/fetchCommon';
 import ModuloNoNegative from '~/Utils/ModuloNoNegative';
 import { DisplayableMedia } from '~/Utils/Types';
@@ -75,8 +74,8 @@ export interface Displayable extends DisplayableMedia {
 }
 
 export type Props = {
-    withLabel?: boolean,
-    noStepperSetter?: boolean,
+    // withLabel?: boolean,
+    // noStepperSetter?: boolean,
     // autoHeight?: boolean,
     // defaultAutoPlay?: boolean,
     index?: number,
@@ -86,8 +85,7 @@ export type Props = {
     // stepper: (props: StepperProps) => JSX.Element,
 };
 
-export default ({withLabel=false,
-    // children,
+export default ({// children,
     index=0,
     onClose,
     // onBgClick,
@@ -105,7 +103,7 @@ export default ({withLabel=false,
     //     }
     // }, [displays]);
 
-    const maxSteps = displays.length;
+    // const maxSteps = displays.length;
 
     // const [minHeight, setMinHeight] = useState<number>(0);
     // const displayKeys = useMemo(() => {

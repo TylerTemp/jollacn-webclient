@@ -28,9 +28,8 @@ import {
     Text
 } from 'domhandler';
 // import Portal from "@mui/material/Portal";
-import { type StepperProps } from "~/Components/Carousel";
+// import { type StepperProps } from "~/Components/Carousel";
 import useTheme from "@mui/material/styles/useTheme";
-import Container from "@mui/material/Container";
 import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
 import Skeleton from "@mui/material/Skeleton";
 
@@ -61,23 +60,6 @@ const PostSkeleton =() => <>
 
 interface RendererProps {
     getPost: () => Post
-}
-
-// interface ForceStepperProps extends StepperProps {
-//     forceStep: number,
-// }
-
-const Stepper = ({setActiveStep}: StepperProps) => {
-    // const [curForceStep, setCurForceStep] = useState<number>(forceStep);
-    // useEffect(() => {
-    //     console.log(curForceStep, forceStep);
-    //     if(curForceStep != forceStep) {
-    //         setCurForceStep(forceStep);
-    //         setActiveStep(_oldStep => forceStep);
-    //     }
-    // }, [forceStep]);
-
-    return <></>;
 }
 
 const Renderer = ({getPost}: RendererProps) => {
@@ -170,9 +152,9 @@ export default ({slug, backUrl}: Props) => {
     return <Stack gap={2}>
         <Box>
             <Link to={backUrl}>
-            <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
+                <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
                 返回
-            </Button>
+                </Button>
             </Link>
         </Box>
 

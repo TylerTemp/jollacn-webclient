@@ -1,9 +1,8 @@
-import Box from '@mui/material/Box';
+import { useContext } from 'react';
 import Style from './MountPoint.css';
-import { useContext, useEffect } from 'react';
 import { MainBottomContext } from './MainBottomProvider';
 
-export default () => {
+export default function () {
     const mainButtomRef = useContext(MainBottomContext);
 
     // console.log(`set mainButtomRef`, mainButtomRef);
@@ -16,6 +15,7 @@ export default () => {
     //     console.log(`ref changed`, mainButtomRef);
     // }, [mainButtomRef.current]);
 
-    return <div className={Style.mainBottom} ref={mainButtomRef}>
-    </div>
+    return (
+        <div className={Style.mainBottom} ref={mainButtomRef} />
+    );
 }

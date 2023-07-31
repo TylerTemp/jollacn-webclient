@@ -1,22 +1,20 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import parse, { type DOMNode, domToReact } from 'html-react-parser';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import {
     Element,
-    Node,
     Text
     // ChildNode
 } from 'domhandler';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 import {
-  Link,
+    Link,
 } from 'react-router-dom';
 import type { FigureConfig } from '~/Utils/Types';
 import MuiLink from '@mui/material/Link';
@@ -40,7 +38,7 @@ const EnlargeClick = ({ enlargeUrl, onImageClick, children }: PropsWithChildren<
     >
         {children}
     </a>
-  : children);
+    : children);
 
 const retriveFigure = (children: Element[]) => {
     const figureConfig: FigureConfig = {
@@ -52,7 +50,8 @@ const retriveFigure = (children: Element[]) => {
     children.forEach((nodeInfo) => {
         const { name: childName, attribs: childAttribs, children: childChildren } = nodeInfo;
         switch (childName) {
-            case 'a':
+        case 'a':
+            {
                 const imgInfo: Element = childChildren
                     .map(each => each as Element)
                     .filter(({attribs}) => attribs)
@@ -60,18 +59,19 @@ const retriveFigure = (children: Element[]) => {
                 figureConfig.enlargeUrl = childAttribs.href;
                 // figureConfigs.imgSrc = imgInfo.attribs.src;
                 figureConfig.imgInfo = imgInfo;
-                break;
-            case 'img': // this disables the enlarge, e.g. an image button
-                figureConfig.enlargeUrl = null;
-                // figureConfigs.imgSrc = childAttribs.src;
-                figureConfig.imgInfo = nodeInfo;
-                break;
-            case 'figcaption':
-                figureConfig.figCaptionInfo = nodeInfo;
-                break;
-            default:
-                console.error(nodeInfo);
-                return null;
+            }
+            break;
+        case 'img': // this disables the enlarge, e.g. an image button
+            figureConfig.enlargeUrl = null;
+            // figureConfigs.imgSrc = childAttribs.src;
+            figureConfig.imgInfo = nodeInfo;
+            break;
+        case 'figcaption':
+            figureConfig.figCaptionInfo = nodeInfo;
+            break;
+        default:
+            console.error(nodeInfo);
+            return null;
         }
     });
     return figureConfig;
@@ -119,11 +119,11 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
             <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)}>
                 {domToReact([figureConfig.imgInfo])}
                 {figureConfig.figCaptionInfo && (
-                <figcaption>
-                    <Typography variant="h6" sx={{ textAlign: 'center' }}>
-                    {domToReact(figureConfig.figCaptionInfo.children, {})}
-                    </Typography>
-                </figcaption>
+                    <figcaption>
+                        <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                            {domToReact(figureConfig.figCaptionInfo.children, {})}
+                        </Typography>
+                    </figcaption>
                 )}
             </EnlargeClick>
         </figure>;
@@ -156,8 +156,8 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
                 mediaList.push(figureConfig);
                 return <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)} key={figureConfig.imgInfo.attribs.src}>
                     <ImageListItem>
-                    {domToReact([figureConfig.imgInfo])}
-                    <ImageListItemBar
+                        {domToReact([figureConfig.imgInfo])}
+                        <ImageListItemBar
                             title={domToReact([figureConfig.figCaptionInfo])}
                         />
 
@@ -201,7 +201,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         return <MuiLink {...(domNode as Element).attribs} target="_blank" />
     }
 
-  return null;
+    return null;
 };
 
 export default ({ html, onImageClick }: {html: string, onImageClick: (index: number) => void}) => {

@@ -1,5 +1,5 @@
-import { createTheme, themeCommon } from "./Basic";
-import { yellow } from "@mui/material/colors";
+import { yellow } from '@mui/material/colors';
+import { createTheme, themeCommon } from './Basic';
 
 export default createTheme({
     ...themeCommon,
@@ -7,7 +7,7 @@ export default createTheme({
     palette: {
         mode: 'light',
         background: {
-            default: "#3a7ba2"
+            default: '#3a7ba2',
         },
     },
 

@@ -1,6 +1,6 @@
 import { HTMLProps, PropsWithChildren } from 'react';
 import {
-  Outlet,
+    Outlet,
 } from 'react-router-dom';
 // import Box from '@mui/system/Box';
 import Container from '@mui/material/Container';
@@ -14,7 +14,7 @@ import { Breakpoint } from '@mui/system';
 //     </Container>
 // </Box>;
 export const WidthLimit = ({className, children, maxWidth="lg"}: PropsWithChildren<{maxWidth?: Breakpoint | false, className?: HTMLProps<HTMLElement>["className"]}>) => <Container className={className} maxWidth={maxWidth}>
-  {children}
+    {children}
 </Container>;
 
 

@@ -1,5 +1,5 @@
 import {
-  Link, useNavigate,
+    Link, useNavigate,
 } from 'react-router-dom';
 import Box from '@mui/system/Box';
 import Fab from '@mui/material/Fab';
@@ -9,7 +9,6 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PostListWrapper from '~/Pages/PostList/PostListWrapper';
 import TieListPage from '~/Pages/TieList/TieListPage';
 import { PropsWithChildren, useState } from 'react';
-import useTheme from '@mui/material/styles/useTheme';
 import styled from "@mui/material/styles/styled";
 
 const TieBox = styled(Box)(({theme}) => ({

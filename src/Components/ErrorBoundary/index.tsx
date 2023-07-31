@@ -40,11 +40,11 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
         const errorMessage = typeof message === 'undefined' ? (error || '').toString() : message;
         const errorDescription = typeof description === 'undefined' ? componentStack : description;
         if (error) {
-        return <Alert severity="error">
-            <AlertTitle>{errorMessage}</AlertTitle>
-            <Typography variant="body1" component="div">
-                <pre style={{ fontSize: '0.9em', overflowX: 'auto' }}>{errorDescription}</pre>
-            </Typography>
+            return <Alert severity="error">
+                <AlertTitle>{errorMessage}</AlertTitle>
+                <Typography variant="body1" component="div">
+                    <pre style={{ fontSize: '0.9em', overflowX: 'auto' }}>{errorDescription}</pre>
+                </Typography>
             </Alert>;
         }
         return children;

@@ -27,15 +27,15 @@ const Req = (uri: string, config: RequestInit={}): Promise<Response> => (
                 }
             })
             .catch(reject);
-            // .catch(e => {
-            //     if(e instanceof DOMException && e.name === 'AbortError') {
-            //         console.log(`abort ${uri}`);
-            //     }
-            //     else
-            //     {
-            //         reject(e);
-            //     }
-            // });
+        // .catch(e => {
+        //     if(e instanceof DOMException && e.name === 'AbortError') {
+        //         console.log(`abort ${uri}`);
+        //     }
+        //     else
+        //     {
+        //         reject(e);
+        //     }
+        // });
     })
 );
 

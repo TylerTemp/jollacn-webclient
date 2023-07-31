@@ -75,96 +75,96 @@ export default ({ uri, onAdd }: Props) => {
         }}
     >
 
-      <Typography variant="h6">评论</Typography>
-      <Grid container spacing={1}>
-        <Grid
-          sm={12}
-          md={6}
-        >
-          <FormControl fullWidth disabled={apiState.loading}>
-            <InputLabel htmlFor="comment-name">
-              <span style={{ color: red[500] }}>*</span>
-              {' '}
-              昵称
-            </InputLabel>
-            <Input
-                id="comment-name"
-                startAdornment={<InputAdornment position="start">
-                    <AccountCircleOutlinedIcon />
-                </InputAdornment>}
-                type="text"
-                name="nickname"
-                inputRef={nicknameRef}
-                placeholder="* 怎么称呼您呐_(:з」∠)_"
-                required
-            />
-          </FormControl>
-        </Grid>
-        <Grid
-          sm={12}
-          md={6}
-        >
-          <FormControl fullWidth disabled={apiState.loading}>
-            <InputLabel htmlFor="comment-email">邮箱(可选)</InputLabel>
-            <Input
-                id="comment-email"
-                startAdornment={                  <InputAdornment position="start">
-                    <EmailOutlinedIcon />
-                    </InputAdornment>}
-                type="email"
-                name="email"
-                inputRef={emailRef}
-                placeholder="不会被显示和公布"
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid
-          sm={12}
-        >
-          <FormControl fullWidth disabled={apiState.loading}>
-            <Input
-              id="comment-content"
-              multiline
-              minRows={3}
-              startAdornment={<InputAdornment position="start">
-                <TextsmsOutlinedIcon />
-                </InputAdornment>}
-              type="text"
-              name="content"
-              ref={contentRef}
-              placeholder="*来都来了不说说都不好意思直接走..."
-              required
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid sm={9}>
-          { apiState.error && <AlertSimple
-            severity="error"
-            onClose={() => setApiState(old => ({...old, error: null}))}
-          >
-            {apiState.error.message}
-          </AlertSimple>}
-          { apiState.comment && <AlertSimple
-            onClose={() => setApiState(old => ({...old, comment: null}))}
-          >
-            发布成功
-          </AlertSimple>}
-        </Grid>
-        <Grid sm={3}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <LoadingButton
-              type="submit"
-              endIcon={<SendIcon />}
-              loading={apiState.loading}
-              loadingPosition="end"
-              variant="contained"
+        <Typography variant="h6">评论</Typography>
+        <Grid container spacing={1}>
+            <Grid
+                sm={12}
+                md={6}
             >
+                <FormControl fullWidth disabled={apiState.loading}>
+                    <InputLabel htmlFor="comment-name">
+                        <span style={{ color: red[500] }}>*</span>
+                        {' '}
+              昵称
+                    </InputLabel>
+                    <Input
+                        id="comment-name"
+                        startAdornment={<InputAdornment position="start">
+                            <AccountCircleOutlinedIcon />
+                        </InputAdornment>}
+                        type="text"
+                        name="nickname"
+                        inputRef={nicknameRef}
+                        placeholder="* 怎么称呼您呐_(:з」∠)_"
+                        required
+                    />
+                </FormControl>
+            </Grid>
+            <Grid
+                sm={12}
+                md={6}
+            >
+                <FormControl fullWidth disabled={apiState.loading}>
+                    <InputLabel htmlFor="comment-email">邮箱(可选)</InputLabel>
+                    <Input
+                        id="comment-email"
+                        startAdornment={                  <InputAdornment position="start">
+                            <EmailOutlinedIcon />
+                        </InputAdornment>}
+                        type="email"
+                        name="email"
+                        inputRef={emailRef}
+                        placeholder="不会被显示和公布"
+                    />
+                </FormControl>
+            </Grid>
+
+            <Grid
+                sm={12}
+            >
+                <FormControl fullWidth disabled={apiState.loading}>
+                    <Input
+                        id="comment-content"
+                        multiline
+                        minRows={3}
+                        startAdornment={<InputAdornment position="start">
+                            <TextsmsOutlinedIcon />
+                        </InputAdornment>}
+                        type="text"
+                        name="content"
+                        ref={contentRef}
+                        placeholder="*来都来了不说说都不好意思直接走..."
+                        required
+                    />
+                </FormControl>
+            </Grid>
+
+            <Grid sm={9}>
+                { apiState.error && <AlertSimple
+                    severity="error"
+                    onClose={() => setApiState(old => ({...old, error: null}))}
+                >
+                    {apiState.error.message}
+                </AlertSimple>}
+                { apiState.comment && <AlertSimple
+                    onClose={() => setApiState(old => ({...old, comment: null}))}
+                >
+            发布成功
+                </AlertSimple>}
+            </Grid>
+            <Grid sm={3}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <LoadingButton
+                        type="submit"
+                        endIcon={<SendIcon />}
+                        loading={apiState.loading}
+                        loadingPosition="end"
+                        variant="contained"
+                    >
               提交
-            </LoadingButton>
-          </Box>
+                    </LoadingButton>
+                </Box>
+            </Grid>
         </Grid>
-      </Grid>
-  </form>;
+    </form>;
 }

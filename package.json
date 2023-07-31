@@ -7,6 +7,7 @@
     "test": "test",
     "start": "npx webpack-dev-server --progress --mode=development --port 8081",
     "build": "npx webpack --progress --mode=production",
+    "lint": "npx eslint src/**/**.{js,jsx,ts,tsx}",
     "stats": "mkdir -p build; webpack --profile --json > build/compilation-stats.json; webpack-bundle-analyzer build/compilation-stats.json"
   },
   "keywords": [
@@ -24,6 +25,8 @@
     "@types/react-dom": "^18.2.7",
     "@types/react-swipeable-views": "^0.13.2",
     "@types/react-swipeable-views-utils": "^0.13.4",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^9.1.2",
     "babel-plugin-root-import": "^6.1.0",

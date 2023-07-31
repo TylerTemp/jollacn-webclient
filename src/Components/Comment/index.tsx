@@ -1,4 +1,3 @@
-import Divider from "@mui/material/Divider";
 import CommentAdd from "./CommentAdd";
 import CommentList from "./CommentList";
 import { useState } from "react";

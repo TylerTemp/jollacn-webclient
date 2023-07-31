@@ -12,21 +12,21 @@ export default <T>(promise:Promise<T>): (() => T) => {
         status = Status.Fulfilled;
         result = r;
     })
-    .catch(err => {
-        status = Status.Rejected;
-        error = err;
-    });
+        .catch(err => {
+            status = Status.Rejected;
+            error = err;
+        });
 
     return () => {
         switch(status) {
-            case Status.Pending:
-                throw suspender;
-            case Status.Rejected:
-                throw error;
-            case Status.Fulfilled:
-                return result;
-            default:
-                throw Error(`Unexpected arg ${status}`);
+        case Status.Pending:
+            throw suspender;
+        case Status.Rejected:
+            throw error;
+        case Status.Fulfilled:
+            return result;
+        default:
+            throw Error(`Unexpected arg ${status}`);
         }
     }
 };

@@ -1,12 +1,12 @@
-import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
+// import { StrictMode } from 'react';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from "@mui/material/CssBaseline";
+import CssBaseline from '@mui/material/CssBaseline';
 import 'typeface-roboto';
 
 // import appTheme from '~/Components/Theme';
-import ThemeProvider from "~/Components/Theme/ThemeProvider";
+import ThemeProvider from '~/Components/Theme/ThemeProvider';
 import MainLayout from '~/Components/Layouts/MainLayout';
 import PostList from '~/Pages/PostList';
 import Post from '~/Pages/Post';
@@ -14,48 +14,47 @@ import TieList from '~/Pages/TieList';
 import Tie from '~/Pages/Tie';
 import Home from '~/Pages/Home';
 import NotFound from '~/Pages/NotFound';
-import ErrorBoundary from "~/Components/ErrorBoundary";
-import WidthLimitLayout, { WidthLimit } from "./Components/Layouts/WidthLimitLayout";
+import ErrorBoundary from '~/Components/ErrorBoundary';
+import WidthLimitLayout, { WidthLimit } from './Components/Layouts/WidthLimitLayout';
 
+function App() {
+    return (
+        <ThemeProvider>
+            <CssBaseline />
+            <ErrorBoundary>
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<MainLayout />}>
+                            <Route index element={<WidthLimit><Home /></WidthLimit>} />
 
-const App = () => (
-  <>
-      <ThemeProvider>
-          <CssBaseline />
-          <ErrorBoundary>
-              <Router>
-                <Routes>
-                    <Route path="/" element={<MainLayout />}>
-                        <Route index element={<WidthLimit><Home /></WidthLimit>} />
+                            <Route path="/post" element={<WidthLimitLayout />}>
+                                <Route path="page/:page" element={<PostList />}>
+                                    <Route path=":slug" element={<Post />} />
+                                </Route>
+                                <Route path="" element={<PostList />}>
+                                    <Route path=":slug" element={<Post />} />
+                                </Route>
 
-                        <Route path="/post" element={<WidthLimitLayout />}>
-                            <Route path="page/:page" element={<PostList />}>
-                                <Route path=":slug" element={<Post />} />
                             </Route>
-                            <Route path="" element={<PostList />}>
-                                <Route path=":slug" element={<Post />} />
-                            </Route>
 
+                            <Route path="/tie" element={<TieList />} />
+                            <Route path="/tie/Pages/:page" element={<TieList />} />
+                            <Route path="/tie/:tieId" element={<Tie />} />
+                            <Route path="*" element={<NotFound />} />
                         </Route>
+                    </Routes>
+                </Router>
 
-                        <Route path="/tie" element={<TieList />} />
-                        <Route path="/tie/Pages/:page" element={<TieList />} />
-                        <Route path="/tie/:tieId" element={<Tie />} />
-                        <Route path="*" element={<NotFound />} />
-                    </Route>
-                  </Routes>
-              </Router>
-
-          </ErrorBoundary>
-      </ThemeProvider>
-  </>
-);
+            </ErrorBoundary>
+        </ThemeProvider>
+    );
+}
 
 // ReactDom.render(
 //   <App />,
 //   document.getElementById('root'),
 // );
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <App />
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <App />,
 );

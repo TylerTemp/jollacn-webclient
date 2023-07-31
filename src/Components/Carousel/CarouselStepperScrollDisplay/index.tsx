@@ -1,6 +1,5 @@
 import { type StepperProps } from "~/Components/Carousel";
 import Button from "@mui/material/Button";
-import { ENDPOINT } from "~/Utils/fetchCommon";
 // import { type GenFile } from "~/Utils/Types";
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';

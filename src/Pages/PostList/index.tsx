@@ -1,4 +1,4 @@
-import { Outlet, useOutlet, useParams } from 'react-router-dom';
+import { useOutlet, useParams } from 'react-router-dom';
 
 // import PostList from '~/Components/post_list';
 import PostListWrapper from './PostListWrapper';

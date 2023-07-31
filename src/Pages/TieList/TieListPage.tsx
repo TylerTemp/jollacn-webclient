@@ -1,18 +1,14 @@
-import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { DisplayableMedia, Tie } from "~/Utils/Types";
 import useEffectNoFirstRender from "~/Utils/useEffectNoFirstRender";
 import useFetch from "~/Utils/useFetch";
 import AlertSimple from "~/Components/AlertSimple";
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
 import Paging from "~/Components/Paging";
 import Box from "@mui/material/Box";
 import Style from "./TieListPage.scss";
@@ -22,7 +18,6 @@ import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
 import useTheme from "@mui/material/styles/useTheme";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import CardActionArea from "@mui/material/CardActionArea";
 import styled from "@mui/material/styles/styled";
 
 interface MakeMediaPreviewProps {
@@ -31,7 +26,7 @@ interface MakeMediaPreviewProps {
 
 const MakeMediaPreview = ({ previews }: MakeMediaPreviewProps) => {
     if (previews.length === 0) {
-      return null;
+        return null;
     }
 
     const cuttedPreviews = previews.slice(0, 3);

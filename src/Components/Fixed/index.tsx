@@ -14,9 +14,9 @@ export default ({children, style={}, onClick}: PropsWithChildren<{style?: CSSPro
     }, []);
 
     return <Box onClick={onClick} className={Style.fixed} style={{
-            top,
-            height: `calc(100vh - ${top}px)`,
-            ...style}}>
+        top,
+        height: `calc(100vh - ${top}px)`,
+        ...style}}>
         {children}
     </Box>
 }

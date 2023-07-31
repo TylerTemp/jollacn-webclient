@@ -8,18 +8,18 @@ export { createTheme } from "@mui/material/styles";
 export const themeCommon = {
     typography: {
         h1: {
-          fontSize: '2.8rem',
+            fontSize: '2.8rem',
         },
         h2: {
-          fontSize: '1.8rem',
+            fontSize: '1.8rem',
         },
         h6: {
-          fontSize: '1rem',
+            fontSize: '1rem',
         },
         button: {
             textTransform: 'none',
         },
-      } as TypographyOptions,
+    } as TypographyOptions,
 }
 
 declare module '@mui/material/styles' {

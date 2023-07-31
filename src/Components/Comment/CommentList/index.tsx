@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
 import { type Comment } from "~/Utils/Types";
-import useFetch from "~/Utils/useFetch";
 import AlertSimple from "~/Components/AlertSimple";
 import Paging from "~/Components/Paging";
 
@@ -83,12 +82,12 @@ export default ({ uri }: Props) => {
         </AlertSimple>}
         <List sx={{ width: '100%' }}>
             {apiResult.comments.map(({
-                    id, nickname, avatar, content, updated_at: updatedAt,
-                }) => <ListItem key={id} alignItems="flex-start">
-                    <ListItemAvatar>
-                        <Avatar alt={nickname} src={`/api/${avatar}`} />
-                    </ListItemAvatar>
-                    <ListItemText
+                id, nickname, avatar, content, updated_at: updatedAt,
+            }) => <ListItem key={id} alignItems="flex-start">
+                <ListItemAvatar>
+                    <Avatar alt={nickname} src={`/api/${avatar}`} />
+                </ListItemAvatar>
+                <ListItemText
                     primary={nickname}
                     secondary={<>
                         <Typography
@@ -106,8 +105,8 @@ export default ({ uri }: Props) => {
                         </span>}
 
                     </>}
-                    />
-                </ListItem>
+                />
+            </ListItem>
             )}
         </List>
 

@@ -1,7 +1,7 @@
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
 import Suspendable from "~/Utils/Suspendable";
-import { type Tie, TieImg, TieMediaGuess, TieVideo } from "~/Utils/Types";
+import { type Tie, TieImg, TieVideo } from "~/Utils/Types";
 import useRetryWithAbortController from "~/Utils/useRetryWithAbortController";
 import RetryErrorBoundary from "~/Components/RetryErrorBoundary";
 
@@ -15,18 +15,13 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 // import styled from "@emotion/styled";
-import MuiLink from '@mui/material/Link';
 import Comment from "~/Components/Comment";
 import Stack from "@mui/material/Stack";
 // import AbsCarousel from "~/Components/AbsCarousel";
 import Carousel from "~/Components/Carousel";
 import Fixed from "~/Components/Fixed";
 
-import {
-    Text
-} from 'domhandler';
 // import Portal from "@mui/material/Portal";
-import { type StepperProps } from "~/Components/Carousel";
 import useTheme from "@mui/material/styles/useTheme";
 import Skeleton from "@mui/material/Skeleton";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -213,10 +208,10 @@ export default ({tieId, backUrl}: Props) => {
                     const {medias} = result;
                     const parsedMedias = medias.map((item) => {
                         switch (item.type) {
-                            case 'img':
-                                return item as TieImg;
-                            case 'video':
-                                return item as TieVideo;
+                        case 'img':
+                            return item as TieImg;
+                        case 'video':
+                            return item as TieVideo;
                         }
                     });
 
@@ -229,9 +224,9 @@ export default ({tieId, backUrl}: Props) => {
         <Stack gap={2}>
             <Box>
                 <Link to={backUrl}>
-                <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
+                    <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
                     返回
-                </Button>
+                    </Button>
                 </Link>
             </Box>
 
