@@ -5,17 +5,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CssBaseline from "@mui/material/CssBaseline";
 import 'typeface-roboto';
 
-// import appTheme from '~/component/Theme';
-import ThemeProvider from "~/component/Theme/ThemeProvider";
-import MainLayout from '~/component/Layouts/MainLayout';
-import PostList from '~/page/PostList';
-import Post from '~/page/Post';
-import TieList from '~/page/TieList';
-import Tie from '~/page/Tie';
-import Home from '~/page/Home';
-import NotFound from '~/page/NotFound';
-import ErrorBoundary from "~/component/ErrorBoundary";
-import WidthLimitLayout, { WidthLimit } from "./component/Layouts/WidthLimitLayout";
+// import appTheme from '~/Components/Theme';
+import ThemeProvider from "~/Components/Theme/ThemeProvider";
+import MainLayout from '~/Components/Layouts/MainLayout';
+import PostList from '~/Pages/PostList';
+import Post from '~/Pages/Post';
+import TieList from '~/Pages/TieList';
+import Tie from '~/Pages/Tie';
+import Home from '~/Pages/Home';
+import NotFound from '~/Pages/NotFound';
+import ErrorBoundary from "~/Components/ErrorBoundary";
+import WidthLimitLayout, { WidthLimit } from "./Components/Layouts/WidthLimitLayout";
 
 
 const App = () => (
@@ -39,7 +39,7 @@ const App = () => (
                         </Route>
 
                         <Route path="/tie" element={<TieList />} />
-                        <Route path="/tie/page/:page" element={<TieList />} />
+                        <Route path="/tie/Pages/:page" element={<TieList />} />
                         <Route path="/tie/:tieId" element={<Tie />} />
                         <Route path="*" element={<NotFound />} />
                     </Route>
