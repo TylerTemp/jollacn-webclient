@@ -15,12 +15,12 @@ const TieBox = styled(Box)(({theme}) => ({
     display: 'flex',
     gap: theme.spacing(2),
     [theme.breakpoints.down('md')]: {
-        '& > :nth-child(n+3)': {
+        '& > :nth-of-type(n+3)': {
             display: 'none',
         }
     },
     [theme.breakpoints.down('sm')]: {
-        '& > :nth-child(n+2)': {
+        '& > :nth-of-type(n+2)': {
             display: 'none',
         },
     },

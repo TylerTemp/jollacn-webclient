@@ -34,12 +34,17 @@ function App() {
                                 <Route path="" element={<PostList />}>
                                     <Route path=":slug" element={<Post />} />
                                 </Route>
-
                             </Route>
 
-                            <Route path="/tie" element={<TieList />} />
-                            <Route path="/tie/Pages/:page" element={<TieList />} />
-                            <Route path="/tie/:tieId" element={<Tie />} />
+                            <Route path="/tie" element={<WidthLimitLayout maxWidth="lg" />}>
+                                <Route path="page/:page" element={<TieList />}>
+                                    <Route path=":tieId" element={<Tie />} />
+                                </Route>
+                                <Route path="" element={<TieList />}>
+                                    <Route path=":tieId" element={<Tie />} />
+                                </Route>
+                            </Route>
+
                             <Route path="*" element={<NotFound />} />
                         </Route>
                     </Routes>

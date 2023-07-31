@@ -1,7 +1,6 @@
 import Stack from "@mui/material/Stack";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { DisplayableMedia, Tie } from "~/Utils/Types";
-import useEffectNoFirstRender from "~/Utils/useEffectNoFirstRender";
 import useFetch from "~/Utils/useFetch";
 import AlertSimple from "~/Components/AlertSimple";
 import { Link } from "react-router-dom";
@@ -19,6 +18,8 @@ import useTheme from "@mui/material/styles/useTheme";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import styled from "@mui/material/styles/styled";
+import Fixed from "~/Components/Fixed";
+import { PageStruct, menuBarHeight } from "~/Components/Layouts/MainLayout";
 
 interface MakeMediaPreviewProps {
     previews: DisplayableMedia[],
@@ -108,7 +109,7 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
     useEffect(() => {
         setLoading(innerLoading);
     }, [innerLoading]);
-    useEffectNoFirstRender(() => reloadCallback(), [page]);
+    // useEffectNoFirstRender(() => reloadCallback(), [page]);
 
     const theme = useTheme();
     const bgColor = theme.palette.background.default;
@@ -166,10 +167,12 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
 
         </Stack>
 
-        {children && <Box className={Style.overlay} style={{backgroundColor: bgColor}}>
-            <WidthLimit>
-                {children}
-            </WidthLimit>
-        </Box>}
+        {children && <Fixed top={menuBarHeight} style={{backgroundColor: bgColor}}>
+            <PageStruct className={Style.fixed}>
+                <WidthLimit maxWidth="lg">
+                    {children}
+                </WidthLimit>
+            </PageStruct>
+        </Fixed>}
     </>;
 }

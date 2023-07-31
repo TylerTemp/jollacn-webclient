@@ -13,9 +13,15 @@ import { Breakpoint } from '@mui/system';
 //         {children}
 //     </Container>
 // </Box>;
-export const WidthLimit = ({className, children, maxWidth="lg"}: PropsWithChildren<{maxWidth?: Breakpoint | false, className?: HTMLProps<HTMLElement>["className"]}>) => <Container className={className} maxWidth={maxWidth}>
+
+type Props = {
+    maxWidth?: Breakpoint | false,
+    className?: HTMLProps<HTMLElement>["className"]
+};
+
+export const WidthLimit = ({className, children, maxWidth="lg"}: PropsWithChildren<Props>) => <Container className={className} maxWidth={maxWidth}>
     {children}
 </Container>;
 
 
-export default () => <WidthLimit><Outlet /></WidthLimit>;
+export default (props: Props) => <WidthLimit {...props}><Outlet /></WidthLimit>;
