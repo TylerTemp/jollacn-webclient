@@ -21,7 +21,6 @@ import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
 import useTheme from "@mui/material/styles/useTheme";
 import Fixed from "~/Components/Fixed";
 import { PageStruct, menuBarHeight } from "~/Components/Layouts/MainLayout";
-import HeaderImg from "~/Components/HeaderImg";
 
 
 const PostPreview = ({
