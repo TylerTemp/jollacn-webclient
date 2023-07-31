@@ -1,7 +1,6 @@
 import Stack from "@mui/material/Stack";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { PostInfo } from "~/Utils/Types";
-import useEffectNoFirstRender from "~/Utils/useEffectNoFirstRender";
 import useFetch from "~/Utils/useFetch";
 import AlertSimple from "~/Components/AlertSimple";
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
@@ -17,10 +16,8 @@ import Box from "@mui/material/Box";
 import Style from "./PostListPage.css";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
-import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
-import useTheme from "@mui/material/styles/useTheme";
-import Fixed from "~/Components/Fixed";
-import { PageStruct, menuBarHeight } from "~/Components/Layouts/MainLayout";
+// import MoreIcon from '@mui/icons-material/More';
+import ReadMoreTwoToneIcon from '@mui/icons-material/ReadMoreTwoTone';
 
 
 const PostPreview = ({
@@ -51,8 +48,8 @@ const PostPreview = ({
                 <Typography component="div" dangerouslySetInnerHTML={{ __html: description }} />
             </CardContent>
             <CardActions>
-                <Button size="small" color="primary">
-                    阅读 &gt;&gt;
+                <Button size="small" color="primary" endIcon={<ReadMoreTwoToneIcon />}>
+                    阅读
                 </Button>
             </CardActions>
         </Card>
@@ -117,12 +114,7 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
         // console.log(`loading: ${innerLoading}`)
     }, [innerLoading]);
     // console.log(`loading out: ${innerLoading}`)
-    useEffectNoFirstRender(() => reloadCallback(), [page]);
-
-    // console.log(`offset`, offset, `limit`, limit, `total`, apiResult.total);
-
-    const theme = useTheme();
-    const bgColor = theme.palette.background.default;
+    // useEffectNoFirstRender(() => reloadCallback(), [page]);
 
     // loading = true;
     // apiResult.post_infos = [];
@@ -156,18 +148,6 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
                 </Paper>
             </Box>
         </Stack>
-
-        {/* {children && <Box className={Style.overlay} style={{backgroundColor: bgColor}}>
-            <WidthLimit>
-                {children}
-            </WidthLimit>
-        </Box>} */}
-        {children && <Fixed top={menuBarHeight} style={{backgroundColor: bgColor}}>
-            <PageStruct className={Style.fixed}>
-                <WidthLimit>
-                    {children}
-                </WidthLimit>
-            </PageStruct>
-        </Fixed>}
+        {children}
     </>
 }

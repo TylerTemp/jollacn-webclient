@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
 import Suspendable from "~/Utils/Suspendable";
 import { type Tie, TieImg, TieVideo } from "~/Utils/Types";
@@ -144,9 +144,9 @@ const Renderer = ({getTie}: RendererProps) => {
 
     const [displayCarousel, setDisplayCarousel] = useState<number>(-1);
 
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "instant" });
-    }, []);
+    // useEffect(() => {
+    //     window.scrollTo({ top: 0, behavior: "instant" });
+    // }, []);
 
     const {dim} = useTheme();
 
@@ -225,7 +225,7 @@ export default ({tieId, backUrl}: Props) => {
         <Stack gap={2}>
             <Box>
                 <Link to={backUrl}>
-                    <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
+                    <Button variant="outlined" color="info" startIcon={<ArrowBackIosIcon />}>
                     返回
                     </Button>
                 </Link>

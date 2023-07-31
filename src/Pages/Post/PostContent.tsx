@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
 import Suspendable from "~/Utils/Suspendable";
 import { type Post } from "~/Utils/Types";
@@ -136,9 +136,9 @@ interface Props {
 }
 
 export default ({slug, backUrl}: Props) => {
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "instant" });
-    }, []);
+    // useEffect(() => {
+    //     window.scrollTo({ top: 0, behavior: "instant" });
+    // }, []);
 
     const {retryKey, doRetry, doAbort} = useRetryWithAbortController();
 
@@ -153,7 +153,7 @@ export default ({slug, backUrl}: Props) => {
     return <Stack gap={2}>
         <Box>
             <Link to={backUrl}>
-                <Button variant="contained" color="info" startIcon={<ArrowBackIosIcon />}>
+                <Button variant="outlined" color="info" startIcon={<ArrowBackIosIcon />}>
                 返回
                 </Button>
             </Link>

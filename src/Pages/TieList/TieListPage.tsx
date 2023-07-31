@@ -13,13 +13,10 @@ import Box from "@mui/material/Box";
 import Style from "./TieListPage.scss";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
-import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
-import useTheme from "@mui/material/styles/useTheme";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import styled from "@mui/material/styles/styled";
-import Fixed from "~/Components/Fixed";
-import { PageStruct, menuBarHeight } from "~/Components/Layouts/MainLayout";
+import useTheme from "@mui/material/styles/useTheme";
 
 interface MakeMediaPreviewProps {
     previews: DisplayableMedia[],
@@ -109,10 +106,8 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
     useEffect(() => {
         setLoading(innerLoading);
     }, [innerLoading]);
-    // useEffectNoFirstRender(() => reloadCallback(), [page]);
 
     const theme = useTheme();
-    const bgColor = theme.palette.background.default;
 
     // loading = true;
     // apiResult.ties = [];
@@ -130,7 +125,8 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
                     id, content, medias: _, media_previews: mediaPreviews,
                 }) => <Box key={id} className={Style.flowItem} style={{margin: `0 auto ${theme.spacing(2)}`}}>
                     <Link
-                        to={`/tie/${id}`}
+                        to={`${id}`}
+                        state={{ page }}
                     >
                         <Card>
                             <MakeMediaPreview previews={mediaPreviews} />
@@ -142,7 +138,7 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
                 </Box>)}
             </Container>
             <Container>
-                {loading && Array.from(Array(limit).keys()).map(index => <Box key={index} className={Style.flowItem} style={{margin: `0 auto ${theme.spacing(2)}`}}>
+                {loading && apiResult.ties.length === 0 && Array.from(Array(limit).keys()).map(index => <Box key={index} className={Style.flowItem} style={{margin: `0 auto ${theme.spacing(2)}`}}>
                     <Card>
                         <CardMedia sx={{ height: 140 }}>
                             <Skeleton variant="rectangular" sx={{ height: 140 }} className={Style.skeletonMedia} />
@@ -168,12 +164,13 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
 
         </Stack>
 
-        {children && <Fixed top={menuBarHeight} style={{backgroundColor: bgColor}}>
+        {/* {children && <Fixed top={menuBarHeight} style={{backgroundColor: bgColor}}>
             <PageStruct className={Style.fixed}>
                 <WidthLimit maxWidth="lg">
                     {children}
                 </WidthLimit>
             </PageStruct>
-        </Fixed>}
+        </Fixed>} */}
+        {children}
     </>;
 }

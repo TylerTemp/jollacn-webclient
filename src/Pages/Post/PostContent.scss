@@ -12,8 +12,9 @@
 
 .title {
     text-align: center;
-    padding: 20px 0px;
-    white-space: normal balance;
+    padding: 20px 5px;
+    // white-space: normal balance;
+    text-wrap: balance;
     // max-width: 100%;
 }
 
