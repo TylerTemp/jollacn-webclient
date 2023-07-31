@@ -27,6 +27,7 @@ import Skeleton from "@mui/material/Skeleton";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageList from "@mui/material/ImageList";
 import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
+import { menuBarHeight } from "~/Components/Layouts/MainLayout";
 
 const TieSkeleton =() => <>
     <Skeleton height={40} />
@@ -181,7 +182,7 @@ const Renderer = ({getTie}: RendererProps) => {
             </>}
         </article>
 
-        {displayCarousel !== -1 && <Fixed style={{backgroundColor: dim}}>
+        {displayCarousel !== -1 && <Fixed top={menuBarHeight} style={{backgroundColor: dim}}>
             <Carousel
                 index={displayCarousel}
                 displays={tieImgs.map(({src}) => ({type: 'img', src, key: src, label: undefined}))}

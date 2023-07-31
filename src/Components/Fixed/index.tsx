@@ -1,10 +1,15 @@
 import Box from "@mui/material/Box";
 import Style from "./index.scss";
 import { CSSProperties, MouseEventHandler, PropsWithChildren, useEffect } from "react";
-import { menuBarHeight as top } from "~/Components/Layouts/MainLayout";
+// import { menuBarHeight as top } from "~/Components/Layouts/MainLayout";
 
+interface Props {
+    top: number,
+    style?: CSSProperties;
+    onClick?: MouseEventHandler<HTMLDivElement>;
+}
 
-export default ({children, style={}, onClick}: PropsWithChildren<{style?: CSSProperties, onClick?: MouseEventHandler<HTMLDivElement>}>) => {
+export default ({top, children, style={}, onClick}: PropsWithChildren<Props>) => {
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';

@@ -66,7 +66,7 @@ export default function () {
                                             <Link to="/">
                                                 <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                                                     <HomeIcon />
-                              首页
+                                                    首页
                                                 </Typography>
                                             </Link>
                                         )}
@@ -80,7 +80,7 @@ export default function () {
                                             <Link to="/post">
                                                 <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                                                     <BallotIcon />
-                              文章
+                                                    文章
                                                 </Typography>
                                             </Link>
                                         )}
@@ -94,7 +94,7 @@ export default function () {
                                             <Link to="/tie">
                                                 <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                                                     <StyleIcon />
-                              快讯
+                                                    快讯
                                                 </Typography>
                                             </Link>
                                         )}

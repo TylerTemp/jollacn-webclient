@@ -32,6 +32,7 @@ import {
 import useTheme from "@mui/material/styles/useTheme";
 import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
 import Skeleton from "@mui/material/Skeleton";
+import { menuBarHeight } from "~/Components/Layouts/MainLayout";
 
 // const Article = styled.article`
 //     img.plugin-figure-img {
@@ -118,7 +119,7 @@ const Renderer = ({getPost}: RendererProps) => {
             </WidthLimit>
         </article>
 
-        {displayCarousel !== -1 && <Fixed style={{backgroundColor: dim}}>
+        {displayCarousel !== -1 && <Fixed top={menuBarHeight} style={{backgroundColor: dim}}>
             <Carousel
                 index={displayCarousel}
                 onClose={() => setDisplayCarousel(-1)}
