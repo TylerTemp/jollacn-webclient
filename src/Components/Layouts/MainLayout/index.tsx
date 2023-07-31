@@ -16,7 +16,7 @@ import Divider from '@mui/material/Divider';
 import Tab from '@mui/material/Tab';
 // import * as Style from './index.scss';
 import Button from '@mui/material/Button';
-import { useContext } from 'react';
+import { PropsWithChildren, useContext } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import LightbulbTwoToneIcon from '@mui/icons-material/LightbulbTwoTone';
 import Style from './index.scss';
@@ -25,9 +25,45 @@ import MountPoint from './MountPoint';
 import { WidthLimit } from '../WidthLimitLayout';
 import { Context, ThemeType } from '~/Components/Theme/ThemeProvider';
 // import MainBottomContext from './MainBottomContext';
-import BlogHeaderImg from '~/asset/image/blog_header.png';
+import HeaderImg from '~/Components/HeaderImg';
 
 export const menuBarHeight = 64;
+
+export const PageStruct = ({children, className}: PropsWithChildren<{className?: HTMLElement['className']}>) => <Box className={className}>
+    <HeaderImg />
+    <Box className={Style.content}>
+        {children}
+    </Box>
+
+    <footer>
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'baseline',
+            width: '100%',
+            color: 'white',
+            padding: '30px 0',
+        }}
+        >
+            <Typography variant="body2" gutterBottom>
+                <a href="https://beian.miit.gov.cn/" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">京ICP备18007798号</a>
+            </Typography>
+            <Divider orientation="vertical" sx={{ margin: '0px 5px' }} />
+            <Typography variant="body2" gutterBottom>
+                &copy; TylerTemp/
+                <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">CC-BY-SA 4.0</a>
+            </Typography>
+
+            <Divider orientation="vertical" sx={{ margin: '0px 5px' }} />
+
+            <Typography variant="body2" gutterBottom>
+                <a href="/rss.xml" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">
+                    <RssFeedIcon />
+                </a>
+            </Typography>
+        </Box>
+    </footer>
+</Box>;
 
 export default function () {
     const navigate = useNavigate();
@@ -118,53 +154,7 @@ export default function () {
 
             <Box style={{ height: `${menuBarHeight}px` }} />
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    paddingTop: '40px',
-                    paddingBottom: '25px',
-                    paddingLeft: '10px',
-                    paddingRight: '10px',
-                }}
-            >
-                <Link to="/">
-                    <img className={Style.headerImg} src={BlogHeaderImg} alt="Jolla非官方中文博客" />
-                </Link>
-            </Box>
-
-            <Box className={Style.content}>
-                <Outlet />
-            </Box>
-
-            <footer>
-                <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'baseline',
-                    width: '100%',
-                    color: 'white',
-                    padding: '30px 0',
-                }}
-                >
-                    <Typography variant="body2" gutterBottom>
-                        <a href="https://beian.miit.gov.cn/" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">京ICP备18007798号</a>
-                    </Typography>
-                    <Divider orientation="vertical" sx={{ margin: '0px 5px' }} />
-                    <Typography variant="body2" gutterBottom>
-            &copy; TylerTemp/
-                        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">CC-BY-SA 4.0</a>
-                    </Typography>
-
-                    <Divider orientation="vertical" sx={{ margin: '0px 5px' }} />
-
-                    <Typography variant="body2" gutterBottom>
-                        <a href="/rss.xml" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">
-                            <RssFeedIcon />
-                        </a>
-                    </Typography>
-                </Box>
-            </footer>
+            <PageStruct><Outlet /></PageStruct>
         </MainBottomProvider>
     );
 }

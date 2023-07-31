@@ -3,15 +3,15 @@
     justify-content: center;
 }
 
-.overlay {
+/* .overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    /* bottom: 10px; */
-    /* height: auto; */
-
-    /* background-color: white; */
     z-index: 50;
     height: 100%;
+} */
+
+.fixed {
+    min-height: 100vh;
 }

@@ -19,6 +19,9 @@ import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
 import useTheme from "@mui/material/styles/useTheme";
+import Fixed from "~/Components/Fixed";
+import { PageStruct, menuBarHeight } from "~/Components/Layouts/MainLayout";
+import HeaderImg from "~/Components/HeaderImg";
 
 
 const PostPreview = ({
@@ -155,10 +158,17 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
             </Box>
         </Stack>
 
-        {children && <Box className={Style.overlay} style={{backgroundColor: bgColor}}>
+        {/* {children && <Box className={Style.overlay} style={{backgroundColor: bgColor}}>
             <WidthLimit>
                 {children}
             </WidthLimit>
-        </Box>}
+        </Box>} */}
+        {children && <Fixed top={menuBarHeight} style={{backgroundColor: bgColor}}>
+            <PageStruct className={Style.fixed}>
+                <WidthLimit>
+                    {children}
+                </WidthLimit>
+            </PageStruct>
+        </Fixed>}
     </>
 }

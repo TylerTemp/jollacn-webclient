@@ -5,11 +5,12 @@ import { CSSProperties, MouseEventHandler, PropsWithChildren, useEffect } from "
 
 interface Props {
     top: number,
+    className?: HTMLElement['className'];
     style?: CSSProperties;
     onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
-export default ({top, children, style={}, onClick}: PropsWithChildren<Props>) => {
+export default ({top, children, className, style={}, onClick}: PropsWithChildren<Props>) => {
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -18,7 +19,7 @@ export default ({top, children, style={}, onClick}: PropsWithChildren<Props>) =>
         }
     }, []);
 
-    return <Box onClick={onClick} className={Style.fixed} style={{
+    return <Box onClick={onClick} className={`${className || ''} ${Style.fixed}`} style={{
         top,
         height: `calc(100vh - ${top}px)`,
         ...style}}>
