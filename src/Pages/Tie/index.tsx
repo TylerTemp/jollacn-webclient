@@ -22,7 +22,7 @@ export default () => {
 
     const backUrl = page <= 1
         ? `/tie#${tieId}`
-        : `/tie/Pages/${page}#${tieId}`;
+        : `/tie/pages/${page}#${tieId}`;
 
     return <TieContent tieId={tieId} backUrl={backUrl} />;
 };

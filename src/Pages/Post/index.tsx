@@ -22,7 +22,7 @@ export default () => {
 
     const backUrl = page <= 1
         ? `/post#${slug}`
-        : `/post/Pages/${page}#${slug}`;
+        : `/post/pages/${page}#${slug}`;
 
     return <PostContent slug={slug} backUrl={backUrl} />;
 };
