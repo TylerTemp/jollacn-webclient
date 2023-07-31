@@ -8,7 +8,7 @@
     "start": "npx webpack-dev-server --progress --mode=development --port 8081",
     "build": "npx webpack --progress --mode=production",
     "lint": "npx eslint src/**/**.{js,jsx,ts,tsx}",
-    "stats": "mkdir -p build; webpack --profile --json > build/compilation-stats.json; webpack-bundle-analyzer build/compilation-stats.json"
+    "stats": "npx webpack --profile --json build/compilation-stats.json && npx webpack-bundle-analyzer build/compilation-stats.json"
   },
   "keywords": [
     "jolla",

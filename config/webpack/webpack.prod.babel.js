@@ -17,7 +17,12 @@ module.exports = env => ({
         new CleanWebpackPlugin({
             dry: false,
             verbose: true,
-            root: paths.root
+            root: paths.root,
+            cleanOnceBeforeBuildPatterns: [
+                '**/*',
+                '!.gitplaceholder',
+                // '!directoryToExclude/**',
+            ],
         }),
         // new ManifestPlugin(),
         new webpack.ids.HashedModuleIdsPlugin({}),
