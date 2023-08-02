@@ -1,11 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default () => {
-    const [abortController, setAbortController] = useState < AbortController > (null);
-    const [retryKey, setRetryKey] = useState < number > (Math.floor(Math.random() * 1000));
+    const [abortController, setAbortController] = useState<AbortController>(new AbortController());
+    const [retryKey, setRetryKey] = useState <number>(Math.floor(Math.random() * 1000));
+    const hasUnmounted = useRef<boolean>(false);
     useEffect(() => {
-        setAbortController(new AbortController());
-        return () => abortController.abort();
+
+        return () => {
+            if(hasUnmounted.current) {
+                console.log(`cleanUp abortController`, abortController);
+                abortController.abort();
+            }
+            hasUnmounted.current = true;
+        };
     }, []);
 
     return {
@@ -15,7 +22,7 @@ export default () => {
         doAbort: () => {
             const newAbortController = new AbortController();
             setAbortController((old) => {
-                old?.abort();
+                old.abort();
                 return newAbortController;
             });
             return newAbortController.signal;

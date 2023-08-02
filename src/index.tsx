@@ -16,7 +16,7 @@ import Home from '~/Pages/Home';
 import NotFound from '~/Pages/NotFound';
 import ErrorBoundary from '~/Components/ErrorBoundary';
 import WidthLimitLayout, { WidthLimit } from './Components/Layouts/WidthLimitLayout';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, StrictMode } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import Style from "./index.scss";
 import Fixed from './Components/Fixed';
@@ -33,43 +33,41 @@ const OutletWrapper = ({ children }: PropsWithChildren) => {
     </Fixed>;
 }
 
-function App() {
-    return (
-        <ThemeProvider>
-            <CssBaseline />
-            <ErrorBoundary>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<MainLayout />}>
-                            <Route index element={<WidthLimit><Home /></WidthLimit>} />
+const App = () => <StrictMode>
+    <ThemeProvider>
+        <CssBaseline />
+        <ErrorBoundary>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<MainLayout />}>
+                        <Route index element={<WidthLimit><Home /></WidthLimit>} />
 
-                            <Route path="/post" element={<WidthLimitLayout />}>
-                                <Route path="page/:page" element={<PostList />}>
-                                    <Route path=":slug" element={<OutletWrapper><WidthLimit><Post /></WidthLimit></OutletWrapper>} />
-                                </Route>
-                                <Route path="" element={<PostList />}>
-                                    <Route path=":slug" element={<OutletWrapper><WidthLimit><Post /></WidthLimit></OutletWrapper>} />
-                                </Route>
+                        <Route path="/post" element={<WidthLimitLayout />}>
+                            <Route path="page/:page" element={<PostList />}>
+                                <Route path=":slug" element={<OutletWrapper><WidthLimit><Post /></WidthLimit></OutletWrapper>} />
                             </Route>
-
-                            <Route path="/tie" element={<WidthLimitLayout maxWidth="lg" />}>
-                                <Route path="page/:page" element={<TieList />}>
-                                    <Route path=":tieId" element={<OutletWrapper><WidthLimit maxWidth="lg"><Tie /></WidthLimit></OutletWrapper>} />
-                                </Route>
-                                <Route path="" element={<TieList />}>
-                                    <Route path=":tieId" element={<OutletWrapper><WidthLimit maxWidth="lg"><Tie /></WidthLimit></OutletWrapper>} />
-                                </Route>
+                            <Route path="" element={<PostList />}>
+                                <Route path=":slug" element={<OutletWrapper><WidthLimit><Post /></WidthLimit></OutletWrapper>} />
                             </Route>
-
-                            <Route path="*" element={<NotFound />} />
                         </Route>
-                    </Routes>
-                </Router>
 
-            </ErrorBoundary>
-        </ThemeProvider>
-    );
-}
+                        <Route path="/tie" element={<WidthLimitLayout maxWidth="lg" />}>
+                            <Route path="page/:page" element={<TieList />}>
+                                <Route path=":tieId" element={<OutletWrapper><WidthLimit maxWidth="lg"><Tie /></WidthLimit></OutletWrapper>} />
+                            </Route>
+                            <Route path="" element={<TieList />}>
+                                <Route path=":tieId" element={<OutletWrapper><WidthLimit maxWidth="lg"><Tie /></WidthLimit></OutletWrapper>} />
+                            </Route>
+                        </Route>
+
+                        <Route path="*" element={<NotFound />} />
+                    </Route>
+                </Routes>
+            </Router>
+
+        </ErrorBoundary>
+    </ThemeProvider>
+</StrictMode>;
 
 // ReactDom.render(
 //   <App />,
