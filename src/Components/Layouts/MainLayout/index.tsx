@@ -27,7 +27,7 @@ import { Context, ThemeType } from '~/Components/Theme/ThemeProvider';
 // import MainBottomContext from './MainBottomContext';
 import HeaderImg from '~/Components/HeaderImg';
 
-export const menuBarHeight = 64;
+export const menuBarHeight = 56;
 
 export const PageStruct = ({children, className}: PropsWithChildren<{className?: HTMLElement['className']}>) => <Box className={className}>
     <HeaderImg />

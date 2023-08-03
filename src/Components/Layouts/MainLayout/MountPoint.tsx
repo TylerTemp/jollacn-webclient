@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import Style from './MountPoint.css';
 import { MainBottomContext } from './MainBottomProvider';
 
-export default function () {
+export default () => {
     const mainButtomRef = useContext(MainBottomContext);
 
     // console.log(`set mainButtomRef`, mainButtomRef);
@@ -15,7 +15,5 @@ export default function () {
     //     console.log(`ref changed`, mainButtomRef);
     // }, [mainButtomRef.current]);
 
-    return (
-        <div className={Style.mainBottom} ref={mainButtomRef} />
-    );
+    return <div className={Style.mainBottom} ref={mainButtomRef} />;
 }
