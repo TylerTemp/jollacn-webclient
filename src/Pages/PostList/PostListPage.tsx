@@ -104,6 +104,8 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
         post_infos: []
     });
 
+    // console.log(`postList ${apiResult.post_infos.length}, ${error}`);
+
     useEffect(() => {
         if(apiResult.limit != limit) {
             setLimit(limit);

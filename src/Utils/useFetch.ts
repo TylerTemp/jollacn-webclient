@@ -19,21 +19,28 @@ export default <T,>(url: string, defaultValue: T, init: RequestInit={}, transfor
     const [abortController, setAbortController] = useState<AbortController>(new AbortController());
 
     const setDataNoLoading = (value: T) => {
+        // console.log(`set data`);
         setData(value);
+        setError(null);
         setLoading(false);
     };
     const setErrorNoLoading = (error: Error) => {
         // console.log(error);
         // console.log(error.name);
-        if(error instanceof DOMException && error.name === 'AbortError') {
-            setData(defaultValue);
-            setError(null);
-            setLoading(false);
-            return;
+        // if(error instanceof DOMException && error.name === 'AbortError') {
+        //     setData(defaultValue);
+        //     setError(null);
+        //     setLoading(false);
+        //     return;
+        // }
+
+        if(!(error instanceof DOMException && error.name === 'AbortError')) {
+            console.error(error);
         }
 
-        console.error(error);
+        // console.log(`set error`);
         setError(error);
+        setData(defaultValue);
         setLoading(false);
     };
 
