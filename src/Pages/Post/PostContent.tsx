@@ -1,9 +1,9 @@
-import { Suspense, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
-import Suspendable from "~/Utils/Suspendable";
+// import Suspendable from "~/Utils/Suspendable";
 import { type Post } from "~/Utils/Types";
-import useRetryWithAbortController from "~/Utils/useRetryWithAbortController";
-import RetryErrorBoundary from "~/Components/RetryErrorBoundary";
+// import useRetryWithAbortController from "~/Utils/useRetryWithAbortController";
+// import RetryErrorBoundary from "~/Components/RetryErrorBoundary";
 
 import postParser from "./postParser";
 import Paper from "@mui/material/Paper";
@@ -33,6 +33,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
 import Skeleton from "@mui/material/Skeleton";
 import { menuBarHeight } from "~/Components/Layouts/MainLayout";
+import RetryErrorSuspense, { type RendererProps } from "~/Components/RetryErrorSuspense";
 
 // const Article = styled.article`
 //     img.plugin-figure-img {
@@ -59,11 +60,11 @@ const PostSkeleton =() => <>
     </WidthLimit>
 </>;
 
-interface RendererProps {
-    getPost: () => Post
-}
+// interface RendererProps {
+//     getResource: () => Post
+// }
 
-const Renderer = ({getPost}: RendererProps) => {
+const Renderer = ({getResource: getPost}: RendererProps<Post>) => {
     const {
         headerimg: headerImg,
         title,
@@ -136,19 +137,10 @@ interface Props {
 }
 
 export default ({slug, backUrl}: Props) => {
-    // useEffect(() => {
-    //     window.scrollTo({ top: 0, behavior: "instant" });
-    // }, []);
 
-    const {retryKey, doRetry, doAbort} = useRetryWithAbortController();
-
-    // console.log(`retryKey`, retryKey);
-
-    const getPost = useMemo(
-        () => Suspendable(
-            ReqJsonToType<Post>(`/post/${slug}`, {signal: doAbort()})
-        ),
-        [retryKey]);
+    const makePromise = useMemo(() => {
+        return (abortController: AbortController) => ReqJsonToType<Post>(`/post/${slug}`, {signal: abortController.signal});
+    }, [slug]);
 
     return <Stack gap={2}>
         <Box>
@@ -160,7 +152,7 @@ export default ({slug, backUrl}: Props) => {
         </Box>
 
         <Paper className={Style.spaceBottom}>
-            <RetryErrorBoundary onRetry={doRetry}>
+            {/* <RetryErrorBoundary onRetry={doRetry}>
                 <Suspense fallback={<PostSkeleton />} key={retryKey}>
                     <Renderer
                         key={retryKey}
@@ -168,7 +160,13 @@ export default ({slug, backUrl}: Props) => {
 
 
                 </Suspense>
-            </RetryErrorBoundary>
+            </RetryErrorBoundary> */}
+            <RetryErrorSuspense<Post>
+                noTrace
+                makePromise={makePromise}
+                fallback={<PostSkeleton />}
+                renderer={Renderer}
+            />
         </Paper>
 
         <Paper className={`${Style.spaceBottom} ${Style.verticalPadding}`}>

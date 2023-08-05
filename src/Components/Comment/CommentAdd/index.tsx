@@ -149,7 +149,7 @@ export default ({ uri, onAdd }: Props) => {
                 { apiState.comment && <AlertSimple
                     onClose={() => setApiState(old => ({...old, comment: null}))}
                 >
-            发布成功
+                    发布成功
                 </AlertSimple>}
             </Grid>
             <Grid sm={3}>

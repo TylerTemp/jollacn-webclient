@@ -1,9 +1,7 @@
-import { Suspense, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
-import Suspendable from "~/Utils/Suspendable";
 import { type Tie, TieImg, TieVideo } from "~/Utils/Types";
-import useRetryWithAbortController from "~/Utils/useRetryWithAbortController";
-import RetryErrorBoundary from "~/Components/RetryErrorBoundary";
+// import useRetryWithAbortController from "~/Utils/useRetryWithAbortController";
 
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -28,6 +26,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageList from "@mui/material/ImageList";
 import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
 import { menuBarHeight } from "~/Components/Layouts/MainLayout";
+import RetryErrorSuspense, { type RendererProps } from "~/Components/RetryErrorSuspense";
 
 const TieSkeleton =() => <>
     <Skeleton height={40} />
@@ -37,92 +36,8 @@ const TieSkeleton =() => <>
     <Skeleton sx={{ height: 350 }} variant="rectangular" />
 </>;
 
-// function RendererMedia({media}: {media: TieVideo}): JSX.Element;
-// function RendererMedia({media}: {media: TieImg}): JSX.Element;
-// function RendererMedia({media}: {media: TieMediaGuess}): JSX.Element {
-//     const { type } = media;
-//     if (type === 'video') {
-//       const { sources, subtitles, poster } = media as TieVideo;
-//       return <ImageListItem>
-//         <video controls crossOrigin="anonymous" poster={poster}>
-//             抱歉，你的浏览器不支持
-//             <code>video</code>
-//             元素
-//             {sources.map(({ mime, src }) => <source key={src} src={src} type={mime} />)}
-//             {subtitles.map((subtitle, index) => (
-//                 <track
-//                 key={subtitle.src}
-//                 default={index === 0}
-//                 kind="subtitles"
-//                 label={subtitle.label}
-//                 src={subtitle.src}
-//                 srcLang={subtitle.srclang}
-//                 />
-//             ))}
-//         </video>
-//       </ImageListItem>;
-//     }
 
-//     const { src } = media as TieImg;
-
-//     return <ImageListItem>
-//         <img src={src} />
-//     </ImageListItem>;
-// }
-
-// const RenderImageItem = (tieMedia: TieMediaGuess) => {
-//     const { type } = tieMedia;
-//     if (type === 'video') {
-//       const { sources, subtitles, poster } = tieMedia as TieVideo;
-//       return (
-//         <ImageListItem>
-//           <video controls crossOrigin="anonymous" poster={poster}>
-//             抱歉，你的浏览器不支持
-//             <code>video</code>
-//             元素
-//             {sources.map(({ mime, src }) => <source key={src} src={src} type={mime} />)}
-//             {subtitles.map((subtitle, index) => (
-//               <track
-//                 key={subtitle.src}
-//                 default={index === 0}
-//                 kind="subtitles"
-//                 label={subtitle.label}
-//                 src={subtitle.src}
-//                 srcLang={subtitle.srclang}
-//               />
-//             ))}
-//           </video>
-//         </ImageListItem>
-//       );
-//     }
-
-//     const { src } = tieMedia as TieImg;
-
-//     return <ImageListItem>
-//         <img src={src} />
-//     </ImageListItem>;
-// }
-
-
-interface RendererProps {
-    getTie: () => Tie
-}
-
-
-// const Stepper = ({setActiveStep}: StepperProps) => {
-//     // const [curForceStep, setCurForceStep] = useState<number>(forceStep);
-//     // useEffect(() => {
-//     //     console.log(curForceStep, forceStep);
-//     //     if(curForceStep != forceStep) {
-//     //         setCurForceStep(forceStep);
-//     //         setActiveStep(_oldStep => forceStep);
-//     //     }
-//     // }, [forceStep]);
-
-//     return <></>;
-// }
-
-const Renderer = ({getTie}: RendererProps) => {
+const Renderer = ({getResource: getTie}: RendererProps<Tie>) => {
     const {
         medias,
         content,
@@ -198,28 +113,46 @@ interface Props {
 }
 
 export default ({tieId, backUrl}: Props) => {
-    const {retryKey, doRetry, doAbort} = useRetryWithAbortController();
+    // const {retryKey, doRetry, doAbort} = useRetryWithAbortController();
 
-    // console.log(`retryKey`, retryKey);
+    // // console.log(`retryKey`, retryKey);
 
-    const getPost = useMemo(
-        () => Suspendable(
-            ReqJsonToType<Tie>(`/tie/${tieId}`, {signal: doAbort()})
-                .then((result): Tie => {
-                    const {medias} = result;
-                    const parsedMedias = medias.map((item) => {
-                        switch (item.type) {
-                        case 'img':
-                            return item as TieImg;
-                        case 'video':
-                            return item as TieVideo;
-                        }
-                    });
+    // const getPost = useMemo(
+    //     () => Suspendable(
+    //         ReqJsonToType<Tie>(`/tie/${tieId}`, {signal: doAbort()})
+    //             .then((result): Tie => {
+    //                 const {medias} = result;
+    //                 const parsedMedias = medias.map((item) => {
+    //                     switch (item.type) {
+    //                     case 'img':
+    //                         return item as TieImg;
+    //                     case 'video':
+    //                         return item as TieVideo;
+    //                     }
+    //                 });
 
-                    return {...result, medias: parsedMedias};
-                })
-        ),
-        [retryKey]);
+    //                 return {...result, medias: parsedMedias};
+    //             })
+    //     ),
+    //     [retryKey]);
+
+    const makePromise = useMemo(() => {
+        return (abortController: AbortController) => ReqJsonToType<Tie>(`/tie/${tieId}`, {signal: abortController.signal})
+            .then((result): Tie => {
+                const {medias} = result;
+                const parsedMedias = medias.map((item) => {
+                    switch (item.type) {
+                    case 'img':
+                        return item as TieImg;
+                    case 'video':
+                        return item as TieVideo;
+                    }
+                });
+
+                return {...result, medias: parsedMedias};
+            });
+    }, [tieId]);
+
 
     return <WidthLimit>
         <Stack gap={2}>
@@ -237,14 +170,19 @@ export default ({tieId, backUrl}: Props) => {
             >
                 <Box sx={{ maxWidth: '900px', width: '100%' }}>
                     <Box sx={{ padding: '10px 10px' }}>
-                        <RetryErrorBoundary onRetry={doRetry}>
+                        {/* <RetryErrorBoundary onRetry={doRetry}>
                             <Suspense fallback={<TieSkeleton />} key={retryKey}>
                                 <Renderer
                                     key={retryKey}
                                     getTie={getPost} />
-                                {/* <TieSkeleton /> */}
                             </Suspense>
-                        </RetryErrorBoundary>
+                        </RetryErrorBoundary> */}
+                        <RetryErrorSuspense<Tie>
+                            noTrace
+                            makePromise={makePromise}
+                            fallback={<TieSkeleton />}
+                            renderer={Renderer}
+                        />
                     </Box>
                 </Box>
             </Paper>

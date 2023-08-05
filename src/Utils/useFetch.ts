@@ -26,9 +26,13 @@ export default <T,>(url: string, defaultValue: T, init: RequestInit={}, transfor
         // console.log(error);
         // console.log(error.name);
         if(error instanceof DOMException && error.name === 'AbortError') {
+            setData(defaultValue);
+            setError(null);
+            setLoading(false);
             return;
         }
 
+        console.error(error);
         setError(error);
         setLoading(false);
     };

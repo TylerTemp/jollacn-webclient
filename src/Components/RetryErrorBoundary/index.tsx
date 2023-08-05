@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import React from "react";
 import AlertSimple from '~/Components/AlertSimple';
 
-interface ErrorBoundaryProps {
+export interface ErrorBoundaryProps {
     onRetry: () => void,
     noTrace?: boolean,
     message?: React.ReactNode;

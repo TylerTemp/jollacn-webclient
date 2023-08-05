@@ -151,7 +151,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
                     .map(each => each as Element)
                     .filter(({attribs}) => attribs);
                 const figureConfig = retriveFigure(eachElementChildren);
-                console.log('imageItemConfig=', figureConfig);
+                // console.log('imageItemConfig=', figureConfig);
                 const mediaCount = mediaList.length;
                 mediaList.push(figureConfig);
                 return <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)} key={figureConfig.imgInfo.attribs.src}>

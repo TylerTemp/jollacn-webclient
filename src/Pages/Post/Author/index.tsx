@@ -2,16 +2,15 @@
 
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
-import { PropsWithChildren, Suspense, useMemo } from "react";
+import { PropsWithChildren, useMemo } from "react";
 import ReqJsonToType from "~/Utils/ReqJsonToType";
-import Suspendable from "~/Utils/Suspendable";
 import { type Author } from "~/Utils/Types";
-import useRetryWithAbortController from "~/Utils/useRetryWithAbortController";
-import RetryErrorBoundary from "~/Components/RetryErrorBoundary";
+// import useRetryWithAbortController from "~/Utils/useRetryWithAbortController";
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import parse from 'html-react-parser';
+import RetryErrorSuspense, { type RendererProps } from "~/Components/RetryErrorSuspense";
 
 const ContentLayout = ({ children }: PropsWithChildren) => (
     <Box sx={{
@@ -24,11 +23,11 @@ const ContentLayout = ({ children }: PropsWithChildren) => (
     </Box>
 );
 
-interface RendererProps {
-    getAuthor: () => Author,
-}
+// interface RendererProps {
+//     getAuthor: () => Author,
+// }
 
-const Renderer = ({getAuthor}: RendererProps) => {
+const Renderer = ({getResource: getAuthor}: RendererProps<Author>) => {
     const {display_name: displayName, description, avatar} = getAuthor();
 
     const {default: _, ...avatarSet} = avatar;
@@ -69,17 +68,20 @@ interface Props {
 
 export default ({id}: Props) => {
 
-    const {retryKey, doRetry, doAbort} = useRetryWithAbortController();
+    // const {retryKey, doRetry, doAbort} = useRetryWithAbortController();
 
-    const getAuthor = useMemo(
-        () => Suspendable(
-            ReqJsonToType<Author>(`/author/${id}`, {signal: doAbort()})
-        ),
-        [retryKey]);
+    // const getAuthor = useMemo(
+    //     () => Suspendable(
+    //         ReqJsonToType<Author>(`/author/${id}`, {signal: doAbort()})
+    //     ),
+    //     [retryKey]);
+    const makePromise = useMemo(() => {
+        return (abortController: AbortController) => ReqJsonToType<Author>(`/author/${id}`, {signal: abortController.signal});
+    }, [id]);
 
 
     return <ContentLayout>
-        <RetryErrorBoundary onRetry={doRetry}>
+        {/* <RetryErrorBoundary onRetry={doRetry}>
             <Suspense fallback={<>
                 <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
                 <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
@@ -92,6 +94,19 @@ export default ({id}: Props) => {
                     key={retryKey}
                     getAuthor={getAuthor} />
             </Suspense>
-        </RetryErrorBoundary>
+        </RetryErrorBoundary> */}
+        <RetryErrorSuspense<Author>
+            noTrace
+            makePromise={makePromise}
+            fallback={<>
+                <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
+                <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
+                <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} width="80%" />
+                <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
+                <Skeleton animation="wave" height={40} style={{ marginBottom: 5 }} />
+                <Skeleton animation="wave" height={40} width="80%" />
+            </>}
+            renderer={Renderer}
+        />
     </ContentLayout>;
 }

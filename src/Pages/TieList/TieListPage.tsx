@@ -118,7 +118,7 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
             {error && <AlertSimple
                 severity="error"
                 onReload={reloadCallback}
-            />}
+            >{error.message}</AlertSimple>}
 
             <Container>
                 {apiResult.ties.map(({

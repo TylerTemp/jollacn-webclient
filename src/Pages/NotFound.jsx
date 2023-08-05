@@ -16,12 +16,12 @@ export default function () {
                     action={(
                         <Link to="/" style={{ textDecoration: 'inherit', color: 'inherit' }}>
                             <Button color="inherit" size="small">
-                返回
+                            返回
                             </Button>
                         </Link>
                     )}
                 >
-          页面不存在
+                页面不存在
                 </Alert>
             </Paper>
         </Box>

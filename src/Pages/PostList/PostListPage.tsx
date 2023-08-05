@@ -124,7 +124,7 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
             {error && <AlertSimple
                 severity="error"
                 onReload={reloadCallback}
-            />}
+            >{error.message}</AlertSimple>}
 
             <Grid container spacing={2}>
                 {apiResult.post_infos.map((each) => <Grid key={each.slug} sm={12} md={6}>
