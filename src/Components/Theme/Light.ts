@@ -11,6 +11,6 @@ export default createTheme({
         },
     },
 
-    themeBubble: yellow[400],
+    // themeBubble: yellow[400],
     dim: '#24242482',
 });

@@ -26,6 +26,7 @@ import { WidthLimit } from '../WidthLimitLayout';
 import { Context, ThemeType } from '~/Components/Theme/ThemeProvider';
 // import MainBottomContext from './MainBottomContext';
 import HeaderImg from '~/Components/HeaderImg';
+import DarkLightToggle from './DarkLightToggle';
 
 export const menuBarHeight = 56;
 
@@ -141,9 +142,10 @@ export default function () {
                             </Box>
 
                             <Box sx={{ flexGrow: 0 }}>
-                                <Button onClick={() => setTheme(theme === ThemeType.Dark ? ThemeType.Light : ThemeType.Dark)}>
+                                {/* <Button onClick={() => setTheme(theme === ThemeType.Dark ? ThemeType.Light : ThemeType.Dark)}>
                                     <LightbulbTwoToneIcon style={{ color: curTheme.themeBubble }} />
-                                </Button>
+                                </Button> */}
+                                <DarkLightToggle isDark={theme === ThemeType.Dark} onChange={toDark => setTheme(toDark? ThemeType.Dark: ThemeType.Light)} />
                             </Box>
 
                         </Toolbar>

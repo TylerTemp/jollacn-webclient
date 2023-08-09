@@ -8,6 +8,6 @@ export default createTheme({
         mode: 'dark',
     },
 
-    themeBubble: grey[300],
+    // themeBubble: '#fff',
     dim: 'rgba(0, 0, 0, 0.66)',
 });
