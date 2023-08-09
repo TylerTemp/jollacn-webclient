@@ -1,4 +1,3 @@
-import { grey } from '@mui/material/colors';
 import { createTheme, themeCommon } from './Basic';
 
 export default createTheme({
