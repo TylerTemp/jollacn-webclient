@@ -28,6 +28,17 @@ module.exports = env => ({
                 },
             },
             {
+                /*
+                   webpack uses a regular expression to determine which files it should look for and serve to a specific loader.
+                   In this case any file that ends with .css will be served to the style-loader and the css-loader.
+                  */
+                  test: /src\/article\.css$/,
+                  use: [
+                    { loader: "style-loader/url" },
+                    { loader: "file-loader" }
+                  ]
+            },
+            {
                 test: /\.css/,
                 exclude: /node_modules/,
                 use: [

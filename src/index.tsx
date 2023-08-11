@@ -20,6 +20,7 @@ import { PropsWithChildren, StrictMode } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import Style from "./index.scss";
 import Fixed from './Components/Fixed';
+import "./article.css";
 
 const OutletWrapper = ({ children }: PropsWithChildren) => {
 
