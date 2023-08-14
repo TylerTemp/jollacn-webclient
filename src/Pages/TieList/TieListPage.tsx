@@ -17,6 +17,7 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import styled from "@mui/material/styles/styled";
 import useTheme from "@mui/material/styles/useTheme";
+import NoStyleLink from "~/Utils/NoStyleLink.scss";
 
 interface MakeMediaPreviewProps {
     previews: DisplayableMedia[],
@@ -125,6 +126,7 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
                     id, content, medias: _, media_previews: mediaPreviews,
                 }) => <Box key={id} className={Style.flowItem} style={{margin: `0 auto ${theme.spacing(2)}`}}>
                     <Link
+                        className={NoStyleLink.link}
                         to={`${id}`}
                         state={{ page }}
                     >

@@ -181,7 +181,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         const buttonNode = linkNode.children[0] as Element;
         const buttonText = (buttonNode.children[0] as Text).data;
 
-        const buttonDom = <Button variant="contained" href={linkHref} target="_blank">{buttonText}</Button>;
+        const buttonDom = <Button variant="contained" href={linkHref} target="_blank" rel="noreferrer">{buttonText}</Button>;
 
         return hasCenter
             ? <Box sx={{ display: 'flex', justifyContent: 'center' }}>{buttonDom}</Box>
@@ -190,15 +190,16 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
     if (name === 'a') {
         const { href: linkHref = '#' } = attribs;
         if (linkHref.startsWith('#')) {
-            return null;
+            return <MuiLink {...(domNode as Element).attribs}>{domToReact(children)}</MuiLink>;
         }
         if (linkHref.startsWith('/')) {
-            return <Link to={linkHref}>{domToReact(children)}</Link>;
+            // return <Link to={linkHref}>{domToReact(children)}</Link>;
+            return <MuiLink to={linkHref} component={Link}>{domToReact(children)}</MuiLink>;
         }
         // return domToReact([{ ...domNode , attribs: { ...attribs, target: '_blank' } }]);
         // (domNode as Element).attribs.target = '_blank';
         // return <>{domToReact([domNode])}</>;
-        return <MuiLink {...(domNode as Element).attribs} target="_blank" />
+        return <MuiLink {...(domNode as Element).attribs} target="_blank" rel="noreferrer">{domToReact(children)}</MuiLink>;
     }
 
     return null;

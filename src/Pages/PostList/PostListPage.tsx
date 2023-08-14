@@ -18,6 +18,7 @@ import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 // import MoreIcon from '@mui/icons-material/More';
 import ReadMoreTwoToneIcon from '@mui/icons-material/ReadMoreTwoTone';
+import NoStyleLink from "~/Utils/NoStyleLink.scss";
 
 
 const PostPreview = ({
@@ -30,6 +31,7 @@ const PostPreview = ({
     const isPostPath = pathname.startsWith('/post');
 
     return <Link
+        className={NoStyleLink.link}
         to={isPostPath? slug :`/post/${slug}`}
         state={{ page }}
         id={slug}

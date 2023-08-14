@@ -16,7 +16,7 @@ import Divider from '@mui/material/Divider';
 import Tab from '@mui/material/Tab';
 // import * as Style from './index.scss';
 import { PropsWithChildren, useContext } from 'react';
-import useTheme from '@mui/material/styles/useTheme';
+// import useTheme from '@mui/material/styles/useTheme';
 import Style from './index.scss';
 import MainBottomProvider from './MainBottomProvider';
 import MountPoint from './MountPoint';
@@ -25,6 +25,8 @@ import { Context, ThemeType } from '~/Components/Theme/ThemeProvider';
 // import MainBottomContext from './MainBottomContext';
 import HeaderImg from '~/Components/HeaderImg';
 import DarkLightToggle from './DarkLightToggle';
+import MuiLink from "@mui/material/Link";
+import NoStyleLink from "~/Utils/NoStyleLink.scss";
 
 export const menuBarHeight = 56;
 
@@ -45,20 +47,20 @@ export const PageStruct = ({children, className}: PropsWithChildren<{className?:
         }}
         >
             <Typography variant="body2" gutterBottom>
-                <a href="https://beian.miit.gov.cn/" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">京ICP备18007798号</a>
+                <MuiLink href="https://beian.miit.gov.cn/" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">京ICP备18007798号</MuiLink>
             </Typography>
             <Divider orientation="vertical" sx={{ margin: '0px 5px' }} />
             <Typography variant="body2" gutterBottom>
                 &copy; TylerTemp/
-                <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">CC-BY-SA 4.0</a>
+                <MuiLink href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">CC-BY-SA 4.0</MuiLink>
             </Typography>
 
             <Divider orientation="vertical" sx={{ margin: '0px 5px' }} />
 
             <Typography variant="body2" gutterBottom>
-                <a href="/rss.xml" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">
+                <MuiLink href="/rss.xml" target="_blank" style={{ textDecoration: 'inherit', color: 'inherit' }} rel="noreferrer">
                     <RssFeedIcon />
-                </a>
+                </MuiLink>
             </Typography>
         </Box>
     </footer>
@@ -69,7 +71,7 @@ export default function () {
 
     const { theme, setTheme } = useContext(Context);
 
-    const curTheme = useTheme();
+    // const curTheme = useTheme();
 
     const { pathname } = useLocation();
 
@@ -98,7 +100,7 @@ export default function () {
                                         // color="white"
                                         onClick={() => navigate('/')}
                                         label={(
-                                            <Link to="/">
+                                            <Link to="/" className={NoStyleLink.link}>
                                                 <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                                                     <HomeIcon />
                                                     首页
@@ -112,7 +114,7 @@ export default function () {
                                         // className={Style.tab}
                                         onClick={() => navigate('/post')}
                                         label={(
-                                            <Link to="/post">
+                                            <Link to="/post" className={NoStyleLink.link}>
                                                 <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                                                     <BallotIcon />
                                                     文章
@@ -126,7 +128,7 @@ export default function () {
                                         // className={Style.tab}
                                         onClick={() => navigate('/tie')}
                                         label={(
-                                            <Link to="/tie">
+                                            <Link to="/tie" className={NoStyleLink.link}>
                                                 <Typography variant="h6" color="inherit" display="flex" alignItems="center">
                                                     <StyleIcon />
                                                     快讯
