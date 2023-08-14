@@ -12,4 +12,10 @@ export default createTheme({
 
     // themeBubble: yellow[400],
     dim: '#24242482',
+    article: {
+        code: {
+            color: '#c7254e',
+            backgroundColor: '#f8f8f8',
+        }
+    }
 });

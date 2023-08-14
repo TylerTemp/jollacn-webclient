@@ -5,7 +5,7 @@ import { type Post } from "~/Utils/Types";
 // import useRetryWithAbortController from "~/Utils/useRetryWithAbortController";
 // import RetryErrorBoundary from "~/Components/RetryErrorBoundary";
 
-import postParser from "./postParser";
+import postParser from "./PostParser";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";

@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import parse, { type DOMNode, domToReact } from 'html-react-parser';
+import parse, { type DOMNode, domToReact, attributesToProps, type HTMLReactParserOptions } from 'html-react-parser';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -18,6 +18,12 @@ import {
 } from 'react-router-dom';
 import type { FigureConfig } from '~/Utils/Types';
 import MuiLink from '@mui/material/Link';
+
+import useTheme from '@mui/material/styles/useTheme';
+import Paper from '@mui/material/Paper';
+import Style from "./index.scss";
+import PygmentsLightStype from "./PygmentsLight.css";
+import PygmentsDarkStype from "./PygmentsDark.css";
 
 // const EnlargeClick = ({enlargeUrl, children}) => enlargeUrl
 //   ? <a href={enlargeUrl} target="_blank">{children}</a>
@@ -77,22 +83,28 @@ const retriveFigure = (children: Element[]) => {
     return figureConfig;
 }
 
+const preConfig: HTMLReactParserOptions = {
+    replace: (domNode: DOMNode) => {
+
+        const theme = useTheme();
+
+        const highlightStyle = theme.palette.mode === 'dark' ? PygmentsDarkStype : PygmentsLightStype;
+
+        const {
+            type: _, name, attribs, children,
+        } = domNode as Element;
+        if(name === 'span' && attribs.class) {
+            // console.log(`${attribs.class}; ${highlightStyle[attribs.class]}`);
+            return <span className={highlightStyle[attribs.class]}>{domToReact(children)}</span>
+        }
+        return null;
+    }
+}
+
 
 const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: (index: number) => void): false | void | object | Element => {
-    // console.log(type, name, attribs, children);
-    // return null;
-    // console.log(typeof domNode);
-    // if(!(domNode instanceof Element && domNode.attributes)) {
-    //     return null;
-    // }
-    // console.log(domNode);
-    // if(!domNode.attributes) {
-    //     return null;
-    // }
 
-    // console.log(domNode);
-    // console.log(domNode instanceof Element);
-    // console.log(domNode instanceof Node);
+    const theme = useTheme();
 
     const {
         type: _, name, attribs, children,
@@ -134,17 +146,6 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
     if (name === 'div' && attribs.class && attribs.class.includes('plugin-image-list')) {
         const { sm, md, lg } = JSON.parse(attribs['data-config']);
 
-        // let cols = sm;
-        // if (breakpoints.lg && lg) {
-        //   cols = lg;
-        // } else if (breakpoints.md && md) {
-        //   cols = md;
-        // }
-
-        // if (children.length < cols) {
-        //   cols = children.length;
-        // }
-        // console.log(`imageListConfig=`, imageListConfig);
         return <Grid container sm={Math.floor(12 / sm)} md={Math.floor(12 / md)} lg={Math.floor(12 / lg)}>
             {elementChildren.map(({ children: eachChild }: Element) => {
                 const eachElementChildren = eachChild
@@ -199,7 +200,19 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         // return domToReact([{ ...domNode , attribs: { ...attribs, target: '_blank' } }]);
         // (domNode as Element).attribs.target = '_blank';
         // return <>{domToReact([domNode])}</>;
-        return <MuiLink {...(domNode as Element).attribs} target="_blank" rel="noreferrer">{domToReact(children)}</MuiLink>;
+        return <MuiLink {...attributesToProps((domNode as Element).attribs)} target="_blank" rel="noreferrer">{domToReact(children)}</MuiLink>;
+    }
+
+    if (name == 'ruby') {
+        return <ruby className={Style.ruby}>{domToReact(children)}</ruby>;
+    }
+
+    if(name === 'pre') {
+        // return <pre {...attributesToProps((domNode as Element).attribs)} className={Style.pre}>{domToReact(children, preConfig)}</pre>;;
+        return <Paper component="pre" variant="outlined" sx={{padding: `${theme.spacing(1)}`}} {...attributesToProps((domNode as Element).attribs)}>{domToReact(children, preConfig)}</Paper>;
+    }
+    if(name === 'code') {
+        return <code {...attributesToProps((domNode as Element).attribs)} className={Style.code} style={theme.article.code}>{domToReact(children)}</code>;
     }
 
     return null;
