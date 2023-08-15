@@ -210,7 +210,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
 
     if(name === 'pre') {
         // return <pre {...attributesToProps((domNode as Element).attribs)} className={Style.pre}>{domToReact(children, preConfig)}</pre>;;
-        return <Paper component="pre" variant="outlined" sx={{padding: `${theme.spacing(1)}`}} {...attributesToProps((domNode as Element).attribs)}>{domToReact(children, preConfig)}</Paper>;
+        return <Paper component="pre" variant="outlined" sx={{padding: theme.spacing(1)}} {...attributesToProps((domNode as Element).attribs)}>{domToReact(children, preConfig)}</Paper>;
     }
     if(name === 'code') {
         return <code {...attributesToProps((domNode as Element).attribs)} className={Style.code} style={theme.article.code}>{domToReact(children)}</code>;
