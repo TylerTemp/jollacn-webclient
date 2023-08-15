@@ -24,6 +24,7 @@ import Paper from '@mui/material/Paper';
 import Style from "./index.scss";
 import PygmentsLightStype from "./PygmentsLight.css";
 import PygmentsDarkStype from "./PygmentsDark.css";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 // const EnlargeClick = ({enlargeUrl, children}) => enlargeUrl
 //   ? <a href={enlargeUrl} target="_blank">{children}</a>
@@ -200,7 +201,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         // return domToReact([{ ...domNode , attribs: { ...attribs, target: '_blank' } }]);
         // (domNode as Element).attribs.target = '_blank';
         // return <>{domToReact([domNode])}</>;
-        return <MuiLink {...attributesToProps((domNode as Element).attribs)} target="_blank" rel="noreferrer">{domToReact(children)}</MuiLink>;
+        return <MuiLink {...attributesToProps((domNode as Element).attribs)} className={Style.externalLink} target="_blank" rel="noreferrer">{domToReact(children)} <OpenInNewIcon fontSize="inherit" /></MuiLink>;
     }
 
     if (name == 'ruby') {
