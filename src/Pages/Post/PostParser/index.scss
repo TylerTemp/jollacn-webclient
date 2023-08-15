@@ -24,7 +24,12 @@
     border-radius: 5px;
 }
 
-.externalLink {
-    display: inline-flex;
-    align-items: baseline;
+// .externalLink {
+//     display: inline-flex;
+//     align-items: baseline;
+// }
+
+.hScroll {
+    overflow-x: auto;
+    width: 100%;
 }

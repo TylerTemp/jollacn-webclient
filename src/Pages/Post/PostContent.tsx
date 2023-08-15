@@ -14,8 +14,6 @@ import parse from 'html-react-parser';
 import Author from "./Author";
 import Style from "./PostContent.scss";
 import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 // import styled from "@emotion/styled";
 import MuiLink from '@mui/material/Link';
 import Comment from "~/Components/Comment";
@@ -34,6 +32,8 @@ import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
 import Skeleton from "@mui/material/Skeleton";
 import { menuBarHeight } from "~/Components/Layouts/MainLayout";
 import RetryErrorSuspense, { type RendererProps } from "~/Components/RetryErrorSuspense";
+import ReadMoreTwoToneIcon from '@mui/icons-material/ReadMoreTwoTone';
+import Fab from "@mui/material/Fab";
 
 // const Article = styled.article`
 //     img.plugin-figure-img {
@@ -100,27 +100,31 @@ const Renderer = ({getResource: getPost}: RendererProps<Post>) => {
             {!description && <Divider />}
 
             <WidthLimit className={Style.paperPadding} maxWidth="md">
-                {description && <Paper className={Style.description} variant="outlined">
-                    <Typography variant="body2" color="text.secondary" component="div">
-                        {parse(description)}
-                    </Typography>
-                </Paper>}
+                <Stack gap={1} divider={<Divider />}>
+                    <Box>
+                        {description && <Paper className={Style.description} variant="outlined">
+                            <Typography variant="body2" color="text.secondary" component="div">
+                                {parse(description)}
+                            </Typography>
+                        </Paper>}
 
-                {parseResult}
+                        {parseResult}
+                    </Box>
 
-                <Divider />
+                    {sourceAuthors.length > 0 && <Box>
+                        {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
+                    </Box>}
 
-                {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
-
-                {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px" component="div">
-                    原文：
-                    {' '}
-                    <MuiLink target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</MuiLink>
-                </Typography>}
+                    {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px" component="div">
+                        原文：
+                        {' '}
+                        <MuiLink target="_blank" href={sourceUrl} rel="noreferrer">{sourceTitle}</MuiLink>
+                    </Typography>}
+                </Stack>
             </WidthLimit>
         </article>
 
-        {displayCarousel !== -1 && <Fixed top={menuBarHeight} style={{backgroundColor: dim}}>
+        {displayCarousel !== -1 && <Fixed zIndex={300} top={menuBarHeight} style={{backgroundColor: dim}}>
             <Carousel
                 index={displayCarousel}
                 onClose={() => setDisplayCarousel(-1)}
@@ -143,24 +147,13 @@ export default ({slug, backUrl}: Props) => {
     }, [slug]);
 
     return <Stack gap={2}>
-        <Box>
-            <Link to={backUrl}>
-                <Button variant="outlined" color="info" startIcon={<ArrowBackIosIcon />}>
-                返回
-                </Button>
-            </Link>
-        </Box>
+        <Link to={backUrl} className={Style.backButton}>
+            <Fab size="small">
+                <ReadMoreTwoToneIcon className={Style.flipX} />
+            </Fab>
+        </Link>
 
         <Paper className={Style.spaceBottom}>
-            {/* <RetryErrorBoundary onRetry={doRetry}>
-                <Suspense fallback={<PostSkeleton />} key={retryKey}>
-                    <Renderer
-                        key={retryKey}
-                        getPost={getPost} />
-
-
-                </Suspense>
-            </RetryErrorBoundary> */}
             <RetryErrorSuspense<Post>
                 noTrace
                 makePromise={makePromise}

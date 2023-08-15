@@ -153,7 +153,7 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
             </Container>
 
             {!disablePaging && <Box className={Style.pagingContainer}>
-                <Paper>
+                <Paper style={{padding: `${theme.spacing(0.5)} 0`}}>
                     <Paging
                         lessThan2Page={null}
                         offset={offset}

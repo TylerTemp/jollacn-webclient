@@ -19,6 +19,7 @@ import Skeleton from "@mui/material/Skeleton";
 // import MoreIcon from '@mui/icons-material/More';
 import ReadMoreTwoToneIcon from '@mui/icons-material/ReadMoreTwoTone';
 import NoStyleLink from "~/Utils/NoStyleLink.scss";
+import useTheme from "@mui/material/styles/useTheme";
 
 
 const PostPreview = ({
@@ -50,7 +51,7 @@ const PostPreview = ({
                 <Typography component="div" dangerouslySetInnerHTML={{ __html: description }} />
             </CardContent>
             <CardActions>
-                <Button size="small" color="primary" endIcon={<ReadMoreTwoToneIcon />}>
+                <Button size="small" color="primary" startIcon={<ReadMoreTwoToneIcon />}>
                     阅读
                 </Button>
             </CardActions>
@@ -122,6 +123,7 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
 
     // loading = true;
     // apiResult.post_infos = [];
+    const theme = useTheme();
 
     return <>
         <Stack direction="column" gap={2}>
@@ -142,7 +144,7 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
             </Grid>}
 
             <Box className={Style.pagingContainer}>
-                <Paper>
+                <Paper style={{padding: `${theme.spacing(0.5)} 0`}}>
                     <Paging
                         offset={offset}
                         limit={limit}
@@ -151,6 +153,7 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
                     />
                 </Paper>
             </Box>
+
         </Stack>
         {children}
     </>

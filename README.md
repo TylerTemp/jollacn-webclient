@@ -11,3 +11,12 @@ yarn add --global npx
 ```bash
 yarn start --env API=https://notexists.top
 ```
+
+### Info ###
+
+ZIndex:
+
+*   1000: Page Struct (Header)
+*   100: Outlet Overlay
+*   300: Carousel
+*   200: Normal Page sticky & overlay

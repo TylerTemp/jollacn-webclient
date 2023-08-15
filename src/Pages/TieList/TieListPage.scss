@@ -1,6 +1,10 @@
 .pagingContainer {
     display: flex;
     justify-content: center;
+
+    position: sticky;
+    z-index: 200;
+    bottom: 5px;
 }
 
 .overlay {

@@ -11,7 +11,6 @@ import parse from 'html-react-parser';
 import Style from "./TieContent.scss";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 // import styled from "@emotion/styled";
 import Comment from "~/Components/Comment";
 import Stack from "@mui/material/Stack";
@@ -27,6 +26,8 @@ import ImageList from "@mui/material/ImageList";
 import { WidthLimit } from "~/Components/Layouts/WidthLimitLayout";
 import { menuBarHeight } from "~/Components/Layouts/MainLayout";
 import RetryErrorSuspense, { type RendererProps } from "~/Components/RetryErrorSuspense";
+import Fab from "@mui/material/Fab";
+import ReadMoreTwoToneIcon from '@mui/icons-material/ReadMoreTwoTone';
 
 const TieSkeleton =() => <>
     <Skeleton height={40} />
@@ -97,7 +98,7 @@ const Renderer = ({getResource: getTie}: RendererProps<Tie>) => {
             </>}
         </article>
 
-        {displayCarousel !== -1 && <Fixed top={menuBarHeight} style={{backgroundColor: dim}}>
+        {displayCarousel !== -1 && <Fixed zIndex={300} top={menuBarHeight} style={{backgroundColor: dim}}>
             <Carousel
                 index={displayCarousel}
                 displays={tieImgs.map(({src}) => ({type: 'img', src, key: src, label: undefined}))}
@@ -156,13 +157,11 @@ export default ({tieId, backUrl}: Props) => {
 
     return <WidthLimit>
         <Stack gap={2}>
-            <Box>
-                <Link to={backUrl}>
-                    <Button variant="outlined" color="info" startIcon={<ArrowBackIosIcon />}>
-                    返回
-                    </Button>
-                </Link>
-            </Box>
+            <Link to={backUrl} className={Style.backButton}>
+                <Fab size="small">
+                    <ReadMoreTwoToneIcon className={Style.flipX} />
+                </Fab>
+            </Link>
 
             <Paper sx={{
                 margin: '0px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center',

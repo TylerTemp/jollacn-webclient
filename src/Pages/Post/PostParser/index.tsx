@@ -31,6 +31,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import { styled } from '@mui/material/styles';
+import TableContainer from '@mui/material/TableContainer';
 
 // const EnlargeClick = ({enlargeUrl, children}) => enlargeUrl
 //   ? <a href={enlargeUrl} target="_blank">{children}</a>
@@ -117,7 +118,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     // [`&.${tableCellClasses.body}`]: {
     //   fontSize: 14,
     // },
-  }));
+}));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
@@ -251,28 +252,25 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
             return <MuiLink {...attributesToProps(attribs)}>{domToReact(children)}</MuiLink>;
         }
         if (linkHref.startsWith('/')) {
-            // return <Link to={linkHref}>{domToReact(children)}</Link>;
             return <MuiLink to={linkHref} component={Link}>{domToReact(children)}</MuiLink>;
         }
-        // return domToReact([{ ...domNode , attribs: { ...attribs, target: '_blank' } }]);
-        // (domNode as Element).attribs.target = '_blank';
-        // return <>{domToReact([domNode])}</>;
-        return <MuiLink {...attributesToProps(attribs)} className={Style.externalLink} target="_blank" rel="noreferrer">{domToReact(children)} <OpenInNewIcon fontSize="inherit" /></MuiLink>;
+        return <MuiLink {...attributesToProps(attribs)} target="_blank" rel="noreferrer">{domToReact(children)} <OpenInNewIcon fontSize="inherit" /></MuiLink>;
     }
 
     if (name == 'ruby') {
-        return <ruby className={Style.ruby}>{domToReact(children)}</ruby>;
+        return <ruby {...attributesToProps(attribs)} className={Style.ruby}>{domToReact(children)}</ruby>;
     }
 
     if(name === 'pre') {
-        // return <pre {...attributesToProps((domNode as Element).attribs)} className={Style.pre}>{domToReact(children, preConfig)}</pre>;;
-        return <Paper component="pre" variant="outlined" sx={{padding: theme.spacing(1)}} {...attributesToProps((domNode as Element).attribs)}>{domToReact(children, preConfig)}</Paper>;
+        return <Paper {...attributesToProps(attribs)} component="pre" variant="outlined" className={Style.hScroll} sx={{padding: theme.spacing(1)}}>{domToReact(children, preConfig)}</Paper>;
     }
     if(name === 'code') {
         return <code {...attributesToProps(attribs)} className={Style.code} style={theme.article.code}>{domToReact(children)}</code>;
     }
     if(name === 'table') {
-        return <Table {...attributesToProps(attribs)}>{domToReact(children, tableConfig)}</Table>;
+        return <TableContainer className={Style.hScroll}>
+            <Table {...attributesToProps(attribs)}>{domToReact(children, tableConfig)}</Table>
+        </TableContainer>;
     }
 
     return null;
