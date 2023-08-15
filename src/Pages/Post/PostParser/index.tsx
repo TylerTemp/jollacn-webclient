@@ -25,6 +25,12 @@ import Style from "./index.scss";
 import PygmentsLightStype from "./PygmentsLight.css";
 import PygmentsDarkStype from "./PygmentsDark.css";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableBody from '@mui/material/TableBody';
+import { styled } from '@mui/material/styles';
 
 // const EnlargeClick = ({enlargeUrl, children}) => enlargeUrl
 //   ? <a href={enlargeUrl} target="_blank">{children}</a>
@@ -98,6 +104,56 @@ const preConfig: HTMLReactParserOptions = {
             // console.log(`${attribs.class}; ${highlightStyle[attribs.class]}`);
             return <span className={highlightStyle[attribs.class]}>{domToReact(children)}</span>
         }
+        return null;
+    }
+}
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+    //   backgroundColor: theme.palette.common.black,
+    //   color: theme.palette.common.white,
+        backgroundColor: theme.palette.background.paper,
+    },
+    // [`&.${tableCellClasses.body}`]: {
+    //   fontSize: 14,
+    // },
+  }));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+    '&:hover': {
+        backgroundColor: theme.palette.action.selected,
+    }
+}));
+
+const tableConfig: HTMLReactParserOptions = {
+    replace: (domNode: DOMNode) => {
+        const {
+            type: _, name, attribs, children,
+        } = domNode as Element;
+        const props = attributesToProps(attribs);
+        if(name === 'thead') {
+            return <TableHead {...props}>{domToReact(children, tableConfig)}</TableHead>
+        }
+        if(name === 'tbody') {
+            return <TableBody {...props}>{domToReact(children, tableConfig)}</TableBody>
+        }
+        if(name === 'tr') {
+            return <StyledTableRow {...props}>{domToReact(children, tableConfig)}</StyledTableRow>;
+        }
+        if(name === 'th' || name === 'td') {
+            return <StyledTableCell {...props} component={name}>{domToReact(children, tableConfig)}</StyledTableCell>
+        }
+        // if(name === 'td') {
+        //     return <StyledTableCell {...props}>{domToReact(children, tableConfig)}</StyledTableCell>
+        // }
+
         return null;
     }
 }
@@ -192,7 +248,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
     if (name === 'a') {
         const { href: linkHref = '#' } = attribs;
         if (linkHref.startsWith('#')) {
-            return <MuiLink {...(domNode as Element).attribs}>{domToReact(children)}</MuiLink>;
+            return <MuiLink {...attributesToProps(attribs)}>{domToReact(children)}</MuiLink>;
         }
         if (linkHref.startsWith('/')) {
             // return <Link to={linkHref}>{domToReact(children)}</Link>;
@@ -201,7 +257,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         // return domToReact([{ ...domNode , attribs: { ...attribs, target: '_blank' } }]);
         // (domNode as Element).attribs.target = '_blank';
         // return <>{domToReact([domNode])}</>;
-        return <MuiLink {...attributesToProps((domNode as Element).attribs)} className={Style.externalLink} target="_blank" rel="noreferrer">{domToReact(children)} <OpenInNewIcon fontSize="inherit" /></MuiLink>;
+        return <MuiLink {...attributesToProps(attribs)} className={Style.externalLink} target="_blank" rel="noreferrer">{domToReact(children)} <OpenInNewIcon fontSize="inherit" /></MuiLink>;
     }
 
     if (name == 'ruby') {
@@ -213,7 +269,10 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         return <Paper component="pre" variant="outlined" sx={{padding: theme.spacing(1)}} {...attributesToProps((domNode as Element).attribs)}>{domToReact(children, preConfig)}</Paper>;
     }
     if(name === 'code') {
-        return <code {...attributesToProps((domNode as Element).attribs)} className={Style.code} style={theme.article.code}>{domToReact(children)}</code>;
+        return <code {...attributesToProps(attribs)} className={Style.code} style={theme.article.code}>{domToReact(children)}</code>;
+    }
+    if(name === 'table') {
+        return <Table {...attributesToProps(attribs)}>{domToReact(children, tableConfig)}</Table>;
     }
 
     return null;

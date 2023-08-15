@@ -59,7 +59,7 @@ blockquote small {
 }
 
 /* START: table */
-table {
+/* table {
     max-width: 100%;
     background-color: transparent;
     empty-cells: show
@@ -157,7 +157,7 @@ table>tbody>tr:nth-child(odd)>td,table>tbody>tr:nth-child(odd)>th {
 
 table>tbody>tr:hover>td,table>tbody>tr:hover>th {
     background-color: #e9e9e9
-}
+} */
 /* END: table */
 
 /* START: thumbnail */
