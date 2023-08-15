@@ -1,0 +1,17 @@
+.blockquote {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 15px;
+    border-left: 4px solid #ddd;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: Georgia,"Times New Roman",Times,Kai,"Kaiti SC",KaiTi,BiauKai,FontAwesome,serif;
+
+    .small {
+        display: block;
+        color: #999;
+        font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+        text-align: right;
+    }
+}

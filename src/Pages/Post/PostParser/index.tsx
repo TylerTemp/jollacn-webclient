@@ -13,18 +13,15 @@ import {
 } from 'domhandler';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
-import {
-    Link,
-} from 'react-router-dom';
+
+
 import type { FigureConfig } from '~/Utils/Types';
-import MuiLink from '@mui/material/Link';
 
 import useTheme from '@mui/material/styles/useTheme';
 import Paper from '@mui/material/Paper';
 import Style from "./index.scss";
 import PygmentsLightStype from "./PygmentsLight.css";
 import PygmentsDarkStype from "./PygmentsDark.css";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -32,6 +29,8 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import { styled } from '@mui/material/styles';
 import TableContainer from '@mui/material/TableContainer';
+import BlockQuote from './BlockQuote';
+import AReplace from './AReplace';
 
 // const EnlargeClick = ({enlargeUrl, children}) => enlargeUrl
 //   ? <a href={enlargeUrl} target="_blank">{children}</a>
@@ -230,12 +229,7 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
     }
     if (attribs && attribs.class && attribs.class.includes('plugin-button')) {
         const hasCenter = name === 'center';
-        const linkNode = hasCenter ? children[0] : domNode ;
-        if(!(linkNode instanceof Element)) {
-            return null;
-        }
-        // console.log(linkNode);
-
+        const linkNode = (hasCenter ? children[0] : domNode) as Element;
         const { attribs: { href: linkHref } } = linkNode;
         const buttonNode = linkNode.children[0] as Element;
         const buttonText = (buttonNode.children[0] as Text).data;
@@ -243,18 +237,19 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         const buttonDom = <Button variant="contained" href={linkHref} target="_blank" rel="noreferrer">{buttonText}</Button>;
 
         return hasCenter
-            ? <Box sx={{ display: 'flex', justifyContent: 'center' }}>{buttonDom}</Box>
+            ? <Box className={Style.hCenter}>{buttonDom}</Box>
             : buttonDom;
     }
     if (name === 'a') {
-        const { href: linkHref = '#' } = attribs;
-        if (linkHref.startsWith('#')) {
-            return <MuiLink {...attributesToProps(attribs)}>{domToReact(children)}</MuiLink>;
-        }
-        if (linkHref.startsWith('/')) {
-            return <MuiLink to={linkHref} component={Link}>{domToReact(children)}</MuiLink>;
-        }
-        return <MuiLink {...attributesToProps(attribs)} target="_blank" rel="noreferrer">{domToReact(children)} <OpenInNewIcon fontSize="inherit" /></MuiLink>;
+        return <AReplace domNode={domNode} option={null} />
+        // const { href: linkHref = '#' } = attribs;
+        // if (linkHref.startsWith('#')) {
+        //     return <MuiLink {...attributesToProps(attribs)}>{domToReact(children)}</MuiLink>;
+        // }
+        // if (linkHref.startsWith('/')) {
+        //     return <MuiLink to={linkHref} component={Link}>{domToReact(children)}</MuiLink>;
+        // }
+        // return <MuiLink {...attributesToProps(attribs)} target="_blank" rel="noreferrer">{domToReact(children)} <OpenInNewIcon fontSize="inherit" /></MuiLink>;
     }
 
     if (name == 'ruby') {
@@ -271,6 +266,10 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         return <TableContainer className={Style.hScroll}>
             <Table {...attributesToProps(attribs)}>{domToReact(children, tableConfig)}</Table>
         </TableContainer>;
+    }
+
+    if(name === 'blockquote') {
+        return <BlockQuote element={domNode as Element} />;
     }
 
     return null;

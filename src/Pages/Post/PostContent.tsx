@@ -147,11 +147,13 @@ export default ({slug, backUrl}: Props) => {
     }, [slug]);
 
     return <Stack gap={2}>
-        <Link to={backUrl} className={Style.backButton}>
-            <Fab size="small">
-                <ReadMoreTwoToneIcon className={Style.flipX} />
-            </Fab>
-        </Link>
+        <Box className={Style.backButton}>
+            <Link to={backUrl}>
+                <Fab size="small">
+                    <ReadMoreTwoToneIcon className={Style.flipX} />
+                </Fab>
+            </Link>
+        </Box>
 
         <Paper className={Style.spaceBottom}>
             <RetryErrorSuspense<Post>

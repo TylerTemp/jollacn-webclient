@@ -19,4 +19,4 @@ ZIndex:
 *   1000: Page Struct (Header)
 *   100: Outlet Overlay
 *   300: Carousel
-*   200: Normal Page sticky & overlay
+*   base+50: Normal Page sticky & overlay

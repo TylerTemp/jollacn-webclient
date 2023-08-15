@@ -157,11 +157,14 @@ export default ({tieId, backUrl}: Props) => {
 
     return <WidthLimit>
         <Stack gap={2}>
-            <Link to={backUrl} className={Style.backButton}>
-                <Fab size="small">
-                    <ReadMoreTwoToneIcon className={Style.flipX} />
-                </Fab>
-            </Link>
+            <Box className={Style.backButton}>
+                <Link to={backUrl} className={Style.backButton}>
+                    <Fab size="small">
+                        <ReadMoreTwoToneIcon className={Style.flipX} />
+                    </Fab>
+                </Link>
+            </Box>
+
 
             <Paper sx={{
                 margin: '0px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center',
