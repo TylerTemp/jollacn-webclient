@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // import PostList from '~/Components/post_list';
 import TieListPage from './TieListPage';
 import { useMountRef } from '~/Components/Layouts/MainLayout/MainBottomProvider';
-import Portal from '@mui/base/Portal';
+import { Portal } from '@mui/base/Portal';
 import LinearProgress from '@mui/material/LinearProgress';
 
 export default ({page, children}: PropsWithChildren<{page: number}>) => {
