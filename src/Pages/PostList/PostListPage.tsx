@@ -95,6 +95,7 @@ interface Props {
 export default ({page, onPageChange, loading, setLoading, children}: PropsWithChildren<Props>) => {
     const [limit, setLimit] = useState<number>(10);
     const offset = (page - 1) * limit;
+    const [preOffset, setPreOffset] = useState<number>(offset);
 
     const qs = new URLSearchParams({
         offset: `${offset}`,
@@ -116,6 +117,9 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
     }, [apiResult]);
     useEffect(() => {
         setLoading(innerLoading);
+        if(!innerLoading) {
+            setPreOffset(offset);
+        }
         // console.log(`loading: ${innerLoading}`)
     }, [innerLoading]);
     // console.log(`loading out: ${innerLoading}`)
@@ -146,7 +150,8 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
             <Box className={Style.pagingContainer}>
                 <Paper style={{padding: `${theme.spacing(0.5)} 0`}}>
                     <Paging
-                        offset={offset}
+                        offset={preOffset}
+                        willOffset={offset}
                         limit={limit}
                         total={apiResult.total}
                         onOffsetChange={newOffset => onPageChange(Math.floor(newOffset / limit) + 1)}

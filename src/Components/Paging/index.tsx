@@ -1,4 +1,3 @@
-import Pagination from '@mui/material/Pagination';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import Style from "./index.css";
@@ -13,6 +12,70 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import useDebounce from '~/Utils/useDebounce';
+import PaginationItem, { type PaginationItemProps } from '@mui/material/PaginationItem';
+import usePagination from '@mui/material/usePagination';
+
+interface CustomPageInputProps {
+    maxValue: number,
+    onChange: (newPage: number) => void,
+}
+
+const CustomPageInput = ({maxValue, onChange}: CustomPageInputProps) => {
+    const [isInputting, setIsInputting] = useState<boolean>(false);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const onInputAway = (input: HTMLInputElement | null) => {
+        setIsInputting(false);
+        // console.log( == "2");
+        if(input !== null) {
+            const valueString = input.value;
+            if(valueString !== '') {
+                onChange(parseInt(valueString, 10));
+            }
+        }
+    }
+
+    if(!isInputting) {
+        // return <Button variant="text">...</Button>;
+        return <PaginationItem
+            onClick={() => setIsInputting(true)}
+            page="..."
+        />;
+    }
+
+    return <ClickAwayListener onClickAway={() => onInputAway(inputRef.current)}>
+        <TextField
+            placeholder="Page"
+            type="number"
+            // step={"1"}
+            variant="standard"
+            sx={{
+                width: 60,
+            }}
+            autoFocus
+            inputRef={inputRef}
+            inputProps={{
+                // shrink: true,
+                step: 1,
+                max: maxValue,
+                min: 1,
+            }}
+            InputProps={{
+                classes:{input: Style.inputNoArrow},
+            }}
+            onBlur={(event: React.FocusEvent<HTMLInputElement>) => onInputAway(event.target as HTMLInputElement)}
+            onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => {
+                if(event.key === 'Enter' || event.key === 'NumpadEnter') {
+                    event.preventDefault();
+                    onInputAway(event.target as HTMLInputElement);
+                    // inputRef.current = event.target as HTMLInputElement;
+                    // onSearch(value);
+                    // setSearch(value);
+                }
+            }}
+        />
+    </ClickAwayListener>;
+}
 
 type RenderLimitChangeProp = {
     limit: number,
@@ -145,6 +208,7 @@ const RenderLimitChange = ({limit, onLimitChange}: RenderLimitChangeProp) => {
 export interface PaingParams {
     total: number,
     offset: number,
+    willOffset?: number,
     limit: number,
     onOffsetChange: (offset: number) => void,
     onLimitChange?: (limit: number) => void,
@@ -154,6 +218,7 @@ export interface PaingParams {
 export default({
     total,
     offset,
+    willOffset,
     limit,
     onOffsetChange,
     onLimitChange,
@@ -167,9 +232,51 @@ export default({
     }
 
     const currentPage = Math.ceil(offset / limit) + 1;
+    const willPage: number = willOffset === undefined
+        ? currentPage
+        : Math.ceil(willOffset / limit) + 1;
+
+    const { items } = usePagination({
+        count: totalPage,
+        defaultPage: currentPage,
+        page: currentPage,
+        siblingCount: 4,
+        onChange: (_: React.ChangeEvent<unknown>, value: number) => {
+            onOffsetChange((value-1) * limit);
+        }
+    });
 
     return <>
-        <Pagination
+        <List className={Style.pageInline}>
+            {items.map((item: PaginationItemProps, index) => {
+                const {page, type} = item;
+                let children = <PaginationItem
+                    key={index}
+                    {...item}
+                />;
+                if (type === 'start-ellipsis' || type === 'end-ellipsis') {
+                    children = <CustomPageInput maxValue={totalPage} onChange={newPage => onOffsetChange((newPage-1) * limit)} />
+                }
+                else if (type === 'page') {
+                    const props: PaginationItemProps = willPage !== currentPage && willPage === page
+                        ? {...item, color: 'secondary', selected: true}
+                        : item;
+
+                    children = <PaginationItem
+                        key={index}
+                        {...props}
+                    />
+                }
+                // else {
+                //     // children = <PaginationItem
+                //     //     {...item}
+                //     // />;
+                // }
+
+                return <li key={index}>{children}</li>;
+            })}
+        </List>
+        {/* <Pagination
             count={totalPage}
             defaultPage={currentPage}
             page={currentPage}
@@ -178,7 +285,7 @@ export default({
             onChange={(_: React.ChangeEvent<unknown>, value: number) => {
                 onOffsetChange((value-1) * limit);
             }}
-        />
+        /> */}
         {onLimitChange && <RenderLimitChange
             limit={limit}
             onLimitChange={onLimitChange}

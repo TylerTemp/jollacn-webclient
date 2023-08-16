@@ -86,6 +86,7 @@ interface Props {
 export default ({page, onPageChange, loading, setLoading, Container=TieContainer, disablePaging=false, defaultLimit=15, children}: PropsWithChildren<Props>) => {
     const [limit, setLimit] = useState<number>(defaultLimit);
     const offset = (page - 1) * limit;
+    const [preOffset, setPreOffset] = useState<number>(offset);
 
     const qs = new URLSearchParams({
         offset: `${offset}`,
@@ -106,6 +107,9 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
 
     useEffect(() => {
         setLoading(innerLoading);
+        if(!innerLoading) {
+            setPreOffset(offset);
+        }
     }, [innerLoading]);
 
     const theme = useTheme();
@@ -156,7 +160,8 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
                 <Paper style={{padding: `${theme.spacing(0.5)} 0`}}>
                     <Paging
                         lessThan2Page={null}
-                        offset={offset}
+                        offset={preOffset}
+                        willOffset={offset}
                         limit={limit}
                         total={apiResult.total}
                         onOffsetChange={newOffset => onPageChange(Math.floor(newOffset / limit) + 1)}
