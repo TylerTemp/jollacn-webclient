@@ -8,12 +8,12 @@ import Light from "./Light";
 
 const getTheme = (themeType: ThemeType) => {
     switch(themeType) {
-    case ThemeType.Dark:
-        return Dark;
-    case ThemeType.Light:
-        return Light;
-    default:
-        throw new Error(`Unknown theme ${themeType}`);
+        case ThemeType.Dark:
+            return Dark;
+        case ThemeType.Light:
+            return Light;
+        default:
+            throw new Error(`Unknown theme ${themeType}`);
     }
 }
 

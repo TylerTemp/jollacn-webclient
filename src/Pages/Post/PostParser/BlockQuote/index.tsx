@@ -34,11 +34,11 @@ export default ({element: {
 }} : {element: Element}): null | JSX.Element => {
     // console.assert(name === 'blockquote');
     switch(name) {
-    case 'blockquote':
-        return <blockquote {...attributesToProps(attribs)} className={Style.blockquote}>{domToReact(children, blockQuoteConfig)}</blockquote>
-    case 'figure':
-        return <figure {...attributesToProps(attribs)} className={Style.blockquote}>{domToReact(children, blockQuoteConfig)}</figure>
-    default:
-        return null;
+        case 'blockquote':
+            return <blockquote {...attributesToProps(attribs)} className={Style.blockquote}>{domToReact(children, blockQuoteConfig)}</blockquote>
+        case 'figure':
+            return <figure {...attributesToProps(attribs)} className={Style.blockquote}>{domToReact(children, blockQuoteConfig)}</figure>
+        default:
+            return null;
     }
 }

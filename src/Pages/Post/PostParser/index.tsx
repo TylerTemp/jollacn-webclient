@@ -63,28 +63,28 @@ const retriveFigure = (children: Element[]) => {
     children.forEach((nodeInfo) => {
         const { name: childName, attribs: childAttribs, children: childChildren } = nodeInfo;
         switch (childName) {
-        case 'a':
-            {
-                const imgInfo: Element = childChildren
-                    .map(each => each as Element)
-                    .filter(({attribs}) => attribs)
-                    .find(({ name: eachChildInA }) => eachChildInA === 'img');
-                figureConfig.enlargeUrl = childAttribs.href;
-                // figureConfigs.imgSrc = imgInfo.attribs.src;
-                figureConfig.imgInfo = imgInfo;
-            }
-            break;
-        case 'img': // this disables the enlarge, e.g. an image button
-            figureConfig.enlargeUrl = null;
-            // figureConfigs.imgSrc = childAttribs.src;
-            figureConfig.imgInfo = nodeInfo;
-            break;
-        case 'figcaption':
-            figureConfig.figCaptionInfo = nodeInfo;
-            break;
-        default:
-            console.error(nodeInfo);
-            return null;
+            case 'a':
+                {
+                    const imgInfo: Element = childChildren
+                        .map(each => each as Element)
+                        .filter(({attribs}) => attribs)
+                        .find(({ name: eachChildInA }) => eachChildInA === 'img');
+                    figureConfig.enlargeUrl = childAttribs.href;
+                    // figureConfigs.imgSrc = imgInfo.attribs.src;
+                    figureConfig.imgInfo = imgInfo;
+                }
+                break;
+            case 'img': // this disables the enlarge, e.g. an image button
+                figureConfig.enlargeUrl = null;
+                // figureConfigs.imgSrc = childAttribs.src;
+                figureConfig.imgInfo = nodeInfo;
+                break;
+            case 'figcaption':
+                figureConfig.figCaptionInfo = nodeInfo;
+                break;
+            default:
+                console.error(nodeInfo);
+                return null;
         }
     });
     return figureConfig;

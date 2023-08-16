@@ -143,10 +143,10 @@ export default ({tieId, backUrl}: Props) => {
                 const {medias} = result;
                 const parsedMedias = medias.map((item) => {
                     switch (item.type) {
-                    case 'img':
-                        return item as TieImg;
-                    case 'video':
-                        return item as TieVideo;
+                        case 'img':
+                            return item as TieImg;
+                        case 'video':
+                            return item as TieVideo;
                     }
                 });
 

@@ -19,14 +19,14 @@ export default <T>(promise:Promise<T>): (() => T) => {
 
     return () => {
         switch(status) {
-        case Status.Pending:
-            throw suspender;
-        case Status.Rejected:
-            throw error;
-        case Status.Fulfilled:
-            return result;
-        default:
-            throw Error(`Unexpected arg ${status}`);
+            case Status.Pending:
+                throw suspender;
+            case Status.Rejected:
+                throw error;
+            case Status.Fulfilled:
+                return result;
+            default:
+                throw Error(`Unexpected arg ${status}`);
         }
     }
 };
