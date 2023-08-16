@@ -19,6 +19,7 @@ export interface Post {
     source_title: string | null,
     source_authors: string[],
     author: string,
+    tags: string[],
 }
 
 export interface Tie {

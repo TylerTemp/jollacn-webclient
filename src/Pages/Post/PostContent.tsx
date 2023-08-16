@@ -34,6 +34,7 @@ import { menuBarHeight } from "~/Components/Layouts/MainLayout";
 import RetryErrorSuspense, { type RendererProps } from "~/Components/RetryErrorSuspense";
 import ReadMoreTwoToneIcon from '@mui/icons-material/ReadMoreTwoTone';
 import Fab from "@mui/material/Fab";
+import Chip from "@mui/material/Chip";
 
 // const Article = styled.article`
 //     img.plugin-figure-img {
@@ -73,6 +74,7 @@ const Renderer = ({getResource: getPost}: RendererProps<Post>) => {
         source_url: sourceUrl,
         source_title: sourceTitle,
         content,
+        tags,
     } = getPost();
 
     // console.log(`getPost`, title);
@@ -92,6 +94,12 @@ const Renderer = ({getResource: getPost}: RendererProps<Post>) => {
     return <>
         <article className={Style.article}>
             <img src={headerImg} className={Style.headerImg} title={title} alt={title} />
+
+            <WidthLimit maxWidth="md">
+                <Stack direction="row" gap={1}>
+                    {tags.map(tag => <Chip key={tag} label={tag} size="small" />)}
+                </Stack>
+            </WidthLimit>
 
             <Typography variant="h1" gutterBottom className={Style.title}>
                 {title}
