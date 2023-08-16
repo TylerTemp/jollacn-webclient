@@ -96,7 +96,7 @@ const Renderer = ({getResource: getPost}: RendererProps<Post>) => {
             <img src={headerImg} className={Style.headerImg} title={title} alt={title} />
 
             <WidthLimit maxWidth="md">
-                <Stack direction="row" gap={1}>
+                <Stack direction="row" flexWrap="wrap" gap={1}>
                     {tags.map(tag => <Chip key={tag} label={tag} size="small" />)}
                 </Stack>
             </WidthLimit>

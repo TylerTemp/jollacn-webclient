@@ -20,4 +20,5 @@ input.inputNoArrow[type=number] {
 
 .pageInline {
     display: inline-flex;
+    flex-wrap: wrap;
 }

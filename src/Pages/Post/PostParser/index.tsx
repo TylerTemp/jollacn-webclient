@@ -218,10 +218,10 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
                 return <EnlargeClick {...figureConfig} onImageClick={() => onImageClick(mediaCount)} key={figureConfig.imgInfo.attribs.src}>
                     <ImageListItem>
                         {domToReact([figureConfig.imgInfo])}
-                        <ImageListItemBar
+                        {figureConfig.figCaptionInfo && <ImageListItemBar
                             title={domToReact([figureConfig.figCaptionInfo])}
                         />
-
+                        }
                     </ImageListItem>
                 </EnlargeClick>;
             })}

@@ -109,6 +109,7 @@ export default ({page, onPageChange, loading, setLoading, Container=TieContainer
         setLoading(innerLoading);
         if(!innerLoading) {
             setPreOffset(offset);
+            window.scrollTo(0, 0);
         }
     }, [innerLoading]);
 

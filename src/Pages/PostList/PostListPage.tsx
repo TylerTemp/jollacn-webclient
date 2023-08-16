@@ -119,6 +119,7 @@ export default ({page, onPageChange, loading, setLoading, children}: PropsWithCh
         setLoading(innerLoading);
         if(!innerLoading) {
             setPreOffset(offset);
+            window.scrollTo(0, 0);
         }
         // console.log(`loading: ${innerLoading}`)
     }, [innerLoading]);

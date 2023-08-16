@@ -240,7 +240,7 @@ export default({
         count: totalPage,
         defaultPage: currentPage,
         page: currentPage,
-        siblingCount: 4,
+        siblingCount: 2,
         onChange: (_: React.ChangeEvent<unknown>, value: number) => {
             onOffsetChange((value-1) * limit);
         }
@@ -276,16 +276,6 @@ export default({
                 return <li key={index}>{children}</li>;
             })}
         </List>
-        {/* <Pagination
-            count={totalPage}
-            defaultPage={currentPage}
-            page={currentPage}
-            siblingCount={3}
-            sx={{display: 'inline-block'}}
-            onChange={(_: React.ChangeEvent<unknown>, value: number) => {
-                onOffsetChange((value-1) * limit);
-            }}
-        /> */}
         {onLimitChange && <RenderLimitChange
             limit={limit}
             onLimitChange={onLimitChange}
