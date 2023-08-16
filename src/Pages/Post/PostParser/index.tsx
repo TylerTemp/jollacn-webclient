@@ -175,6 +175,9 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         .map(each => each as Element)
         .filter(({attribs}) => attribs);
 
+    if(name === 'figure' && attribs && attribs.class && attribs.class.includes('plugin-blockquote')) {
+        return <BlockQuote element={domNode as Element} />;
+    }
     if (name === 'figure') {
         const figureConfig = retriveFigure(elementChildren);
 
@@ -240,6 +243,9 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
             ? <Box className={Style.hCenter}>{buttonDom}</Box>
             : buttonDom;
     }
+    if(name === 'blockquote') {
+        return <BlockQuote element={domNode as Element} />;
+    }
     if (name === 'a') {
         return <AReplace domNode={domNode} option={null} />
         // const { href: linkHref = '#' } = attribs;
@@ -266,10 +272,6 @@ const nodeReplace = (domNode: DOMNode, mediaList: FigureConfig[], onImageClick: 
         return <TableContainer className={Style.hScroll}>
             <Table {...attributesToProps(attribs)}>{domToReact(children, tableConfig)}</Table>
         </TableContainer>;
-    }
-
-    if(name === 'blockquote') {
-        return <BlockQuote element={domNode as Element} />;
     }
 
     return null;

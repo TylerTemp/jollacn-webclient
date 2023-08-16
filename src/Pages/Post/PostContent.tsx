@@ -111,9 +111,9 @@ const Renderer = ({getResource: getPost}: RendererProps<Post>) => {
                         {parseResult}
                     </Box>
 
-                    {sourceAuthors.length > 0 && <Box>
+                    {sourceAuthors.length > 0 && <Stack gap={1}>
                         {sourceAuthors.map((authorId) => <Author key={authorId} id={authorId} />)}
-                    </Box>}
+                    </Stack>}
 
                     {sourceUrl && <Typography variant="body2" paragraph gutterBottom paddingTop="20px" component="div">
                         原文：

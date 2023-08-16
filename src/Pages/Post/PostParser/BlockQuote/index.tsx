@@ -21,14 +21,24 @@ const blockQuoteConfig: HTMLReactParserOptions = {
             return <AReplace domNode={domNode} option={blockQuoteConfig}/>;
         }
 
+        if(name === 'figcaption') {
+            return <figcaption {...props} className={Style.small}>{domToReact(children, blockQuoteConfig)}</figcaption>
+        }
+
         return null;
     }
 }
 
 export default ({element: {
     type: _type, name, attribs, children,
-}} : {element: Element}) => {
-    console.assert(name === 'blockquote');
-
-    return <blockquote {...attributesToProps(attribs)} className={Style.blockquote}>{domToReact(children, blockQuoteConfig)}</blockquote>
+}} : {element: Element}): null | JSX.Element => {
+    // console.assert(name === 'blockquote');
+    switch(name) {
+    case 'blockquote':
+        return <blockquote {...attributesToProps(attribs)} className={Style.blockquote}>{domToReact(children, blockQuoteConfig)}</blockquote>
+    case 'figure':
+        return <figure {...attributesToProps(attribs)} className={Style.blockquote}>{domToReact(children, blockQuoteConfig)}</figure>
+    default:
+        return null;
+    }
 }
